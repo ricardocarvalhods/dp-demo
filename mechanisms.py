@@ -1,5 +1,8 @@
-import numpy
+#!/usr/bin/env python3
 
+"""A variety of differential privacy mechanisms."""
+
+import numpy
 
 def laplace_mechanism(*, true_answer, budget, sensitivity, prng):
     shape = numpy.shape(true_answer)
@@ -9,7 +12,7 @@ def geometric_mechanism(*, true_answer, budget, sensitivity, prng):
     shape = numpy.shape(true_answer)
     epsilon = budget / float(sensitivity)
     p = 1 - numpy.exp(-epsilon)
-    x = prng.geometric(p, size=shape) - 1 #numpy geometrics start with 1
+    x = prng.geometric(p, size = shape)   - 1 # numpy geometrics start with 1
     y = prng.geometric(p, size = shape) - 1
     return x-y + true_answer
 
@@ -19,7 +22,9 @@ def expo_mechanism(*, scores, budget, sensitivity, prng):
     return noisy.argmax()
 
 def geo_mech_prob(low, high, epsilon):
-    """ Probability that the geometric mechanism with budget epsilon added noise between low and high inclusive """
+    """ Probability that the geometric mechanism with budget epsilon added
+noise between low and high inclusive """
+
     assert low <= high, "low must be less than high"
     int_high = numpy.floor(high)
     int_low = numpy.ceil(low) 
