@@ -147,23 +147,14 @@ if __name__=="__main__":
 
         (eps,err) = zip(*epsilon_vars)
 
-        #acc = [1/(1+e*e*e) for e in err]
-        #plt.plot(eps,acc)
-        #plt.xlabel('Privacy Loss Budget (ε)')
-        #plt.ylabel('accuracy')
-        #plt.title('Higher privacy loss results in higher accuracy')
-        #plt.grid(True)
-        #plt.savefig(args.graph)
-        #plt.show()
-        #exit(0)
-        #
-
-
-        plt.plot(eps, err)
+        N = sum(counts.values())
+        acc = [1-(0.5*e)/N for e in err]
+        plt.plot(eps,acc)
         plt.xlabel('Privacy Loss Budget (ε)')
-        plt.ylabel('error')
+        plt.ylabel('accuracy')
         plt.title('Higher privacy loss results in higher accuracy')
         plt.grid(True)
         plt.savefig(args.graph)
         plt.show()
         
+
