@@ -3,10 +3,42 @@ Differential Privacy Demos
 
 This git repository is designed to be checked out in the root directory of a webserver directory.
 
-A collection of scripts and web-based demos designed to help explain how differential privacy works.
-Welcome to the web demo for differential privacy.
+A collection of scripts and web-based demos designed to help explain
+how differential privacy works.  Welcome to the web demo for
+differential privacy.
+
+# The Web Simulator
+
+The web-based simulator runs locally in the user's browser. It consists of the following parts:
+
+* HTML file which displays the tutorial and houses the JavaScript glue.
+* JavaScript differential privacy engine.
+* CSS Responsive Framework --- We currently use Skeleton
+
+We implement a traditional model-view-controller architecture.
+
+* Model - The model stores the current differential privacy problem, including the private data, the privitized data, and the parameters. The model is kept in the browser's memory as a JavaScript dictionary. It is loaded from the HTML page. The design of the system allows multiple models to co-exist.
+
+* View - This is the section of the browser's DOM object where the model is displayed. Typically this will be a DIV.
+
+* Controller - The JavaScript that gets called when the user updates the View, or when an experiment is running. The Controller updates the model, sends the model to the Differential Privacy Engine, gets the response from the engine, and then updates the view.
+
+The DP engine implements a simple privitized histogram. That is, it is given an array of counts, and it adds Laplace noise to each slot in the array. The sensitivity is therefore 1. After it runs, negative counts are rounded up. 
+
+* Inputs - A JavaScript dictionary that contains:
+  * Value of Epsilon
+  * Function to call when the values are updated. The function is called with the Outputs dictionary (see below) as its sole argument.
+  * The input counts
+  * A flag of whether or not to preserve the total number of counts.
+
+* Outputs - A JavaScript dictionary that is a copy of the all the inputs, with the following additional outputs:
+  * The noise that was added to each slot in the array.
+  * A new array, with the final values.
 
 # Development Notes
+
+Notes from when we developed this system...
+
 ## Requirements
 
 Requirements for a differential privacy demo:
@@ -64,12 +96,13 @@ Skeleton is so small that we self-host it. Yea!
 
 We have a demo at demo.html. Because JavaScript libraries need to be fetched by https://, rather than by file://, you can find a copy at https://demo.dpwiki.org/
 
-##Graphing:
+## Graphing
+Earlier versions of this program made it possible to create accuracy/privacy loss graphs. Those are kind of neat. Here are some references we looked at:
 
-http://www.jscharts.com/how-to-use-line-graphs
-https://plot.ly/javascript/
-https://stackoverflow.com/questions/13300501/how-to-draw-a-plot-from-array-of-numbers-that-updates-every-sec-in-html-5
-https://stackoverflow.com/questions/36113789/how-to-draw-a-line-graph-from-an-array-using-javascript
-http://jsfiddle.net/3T6qc/
-https://stackoverflow.com/questions/18294300/flot-bar-graph-align-bars-with-x-axis-labels
-https://stackoverflow.com/questions/33629003/flotcharts-barchart-first-and-last-bar-cut-off
+* http://www.jscharts.com/how-to-use-line-graphs
+* https://plot.ly/javascript/
+* https://stackoverflow.com/questions/13300501/how-to-draw-a-plot-from-array-of-numbers-that-updates-every-sec-in-html-5
+* https://stackoverflow.com/questions/36113789/how-to-draw-a-line-graph-from-an-array-using-javascript
+* http://jsfiddle.net/3T6qc/
+* https://stackoverflow.com/questions/18294300/flot-bar-graph-align-bars-with-x-axis-labels
+* https://stackoverflow.com/questions/33629003/flotcharts-barchart-first-and-last-bar-cut-off
