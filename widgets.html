@@ -25,13 +25,18 @@
   <!-- Jquery  and JQueryUI. Notice we use Google hosting.
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.png">
+
+
+  <!-- Differential Privacy!
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="js/privatize.js"></script>
 
 </head>
 <body>
@@ -60,8 +65,8 @@
         <form>
           <table id='input'>
             <tr><th></th>        <th>Females</th> <th>Males   </th></tr>
-            <tr class='mimi'><th>Under 18</th><td> <input id='ifu' name='ifu'></td><td> <input id='imu' name='imu'></td></tr>
-            <tr class='mimi'><th>Over 18 </th><td> <input id='ifo' name='ifo'></td><td> <input id='imo' name='imo'></td></tr>
+            <tr class='mimi'><th>Under 18</th><td> <input id='ifu' name='ifu' value='10'</td><td> <input id='imu' name='imu' value='30'</td></tr>
+            <tr class='mimi'><th>Over 18 </th><td> <input id='ifo' name='ifo' value='20'</td><td> <input id='imo' name='imo' value='40'</td></tr>
           </table>
         </form>
       </div>
@@ -125,19 +130,25 @@ $(document).ready(function() {
     var update = function(model) {
         var i;
         for (i = 0; i < model.counts.length; i++) {
-            $( '#o' + model.labels[i] ).text( model.counts[i] );
+            $( '#o' + model.labels[i] ).text( model.noisy_counts[i] );
         }
     }
     
     $('#roll').click(function() {
         // Create the differential privacy object
-        model = {epsilon: 1.0,
+                        
+        model = {epsilon: 0.01,
                  callback: update,
-                 counts: [10, 20, 30, 40],
+                 counts: [],
                  labels: ['fu', 'fo', 'mu', 'mo'],
                  invariant_counts: 0};
+        // Now get the counts from the HTML form
+        var i;
+        for (i = 0; i< model.labels.length; i++) {
+            model.counts[i] = parseInt( $( '#i' + model.labels[i] ).val() );
+        }
         console.log(model);
-        update(model);
+        privitize_histogram(model);
     });
 
 });
