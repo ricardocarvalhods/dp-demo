@@ -48,14 +48,6 @@
     <div class="row">
       <div class="one-half column" style="margin-top: 10%">
         <h2>Widget Demos</h2>
-	<hr/>
-	<h4>Slider</h4>
-           <div id="slider"></div>
-	<p>References:</p>
-	<ul>
-	  <li> <a href='https://jqueryui.com'>jqueryui.com</a></li>
-	  <li> <a href='https://jqueryui.com/slider/'>jqueryui Slider</a></li>
-	</ul>
       </div>
     </div>
 
@@ -94,7 +86,7 @@
     <style>
       tr.mimi      { height: 70px;}
       #input input { width: 50px;}
-      #epsilon-slider { margin-bottom: 70px}
+      #epsilon-slider { margin-bottom: 5px}
 
      .button-primary:active {
         background-color: #3e8e41;
@@ -104,11 +96,9 @@
     </style>
 
     <div class="row">
-      <div class="one-half column" style="margin-top: 10%">
-        <h2>Event Tests</h2>
-        <p>This timer demonstrates drift. The clock is supposed to fire every 1000 milliseconds and it is started when the page loads, so any fraction of second represents clock drift. Notice how it steadily increases... Elapsed seconds: <span id='timer'></span></p>
-        <p>Time of day:                   <span id='clock'></span></p>
-      </div>
+      <h2>Event Tests</h2>
+      <p>This timer demonstrates drift. The clock is supposed to fire every 1000 milliseconds and it is started when the page loads, so any fraction of second represents clock drift. Notice how it steadily increases... Elapsed seconds: <span id='timer'></span></p>
+      <p>Time of day:                   <span id='clock'></span></p>
     </div>
   </div>
 <!-- End Document
@@ -128,10 +118,9 @@ $(document).ready(function() {
     }
 
     // Create the slider!
-    $( "#slider" ).slider();  
     $( '#epsilon-slider' ).slider({
         min: 0,
-        max: 10000,
+        max: 3000,
         create: epsilon_slider_moved,
         slide:  epsilon_slider_moved,
         change: epsilon_slider_moved
@@ -165,7 +154,6 @@ $(document).ready(function() {
         for (i = 0; i< model.labels.length; i++) {
             model.counts[i] = parseInt( $( '#i' + model.labels[i] ).val() );
         }
-        console.log(model);
         privitize_histogram(model);
     });
 

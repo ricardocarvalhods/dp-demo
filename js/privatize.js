@@ -101,11 +101,10 @@ function privitize_histogram(model) {
     model.noisy_counts = [];
     for( i=0; i< model.counts.length; i++){
         model.noisy_counts[i] = model.counts[i] + model.noises[i];
-        console.log(i,model.noisy_counts[i],model.counts[i],model.noises[i])
     }
     // PRIVACY BARRIER END
     
-    console.log("privitize_histogram:",model)
+    // console.log("privitize_histogram:",model)
     // post-process: round all negative numbers up to zero.
     // If we have invariant_counts, then move all numbers up as long as any number is zero, and then randomly distribute the error.
     // Otherwise, just bring all the negative numbers up to zero.

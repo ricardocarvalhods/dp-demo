@@ -35,9 +35,9 @@ The DP engine implements a simple privitized histogram. That is, it is given an 
   * invariant_counts:int --- A flag (0 or 1) of whether or not to preserve the total number of counts. If invariant_counts is 1, then the total counts are preserved.
   * other values may be present; they are ignored.
 
-* Outputs - A JavaScript dictionary that is a copy of the all the inputs, with the following additional outputs:
+* Outputs - The JavaScript input directory, with the following additional properties:
   * all input values, including those that are ignored.
-  * noise:array --- The noise that was added to each slot in the array.  
+  * noises:array --- The noise that was added to each slot in the array.  
   * noisy_counts:array --- A new array, with the final values.  Note that the post-processing optimizer may prevent counts + noise from equalling noisy_counts
 
 
