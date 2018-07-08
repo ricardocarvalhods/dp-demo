@@ -15,6 +15,8 @@ The web-based simulator runs locally in the user's browser. It consists of the f
 * JavaScript differential privacy engine.
 * CSS Responsive Framework --- We currently use Skeleton
 
+## The DP Engine
+
 We implement a traditional model-view-controller architecture.
 
 * Model - The model stores the current differential privacy problem, including the private data, the privitized data, and the parameters. The model is kept in the browser's memory as a JavaScript dictionary. It is loaded from the HTML page. The design of the system allows multiple models to co-exist.
@@ -34,6 +36,10 @@ The DP engine implements a simple privitized histogram. That is, it is given an 
 * Outputs - A JavaScript dictionary that is a copy of the all the inputs, with the following additional outputs:
   * The noise that was added to each slot in the array.
   * A new array, with the final values.
+
+## DP Experiments
+For advanced users, it is useful to see how multiple runs on the DP engine result in different values, but that those values produce a distribution. The simulator does this by running multiple runs of the DP engine and presenting the results as a table and a graph.
+
 
 # Development Notes
 
@@ -77,6 +83,7 @@ We decided to code this in small responsive framework, but we wanted slides are 
 * https://milligram.io/
 * https://purecss.io/tools/
 * http://getskeleton.com/
+* https://materializecss.com/p
 
 We decided to use the following tools with the following Google hosting service points. [Learn more about about Google Hosted Libraries](https://developers.google.com/speed/libraries/)
 
