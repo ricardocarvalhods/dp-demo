@@ -79,12 +79,23 @@ function laplace_perturb(_answer, _budget, _sensitivity) {
    return _answer + laplace_noise(_budget, _sensitivity);
 }
 
+/* Support functions for below, largely for IE compatiability (otherwise we would use ... and =>) */
+function range(len) {
+    var a=[];
+    var i;
+    for(i = 0; i<len ; i++){
+        a.push(i);
+    }
+    return a;
+}
+
+
 /* The differential privacy engine for privitizing histograms.*/
 function privitize_histogram(model) {
-    totalCounts = model.counts.reduce((a, b) => a+b, 0)
+    totalCounts = model.counts.reduce( function(a, b) { return a+b;} )
     // PRIVACY BARRIER START
     // compute laplace noises
-    model.noises = [...Array( model.counts.length).keys() ].map( a => geometric_noise( model.epsilon, 1 ))
+    model.noises = range(model.counts.length).map( function(a) { return geometric_noise( model.epsilon, 1 ); });
     // compute the privitized values
     var i;
     model.noisy_counts = [];
@@ -99,10 +110,32 @@ function privitize_histogram(model) {
     // If we have invariant_counts, then move all numbers up as long as any number is zero, and then randomly distribute the error.
     // Otherwise, just bring all the negative numbers up to zero.
     if (model.invariant_counts==0) {
-        model.noisy_counts = model.noisy_counts.map( count => Math.min( count, 0) );
+        model.noisy_counts = model.noisy_counts.map( function(a) { return Math.min( a, 0); } );
         return model.callback(model);
     }
 
-    // Apply the invariants.
-    alert("Invariants not implemented currently.")
+    // Post-processing with invariants. Find the lowest number. 
+    // - If it is below zero, find how low it is and add that to all counts.
+    // - Now find the difference between the sum of all the counts and the original sum.
+    var lowest_count = model.noisy_counts.reduce( function(a,b) { return Math.min( a, b); } );
+    if ( lowest_count < 0 ){
+        model.noisy_counts = model.noisy_counts.map( function(a) { return a - lowest_count; } );
+    }
+    
+    // - Compute the difference between the total counts and the real total counts
+    totalNoisyCounts = model.noisy_counts.reduce( function(a,b) { return a+b; } );
+    delta = sgn(totalCounts - totalNoisyCounts);
+
+    // - Randomly add that to all values until the error is distributed. Don't make any values zero.
+    while (totalCounts != totalNoisyCounts) {
+        var i = Math.floor( Math.random() * model.noisy_counts.length );
+        if (delta > 0 || model.noisy_counts[i] > 0){
+            model.noisy_counts[i] += delta;
+            totalNoisyCounts += delta;
+        }
+    }
+
+    // And return
+    return model.callback(model);
+
 }
