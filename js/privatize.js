@@ -10,6 +10,18 @@
  * ================================================================ */
 
 
+// https://stackoverflow.com/questions/15313418/what-is-assert-in-javascript
+function assert(condition, message) {
+    if (!condition) {
+        message = message || "Assertion failed";
+        if (typeof Error !== "undefined") {
+            throw new Error(message);
+        }
+        throw message; // Fallback
+    }
+}
+
+
 /* Return the geometric distribution for the number _p */
 function geometric(_p) {
    var x    = 1;
@@ -67,3 +79,30 @@ function laplace_perturb(_answer, _budget, _sensitivity) {
    return _answer + laplace_noise(_budget, _sensitivity);
 }
 
+/* The differential privacy engine for privitizing histograms.*/
+function privitize_histogram(model) {
+    totalCounts = model.counts.reduce((a, b) => a+b, 0)
+    // PRIVACY BARRIER START
+    // compute laplace noises
+    model.noises = [...Array( model.counts.length).keys() ].map( a => geometric_noise( model.epsilon, 1 ))
+    // compute the privitized values
+    var i;
+    model.noisy_counts = [];
+    for( i=0; i< model.counts.length; i++){
+        model.noisy_counts[i] = model.counts[i] + model.noises[i];
+        console.log(i,model.noisy_counts[i],model.counts[i],model.noises[i])
+    }
+    // PRIVACY BARRIER END
+    
+    console.log("privitize_histogram:",model)
+    // post-process: round all negative numbers up to zero.
+    // If we have invariant_counts, then move all numbers up as long as any number is zero, and then randomly distribute the error.
+    // Otherwise, just bring all the negative numbers up to zero.
+    if (model.invariant_counts==0) {
+        model.noisy_counts = model.noisy_counts.map( count => Math.min( count, 0) );
+        return model.callback(model);
+    }
+
+    // Apply the invariants.
+    alert("Invariants not implemented currently.")
+}
