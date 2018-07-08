@@ -28,14 +28,21 @@ We implement a traditional model-view-controller architecture.
 The DP engine implements a simple privitized histogram. That is, it is given an array of counts, and it adds Laplace noise to each slot in the array. The sensitivity is therefore 1. After it runs, negative counts are rounded up. 
 
 * Inputs - A JavaScript dictionary that contains:
-  * Value of Epsilon
-  * Function to call when the values are updated. The function is called with the Outputs dictionary (see below) as its sole argument.
-  * The input counts
-  * A flag of whether or not to preserve the total number of counts.
+  * epsilon:float --- Value of Epsilon
+  * callback:func --- A function to call when the values are updated. The function is called with the Outputs dictionary (see below) as its sole argument.
+  * counts:array (of integers) --- The input counts
+  * invariant_counts:int --- A flag (0 or 1) of whether or not to preserve the total number of counts. If invariant_counts is 1, then the total counts are preserved.
+  * other values may be present; they are ignored.
 
 * Outputs - A JavaScript dictionary that is a copy of the all the inputs, with the following additional outputs:
-  * The noise that was added to each slot in the array.
-  * A new array, with the final values.
+  * all input values, including those that are ignored.
+  * noise:array --- The noise that was added to each slot in the array.  
+  * noisy_counts:array --- A new array, with the final values.  Note that the post-processing optimizer may prevent counts + noise from equalling noisy_counts
+
+
+
+
+
 
 ## DP Experiments
 For advanced users, it is useful to see how multiple runs on the DP engine result in different values, but that those values produce a distribution. The simulator does this by running multiple runs of the DP engine and presenting the results as a table and a graph.
