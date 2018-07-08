@@ -82,7 +82,8 @@
       </div>
     </div>
     <div class='row'>
-      <div id="epsilon-slider"></div>
+      <div id="epsilon-slider"></div></br>
+      Epsilon: <span id='epsilon-value'></span>
     </div>
 
     <div class='row'>
@@ -117,9 +118,25 @@
 $(document).ready(function() {
 
 
+    // We scale epsilon
+    var epsilon_slider_value = 0;
+    function epsilon_slider_moved(event, ui) {
+        var v = isNaN(ui.value) ? 0 : ui.value;
+        epsilon_slider_value = Math.max(v,1) / 1000;
+        $('#epsilon-value').text( epsilon_slider_value );
+        $('#roll').click();
+    }
+
     // Create the slider!
     $( "#slider" ).slider();  
-    $( "#epsilon-slider" ).slider();  
+    $( '#epsilon-slider' ).slider({
+        min: 0,
+        max: 10000,
+        create: epsilon_slider_moved,
+        slide:  epsilon_slider_moved,
+        change: epsilon_slider_moved
+    });  
+
 
     var start = new Date;
     setInterval(function() {
@@ -134,14 +151,15 @@ $(document).ready(function() {
         }
     }
     
+    // Wire-up the roll-again button                        
     $('#roll').click(function() {
         // Create the differential privacy object
                         
-        model = {epsilon: 0.01,
+        model = {epsilon: epsilon_slider_value,
                  callback: update,
                  counts: [],
                  labels: ['fu', 'fo', 'mu', 'mo'],
-                 invariant_counts: 0};
+                 invariant_counts: 1};
         // Now get the counts from the HTML form
         var i;
         for (i = 0; i< model.labels.length; i++) {
