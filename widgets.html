@@ -22,19 +22,12 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
 
-  <!-- Jquery 
+  <!-- Jquery  and JQueryUI. Notice we use Google hosting.
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="//jqueryui.com/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-    // populate the slider!
-    $( function() {
-    $( "#slider" ).slider();  
-    } );
-  </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -62,16 +55,13 @@
     </div>
 
     <div class="row">
-        <h2>Test Forms</h2>
-    </div>
-    <div class="row">
       <div class="one-half column" style="margin-top: 10%">
         <h3>Input:</h3>
         <form>
           <table id='input'>
             <tr><th></th>        <th>Females</th> <th>Males   </th></tr>
-            <tr class='mimi'><th>Under 18</th><td> <input id='ofu' name='ofu'></td><td> <input id='omu' name='omu'></td></tr>
-            <tr class='mimi'><th>Over 18 </th><td> <input id='ofo' name='ofo'></td><td> <input id='omo' name='omo'></td></tr>
+            <tr class='mimi'><th>Under 18</th><td> <input id='ifu' name='ifu'></td><td> <input id='imu' name='imu'></td></tr>
+            <tr class='mimi'><th>Over 18 </th><td> <input id='ifo' name='ifo'></td><td> <input id='imo' name='imo'></td></tr>
           </table>
         </form>
       </div>
@@ -79,20 +69,32 @@
         <h3>Output:</h3>
         <form>
           <table id='output'>
-            <tr><th></th>        <th>Females</th> <th>Males   </th></tr>
-            <tr class='mimi'><th>Under 18</th><td id='ifu'></td><td id='imu'></td></tr>
-            <tr class='mimi'><th>Over 18 </th><td id='ifo'></td><td id='imo'></td></tr>
+            <tr>             <th></th>        <th>Females</th>  <th>Males    </th></tr>
+            <tr class='mimi'><th>Under 18</th><td id='ofu'></td><td id='omu'></td></tr>
+            <tr class='mimi'><th>Over 18 </th><td id='ofo'></td><td id='omo'></td></tr>
           </table>
         </form>
       </div>
     </div>
     <div class='row'>
-      <button class='button-primary'>Roll Again</button>
+      <div id="epsilon-slider"></div>
     </div>
 
+    <div class='row'>
+      <button class='button-primary' id='roll'>Roll Again</button>
+    </div>
+
+    <!-- https://www.w3schools.com/howto/howto_css_animate_buttons.asp -->
     <style>
       tr.mimi      { height: 70px;}
       #input input { width: 50px;}
+      #epsilon-slider { margin-bottom: 70px}
+
+     .button-primary:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+      }
     </style>
 
     <div class="row">
@@ -103,15 +105,42 @@
       </div>
     </div>
   </div>
-
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-</body>
 <script>
-  var start = new Date;
-  setInterval(function() {
-    $('#timer').text((new Date - start) / 1000);
-    $('#clock').text( (new Date()).toString() );
-  }, 1000);
+// All wrapped inside the document.ready() function so that it runs when the document is completely loaded
+$(document).ready(function() {
+
+
+    // Create the slider!
+    $( "#slider" ).slider();  
+    $( "#epsilon-slider" ).slider();  
+
+    var start = new Date;
+    setInterval(function() {
+        $('#timer').text((new Date - start) / 1000);
+        $('#clock').text( (new Date()).toString() );
+    }, 1000);
+    
+    var update = function(model) {
+        var i;
+        for (i = 0; i < model.counts.length; i++) {
+            $( '#o' + model.labels[i] ).text( model.counts[i] );
+        }
+    }
+    
+    $('#roll').click(function() {
+        // Create the differential privacy object
+        model = {epsilon: 1.0,
+                 callback: update,
+                 counts: [10, 20, 30, 40],
+                 labels: ['fu', 'fo', 'mu', 'mo'],
+                 invariant_counts: 0};
+        console.log(model);
+        update(model);
+    });
+
+});
 </script>
+</body>
 </html>

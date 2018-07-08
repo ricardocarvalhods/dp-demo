@@ -31,6 +31,7 @@ The DP engine implements a simple privitized histogram. That is, it is given an 
   * epsilon:float --- Value of Epsilon
   * callback:func --- A function to call when the values are updated. The function is called with the Outputs dictionary (see below) as its sole argument.
   * counts:array (of integers) --- The input counts
+  * labels:array (of strings) --- optional - the labels for the counts.
   * invariant_counts:int --- A flag (0 or 1) of whether or not to preserve the total number of counts. If invariant_counts is 1, then the total counts are preserved.
   * other values may be present; they are ignored.
 
