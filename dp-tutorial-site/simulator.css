@@ -1,0 +1,31 @@
+@charset "UTF-8";
+.roof {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 50px solid black;
+}
+
+.house {
+  height: 70px;
+  width: 50px;
+  background-color: darkred;
+  padding: 8px;
+  text-align: center;
+}
+
+.metrics {
+  min-height: 30px;
+  min-width: 50px;
+  padding: 8px;
+  text-align: center;
+  background-color: white;
+}
+
+.window {
+  min-height: 10px;
+  max-width: 10px;
+  background-color: lightyellow;
+  border: 5px solid darkred;
+}
