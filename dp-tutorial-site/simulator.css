@@ -13,6 +13,7 @@
   background-color: darkred;
   padding: 8px;
   text-align: center;
+  position: relative;
 }
 
 .metrics {
@@ -20,7 +21,10 @@
   min-width: 50px;
   padding: 8px;
   text-align: center;
-  background-color: white;
+}
+
+.labels {
+  width: 120px;
 }
 
 .window {
@@ -28,4 +32,13 @@
   max-width: 10px;
   background-color: lightyellow;
   border: 5px solid darkred;
+  position: relative;
+}
+
+.driveway {
+  width: 100px;
+  height: 0;
+  border-bottom: 130px solid darkgrey;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
 }
