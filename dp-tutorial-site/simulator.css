@@ -2,14 +2,14 @@
 .roof {
   width: 0;
   height: 0;
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
+  border-left: 80px solid transparent;
+  border-right: 80px solid transparent;
   border-bottom: 50px solid black;
 }
 
 .house {
   height: 70px;
-  width: 50px;
+  width: 120px;
   background-color: darkred;
   padding: 8px;
   text-align: center;
@@ -27,18 +27,74 @@
   width: 120px;
 }
 
-.window {
-  min-height: 10px;
-  max-width: 10px;
+.left-window1 {
+  min-height: 20px;
+  max-width: 20px;
   background-color: lightyellow;
-  border: 5px solid darkred;
+  border: 7px solid darkred;
   position: relative;
 }
 
+.center-window1 {
+  min-height: 20px;
+  max-width: 20px;
+  background-color: lightyellow;
+  border: 7px solid darkred;
+  position: relative;
+  left: 40px;
+  top: -34px;
+}
+
+.right-window1 {
+  min-height: 20px;
+  max-width: 20px;
+  background-color: lightyellow;
+  border: 7px solid darkred;
+  position: relative;
+  left: 80px;
+  top: -68px;
+}
+
+.left-window2 {
+  min-height: 20px;
+  max-width: 20px;
+  background-color: lightyellow;
+  border: 7px solid darkred;
+  position: relative;
+  left: 0px;
+  top: -64px;
+}
+
+.center-window2 {
+  min-height: 20px;
+  max-width: 20px;
+  background-color: lightyellow;
+  border: 7px solid darkred;
+  position: relative;
+  left: 40px;
+  top: -98px;
+}
+
+.right-window2 {
+  min-height: 20px;
+  max-width: 20px;
+  background-color: lightyellow;
+  border: 7px solid darkred;
+  position: relative;
+  left: 80px;
+  top: -132px;
+}
+
 .driveway {
-  width: 100px;
+  width: 110px;
   height: 0;
   border-bottom: 130px solid darkgrey;
-  border-left: 60px solid transparent;
-  border-right: 60px solid transparent;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+}
+
+.age {
+  height: 10px;
+  width: 30px;
+  background-color: lightpink;
 }
