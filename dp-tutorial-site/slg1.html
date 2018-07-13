@@ -140,13 +140,17 @@
           return ret.join("");
       }
 
-      function draw_roofs(count) {
+      function draw_houses(count) {
           $('#roofs').html( repeat('<div id="roof%i" class="roof"/>' , count ) );
+          $('#houses').html( repeat('<div id="house%i" class="house">'+
+                                    '<div id="w%ia" class="window"/><div id="w%ib" class="window"/><div id="w%ic" class="window"/>'+
+                                    '</div>', count ) );
+          $('#driveways').html( repeat('<div id="drive%i" class="driveway"/>' , count ) );
       }
 
 function slider1_moves(event) {
     var count  = $('#slider1').val();
-    draw_roofs(count);
+    draw_houses(count);
 }
 
 // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
@@ -154,7 +158,8 @@ function slider1_moves(event) {
 // when the slider is released
   $(document).ready(function() {
       count = 0;
-      draw_roofs(5);
+      draw_houses(5);
+      $( '#slider1').val(5)
       $( '#slider1').on('input', slider1_moves);
   });
     </script>
