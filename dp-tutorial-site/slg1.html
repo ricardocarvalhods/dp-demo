@@ -84,7 +84,7 @@
                   <th class="metrics"># Male</th>
                   <td id="trueCountM" class="metrics" style="background-color: yellow;">4</td>
                   <th class="metrics" style="background-color: lightgreen;">ACCURACY</th>
-                  <td>78%</td>
+                  <td>100%</td>
                 </tr>
               </table>
 
@@ -149,10 +149,13 @@
       }
 
 function set_house_count(house, count) {
-    var html='<div style="padding-top:10pt">';
+    var html='<div style="padding-top:10pt; font-size:20pt">';
 
     for(var i=0;i<count;i++){
-        html += '<img src="images/person.png" width="20px" alt="person"/>';
+        //html += '<img src="images/person.png" width="20px" alt="person"/>';
+        html += '&#x1F64E;&#xFE0F;'; // woman
+        html += '&#x1F46B;'; // man and woman
+        html += '&#x1F46A;'; // family
     }
     html += "</div>";
     $('#drive'+house).html(  html );
