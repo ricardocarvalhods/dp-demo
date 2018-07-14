@@ -100,13 +100,13 @@
             <div id="sliders" class="uscb-layout-row uscb-layout-align-space-around uscb-layout-align-vert-center" style="height: 80px;">
               <img id="Lhouse" src="images/Lhouse.png" width=37px alt="person">
               <div class="myslider">
-                <input id="slider1" type="range" min="1" max="6" value="50" class="slider">
+                <input id="slider1" type="range" min="1" max="4" value="50" class="slider">
               </div>
               <img id="Rhouse" src="images/Rhouse.png" width=60px alt="person">
               <div width=50px></div>
               <img id="Lhouse" src="images/Lpeople.png" width=20px alt="person">
               <div class="myslider">
-                <input id="slider2" type="range" min="1" max="100" value="50" class="slider">
+                <input id="slider2" type="range" min="1" max="10" value="50" class="slider">
               </div>
               <img id="Rhouse" src="images/Rpeople.png" width=60px alt="person">
               <div width=50px></div>
@@ -148,19 +148,42 @@
           $('#driveways').html( repeat('<div id="drive%i" class="driveway"/>' , count ) );
       }
 
+function set_house_count(house, count) {
+    var html='<div style="padding-top:10pt">';
+
+    for(var i=0;i<count;i++){
+        html += '<img src="images/person.png" width="20px" alt="person"/>';
+    }
+    html += "</div>";
+    $('#drive'+house).html(  html );
+}
+
+// slider1 sets the number of houses. We then set the number of people in each
 function slider1_moves(event) {
-    var count  = $('#slider1').val();
-    draw_houses(count);
+    var houseCount  = $('#slider1').val();
+    draw_houses(houseCount);
+    slider2_moves(event);
+}
+
+// Set the number of people in each house randomly between 1 and 10
+function slider2_moves(event) {
+    var houseCount  = $('#slider1').val();
+    var slider2     = $('#slider2').val();
+    for(var i=0;i<houseCount;i++){
+        count = Math.ceil( Math.random() * slider2);
+        console.log(i,count);
+        set_house_count(i,count);
+    }
 }
 
 // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
 // We bind the 'input' event because it fires whenever the slider is moved. The 'changed' event only fires
 // when the slider is released
   $(document).ready(function() {
-      count = 0;
-      draw_houses(5);
-      $( '#slider1').val(5)
+      draw_houses(2);
+      $( '#slider1').val(2)
       $( '#slider1').on('input', slider1_moves);
+      $( '#slider2').on('input', slider2_moves);
   });
     </script>
   </body>
