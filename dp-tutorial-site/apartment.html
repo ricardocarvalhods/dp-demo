@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="index.css" rel="stylesheet">
+  <link href="apartment.css" rel="stylesheet">
+  <script src='jquery.min.js'></script>
+</head>
+
+<body>
+  <header class="uscb-layout-row uscb-header-container">
+    <div class="uscb-flex-row-20 uscb-flex-row-md-100
+                  uscb-layout-align-center-center uscb-layout-align-md-start-center">
+      <div class="uscb-menu-icon-container uscb-hide-gt-md
+                    uscb-flex-row-md-20"></div>
+      <div class="uscb-flex-row-md-80">
+        <a href="https://www.census.gov">
+            <img class="uscb-nav-image" src="images/census.svg">
+          </a>
+      </div>
+    </div>
+    <div class="uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md">
+      <h1 class="uscb-h2 uscb-color-white">Census Privacy Tutorial</h1>
+    </div>
+  </header>
+
+  <div class="uscv-layout-row uscb-min-height-100vh uscb-layout-align-center-center">
+    <div class="uscb-flex-row-80 uscb-flex-row-md-100 uscb-padding-3em">
+
+      <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em">
+        <ul role="menu" class="uscb-tabs uscb-layout-row uscb-layout-align-space-between">
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="index.html" role="menuitem" class="uscb-tabs-link">Introduction</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="section1.html" role="menuitem" class="uscb-tabs-link">Section 1</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="section2.html" role="menuitem" class="uscb-tabs-link">Section 2</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="section3.html" role="menuitem" class="uscb-tabs-link">Section 3</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="section4.html" role="menuitem" class="uscb-tabs-link">Section 4</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="end.html" role="menuitem" class="uscb-tabs-link">Conclusion</a>
+          </li>
+
+        </ul>
+      </div>
+
+      <section>
+        <div style="margin-top: 1em; margin-bottom:1em;">
+          <div class="uscb-layout-row uscb-layout-align-space-between" style="background-color: rgb(17,46,81); color: rgb(255,255,255);
+                                                                                padding: 1em;">
+            <p class="uscb-title-1 uscb-margin-TB-02"> Simulator</p>
+          </div>
+          <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;">
+            <table width=100%>
+              <tr>
+                <th>Reported Data: </th>
+                <th class="metrics">Avg. Age</th>
+                <td id="reportedAvgAge" class="metrics" style="background-color: yellow;">35</td>
+                <th class="metrics"># Female</th>
+                <td id="reportedCountF" class="metrics" style="background-color: yellow;">4</td>
+                <th class="metrics"># Male</th>
+                <td id="reportedCountM" class="metrics" style="background-color: yellow;">4</td>
+                <th class="metrics" style="background-color: lightgreen;">ACCURACY:</th>
+                <td>78%
+                  <td/>
+              </tr>
+              <tr>
+                <th colspan=9 style='background-color:black; row-height:2pt;'>&nbsp;</th>
+              </tr>
+              <tr>
+                <th>True Data: </th>
+                <th class="metrics">Avg. Age</th>
+                <td id="trueAvgAge" class="metrics" style="background-color: yellow;">35</td>
+                <th class="metrics"># Female</th>
+                <td id="trueCountF" class="metrics" style="background-color: yellow;">4</td>
+                <th class="metrics"># Male</th>
+                <td id="trueCountM" class="metrics" style="background-color: yellow;">4</td>
+                <th class="metrics" style="background-color: lightgreen;">ACCURACY</th>
+                <td>100%</td>
+              </tr>
+            </table>
+
+            <div id="illustration" class="uscb-layout-column uscb-layout-align-center" style="height: 375px; background-color: lightblue;">
+              <div id="houses" class="uscb-layout-row uscb-layout-align-space-around" style="height: 200px; background-color: lightblue;">
+              </div>
+              <div id="grass" class="uscb-layout-row uscb-layout-align-space-around" style="height: 70px; background-color: lightgreen;">
+              </div>
+            </div>
+
+            <div id="sliders" class="uscb-layout-row uscb-layout-align-space-around uscb-layout-align-vert-center" style="height: 80px;">
+              <img id="Lhouse" src="images/Lhouse.png" width=37px alt="person">
+              <div class="myslider">
+                <input id="slider1" type="range" min="1" max="4" value="50" class="slider">
+              </div>
+              <img id="Rhouse" src="images/Rhouse.png" width=60px alt="person">
+              <div width=50px></div>
+              <img id="Lhouse" src="images/Lpeople.png" width=20px alt="person">
+              <div class="myslider">
+                <input id="slider2" type="range" min="1" max="10" value="50" class="slider">
+              </div>
+              <img id="Rhouse" src="images/Rpeople.png" width=60px alt="person">
+              <div width=50px></div>
+              <img id="Lhouse" src="images/Lgender.png" width=25px alt="person">
+              <div class="myslider">
+                <input id="slider3" type="range" min="1" max="100" value="50" class="slider">
+              </div>
+              <img id="Rhouse" src="images/Rgender.png" width=25px alt="person">
+              <div width=50px></div>
+            </div>
+
+            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-space-evenly uscb-layout-align-vert-center" style="height: 50px; font-family: Lora, sans-serif; background-color:lightgreen;">
+              <img id="epsilon" src="images/epsilon.png" width=25px alt="epsilon">
+              <div class="myslider" width=200px>
+                <input id="epsilonSlider" type="range" min="1" max="100" value="50" class="slider" width=100%>
+              </div>
+              <div class="uscb-primary-button">PROTECT</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script>
+    // Repeat a string, substituting %i for the counter
+    function repeat(s, count) {
+      ret = []
+      for (var i = 0; i < count; i++) {
+        ret.push(s.replace("%i", i))
+      }
+      return ret.join("");
+    }
+
+    function draw_houses(count) {
+      $('#houses').html('<div id="house1" class="house">' + '<div id="test" style="padding-top:10pt; font-size:20pt"></div>' + '</div>');
+    }
+
+    function draw_windows(count) {
+      $('#test').html(repeat(
+        '<div class="windowHolder" id="wh%i"><div class="window" id="w%i"/><div class="window" id="w%i"/><div class="window" id="w%i"/><div class="window" id="w%i"/></div>', count));
+    }
+
+    function set_people_count(count) {
+      for (var i = 0; i < count / 4; i++) {
+        html = '<div>&#x1F46B;</div>'; // man and woman
+        $('#w' + count).html(html);
+        //html += '<img src="images/person.png" width="20px" alt="person"/>';
+        //html += '&#x1F64E;&#xFE0F;'; // woman
+        //html += '&#x1F46A;'; // family
+      }
+    }
+
+    // slider1 sets the number of houses. We then set the number of people in each
+    function slider1_moves(event) {
+      // var peopleCount = $('#slider2').val();
+      // draw_houses(1);
+      // slider2_moves(event);
+    }
+
+    // Set the number of people the apartment
+    function slider2_moves(event) {
+      var slider2 = $('#slider2').val();
+      set_people_count(count);
+    }
+
+    // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
+    // We bind the 'input' event because it fires whenever the slider is moved. The 'changed' event only fires
+    // when the slider is released
+    $(document).ready(function() {
+      draw_houses(1);
+      draw_windows(4);
+      $('#slider1').val(1)
+      $('#slider1').on('input', slider1_moves);
+      $('#slider2').on('input', slider2_moves);
+    });
+  </script>
+</body>
+
+</html>
