@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <!-- Basic Page Needs
@@ -27,7 +28,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -39,6 +40,7 @@
   <script src="js/privatize.js"></script>
 
 </head>
+
 <body>
 
   <!-- Primary Page Layout
@@ -56,9 +58,19 @@
         <h3>Input:</h3>
         <form>
           <table id='input'>
-            <tr><th></th>        <th>Females</th> <th>Males   </th></tr>
-            <tr class='mimi'><th>Under 18</th><td> <input id='ifu' name='ifu' value='10'</td><td> <input id='imu' name='imu' value='30'</td></tr>
-            <tr class='mimi'><th>Over 18 </th><td> <input id='ifo' name='ifo' value='20'</td><td> <input id='imo' name='imo' value='40'</td></tr>
+            <tr>
+              <th></th>
+              <th>Females</th>
+              <th>Males </th>
+            </tr>
+            <tr class='mimi'>
+              <th>Under 18</th>
+              <td> <input id='ifu' name='ifu' value='10' </td>
+                <td> <input id='imu' name='imu' value='30' </td></tr>
+            <tr class='mimi'>
+              <th>Over 18 </th>
+              <td> <input id='ifo' name='ifo' value='20' </td>
+                <td> <input id='imo' name='imo' value='40' </td></tr>
           </table>
         </form>
       </div>
@@ -66,16 +78,29 @@
         <h3>Output:</h3>
         <form>
           <table id='output'>
-            <tr>             <th></th>        <th>Females</th>  <th>Males    </th></tr>
-            <tr class='mimi'><th>Under 18</th><td id='ofu'></td><td id='omu'></td></tr>
-            <tr class='mimi'><th>Over 18 </th><td id='ofo'></td><td id='omo'></td></tr>
+            <tr>
+              <th></th>
+              <th>Females</th>
+              <th>Males </th>
+            </tr>
+            <tr class='mimi'>
+              <th>Under 18</th>
+              <td id='ofu'></td>
+              <td id='omu'></td>
+            </tr>
+            <tr class='mimi'>
+              <th>Over 18 </th>
+              <td id='ofo'></td>
+              <td id='omo'></td>
+            </tr>
           </table>
         </form>
       </div>
     </div>
     <div class='row'>
-      <div id="epsilon-slider"/></br>
-      Epsilon: <span id='epsilon-value'/>
+      <div id="epsilon-slider" />
+      </br>
+      Epsilon: <span id='epsilon-value' />
     </div>
 
     <div class='row'>
@@ -84,11 +109,19 @@
 
     <!-- https://www.w3schools.com/howto/howto_css_animate_buttons.asp -->
     <style>
-      tr.mimi      { height: 70px;}
-      #input input { width: 50px;}
-      #epsilon-slider { margin-bottom: 5px}
+      tr.mimi {
+        height: 70px;
+      }
 
-     .button-primary:active {
+      #input input {
+        width: 50px;
+      }
+
+      #epsilon-slider {
+        margin-bottom: 5px
+      }
+
+      .button-primary:active {
         background-color: #3e8e41;
         box-shadow: 0 5px #666;
         transform: translateY(4px);
@@ -98,65 +131,69 @@
     <div class="row">
       <h2>Event Tests</h2>
       <p>This timer demonstrates drift. The clock is supposed to fire every 1000 milliseconds and it is started when the page loads, so any fraction of second represents clock drift. Notice how it steadily increases... Elapsed seconds: <span id='timer'></span></p>
-      <p>Time of day:                   <span id='clock'></span></p>
+      <p>Time of day: <span id='clock'></span></p>
     </div>
   </div>
-<!-- End Document
+  <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<script>
-// All wrapped inside the document.ready() function so that it runs when the document is completely loaded
-$(document).ready(function() {
+  <script>
+    // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
+    $(document).ready(function() {
 
-    // We scale epsilon
-    var epsilon_slider_value = 0;
-    function epsilon_slider_moved(event, ui) {
+      // We scale epsilon
+      var epsilon_slider_value = 0;
+
+      function epsilon_slider_moved(event, ui) {
         var v = isNaN(ui.value) ? 0 : ui.value;
-        epsilon_slider_value = Math.max(v,1) / 1000;
-        $('#epsilon-value').text( epsilon_slider_value );
+        epsilon_slider_value = Math.max(v, 1) / 1000;
+        $('#epsilon-value').text(epsilon_slider_value);
         $('#roll').click();
-    }
+      }
 
-    // Create the slider!
-    $( '#epsilon-slider' ).slider({
+      // Create the slider!
+      $('#epsilon-slider').slider({
         min: 0,
         max: 3000,
         create: epsilon_slider_moved,
-        slide:  epsilon_slider_moved,
+        slide: epsilon_slider_moved,
         change: epsilon_slider_moved
-    });  
+      });
 
 
-    var start = new Date;
-    setInterval(function() {
+      var start = new Date;
+      setInterval(function() {
         $('#timer').text((new Date - start) / 1000);
-        $('#clock').text( (new Date()).toString() );
-    }, 1000);
-    
-    var update = function(model) {
+        $('#clock').text((new Date()).toString());
+      }, 1000);
+
+      var update = function(model) {
         var i;
         for (i = 0; i < model.counts.length; i++) {
-            $( '#o' + model.labels[i] ).text( model.noisy_counts[i] );
+          $('#o' + model.labels[i]).text(model.noisy_counts[i]);
         }
-    }
-    
-    // Wire-up the roll-again button                        
-    $('#roll').click(function() {
+      }
+
+      // Wire-up the roll-again button
+      $('#roll').click(function() {
         // Create the differential privacy object
-                        
-        model = {epsilon: epsilon_slider_value,
-                 callback: update,
-                 counts: [],
-                 labels: ['fu', 'fo', 'mu', 'mo'],
-                 invariant_counts: 1};
+
+        model = {
+          epsilon: epsilon_slider_value,
+          callback: update,
+          counts: [],
+          labels: ['fu', 'fo', 'mu', 'mo'],
+          invariant_counts: 1
+        };
         // Now get the counts from the HTML form
         var i;
-        for (i = 0; i< model.labels.length; i++) {
-            model.counts[i] = parseInt( $( '#i' + model.labels[i] ).val() );
+        for (i = 0; i < model.labels.length; i++) {
+          model.counts[i] = parseInt($('#i' + model.labels[i]).val());
         }
         privitize_histogram(model);
-    });
+      });
 
-});
-</script>
+    });
+  </script>
 </body>
+
 </html>

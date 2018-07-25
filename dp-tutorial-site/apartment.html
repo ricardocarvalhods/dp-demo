@@ -8,6 +8,7 @@
   <link href="index.css" rel="stylesheet">
   <link href="apartment.css" rel="stylesheet">
   <script src='jquery.min.js'></script>
+  <script src='privatize.js'></script>
 </head>
 
 <body>
@@ -63,6 +64,18 @@
           <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;">
             <table width=100%>
               <tr>
+                <th>True Data: </th>
+                <th class="metrics">Avg. Age</th>
+                <td id="trueAvgAge" class="metrics" style="background-color: yellow;">35</td>
+                <th class="metrics"># Female</th>
+                <td id="trueCountF" class="metrics" style="background-color: yellow;">4</td>
+                <th class="metrics"># Male</th>
+                <td id="trueCountM" class="metrics" style="background-color: yellow;">4</td>
+                <th class="metrics" style="background-color: lightgreen;">ACCURACY</th>
+                <td>100%</td>
+              </tr>
+
+              <tr>
                 <th>Reported Data: </th>
                 <th class="metrics">Avg. Age</th>
                 <td id="reportedAvgAge" class="metrics" style="background-color: yellow;">35</td>
@@ -74,20 +87,10 @@
                 <td>78%
                   <td/>
               </tr>
-              <tr>
+              <!-- <tr>
                 <th colspan=9 style='background-color:black; row-height:2pt;'>&nbsp;</th>
-              </tr>
-              <tr>
-                <th>True Data: </th>
-                <th class="metrics">Avg. Age</th>
-                <td id="trueAvgAge" class="metrics" style="background-color: yellow;">35</td>
-                <th class="metrics"># Female</th>
-                <td id="trueCountF" class="metrics" style="background-color: yellow;">4</td>
-                <th class="metrics"># Male</th>
-                <td id="trueCountM" class="metrics" style="background-color: yellow;">4</td>
-                <th class="metrics" style="background-color: lightgreen;">ACCURACY</th>
-                <td>100%</td>
-              </tr>
+              </tr> -->
+
             </table>
 
             <div id="illustration" class="uscb-layout-column uscb-layout-align-center" style="height: 375px; background-color: lightblue;">
@@ -97,25 +100,27 @@
               </div>
             </div>
 
-            <div id="sliders" class="uscb-layout-row uscb-layout-align-space-around uscb-layout-align-vert-center" style="height: 80px;">
-              <img id="Lhouse" src="images/Lhouse.png" width=37px alt="person">
+            <div id="sliders" class="uscb-layout-row uscb-layout-align-center uscb-layout-align-vert-center" style="height: 80px;">
+              <!-- <img id="Lhouse" src="images/Lhouse.png" width=37px alt="person">
               <div class="myslider">
                 <input id="slider1" type="range" min="1" max="4" value="50" class="slider">
               </div>
               <img id="Rhouse" src="images/Rhouse.png" width=60px alt="person">
-              <div width=50px></div>
+              <div width=50px></div> -->
               <img id="Lhouse" src="images/Lpeople.png" width=20px alt="person">
+              <div width=100px></div>
               <div class="myslider">
                 <input id="slider2" type="range" min="1" max="10" value="50" class="slider">
               </div>
+              <div width=100px></div>
               <img id="Rhouse" src="images/Rpeople.png" width=60px alt="person">
-              <div width=50px></div>
+              <!-- <div width=50px></div>
               <img id="Lhouse" src="images/Lgender.png" width=25px alt="person">
               <div class="myslider">
                 <input id="slider3" type="range" min="1" max="100" value="50" class="slider">
               </div>
               <img id="Rhouse" src="images/Rgender.png" width=25px alt="person">
-              <div width=50px></div>
+              <div width=50px></div> -->
             </div>
 
             <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-space-evenly uscb-layout-align-vert-center" style="height: 50px; font-family: Lora, sans-serif; background-color:lightgreen;">
@@ -131,45 +136,117 @@
     </div>
   </div>
   <script>
+    apt_residents = [];
+
+    icons = [{
+        'html': '&#x1F64E;&#xFE0F;',
+        'men': 0,
+        'women': 1,
+        'age': 25
+      }, //woman
+      {
+        'html': '&#x1F46B;',
+        'men': 1,
+        'women': 1,
+        'age': 27
+      }, //man and woman
+      {
+        'html': '&#x1F46A;',
+        'men': 2,
+        'women': 1,
+        'age': 30
+      } //family
+    ]
+
+
+
     // Repeat a string, substituting %i for the counter
-    function repeat(s, count) {
+    function repeat(s, start, end) {
       ret = []
-      for (var i = 0; i < count; i++) {
+      for (var i = start; i < end; i++) {
         ret.push(s.replace("%i", i))
       }
       return ret.join("");
     }
 
     function draw_houses(count) {
+      tree = '<div class="tree">&#x1F332;</div>'
       $('#houses').html('<div id="house1" class="house">' + '<div id="test" style="padding-top:10pt; font-size:20pt"></div>' + '</div>');
     }
 
     function draw_windows(count) {
       $('#test').html(repeat(
-        '<div class="windowHolder" id="wh%i"><div class="window" id="w%i"/><div class="window" id="w%i"/><div class="window" id="w%i"/><div class="window" id="w%i"/></div>', count));
-    }
-
-    function set_people_count(count) {
-      for (var i = 0; i < count / 4; i++) {
-        html = '<div>&#x1F46B;</div>'; // man and woman
-        $('#w' + count).html(html);
-        //html += '<img src="images/person.png" width="20px" alt="person"/>';
-        //html += '&#x1F64E;&#xFE0F;'; // woman
-        //html += '&#x1F46A;'; // family
+        '<div class="windowHolder" id="wh%i"></div>', 0, 4));
+      for (index = 0, i = 0; i < 4; i++) {
+        $('#wh' + i).html(repeat('<div class="window" id="w%i"/>', index, index + 4))
+        index += 4;
       }
     }
 
-    // slider1 sets the number of houses. We then set the number of people in each
-    function slider1_moves(event) {
-      // var peopleCount = $('#slider2').val();
-      // draw_houses(1);
-      // slider2_moves(event);
+    function set_people_count(count) {
+      apt_residents = []
+      people = Math.round(count / 10 * 16); //fraction of the slider * window number
+      for (i = 0; i < 16; i++) {
+        html = '';
+        if (i < people) {
+          person = icons[Math.round(Math.random() * 2)];
+          apt_residents.push(person);
+          html = person['html'];
+        }
+        $('#w' + i).html(html);
+      }
+      update_values()
+    }
+
+    function update_values() {
+      //update counts using people dictionary
+      men = 0;
+      women = 0;
+      age = 0;
+      for (i = 0; i < apt_residents.length; i++) {
+        elem = apt_residents[i];
+        men += elem['men'];
+        age += elem['age'];
+        women += elem['women'];
+      }
+      age /= apt_residents.length;
+      age = Math.round(age * 10) / 10;
+      //update html elements
+      $('#trueAvgAge').html('' + age)
+      $('#trueCountF').html('' + women)
+      $('#trueCountM').html('' + men)
     }
 
     // Set the number of people the apartment
     function slider2_moves(event) {
       var slider2 = $('#slider2').val();
+      count = slider2;
       set_people_count(count);
+    }
+
+    var update = function(model) {
+      var i;
+      for (i = 0; i < model.counts.length; i++) {
+        $('#' + model.labels[i]).text(model.noisy_counts[i]);
+      }
+    }
+
+    function roll_dp(event) {
+      epsilon_slider_value = $('#epsilonProtect').val();
+      // Create the differential privacy object
+      model = {
+        epsilon: epsilon_slider_value,
+        callback: update,
+        counts: [],
+        labels: ['fu', 'fo', 'mu', 'mo'],
+        invariant_counts: 1
+      };
+      // Now get the counts from the HTML form
+      var i;
+      for (i = 0; i < model.labels.length; i++) {
+        model.counts[i] = parseInt($('#i' + model.labels[i]).val());
+      }
+      privitize_histogram(model);
     }
 
     // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
@@ -178,9 +255,9 @@
     $(document).ready(function() {
       draw_houses(1);
       draw_windows(4);
-      $('#slider1').val(1)
-      $('#slider1').on('input', slider1_moves);
+      $('#slider2').val(0);
       $('#slider2').on('input', slider2_moves);
+      $('#epsilonProtect').on('input', roll_dp);
     });
   </script>
 </body>

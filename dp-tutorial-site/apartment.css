@@ -50,3 +50,8 @@
   border-left: 60px solid transparent;
   border-right: 60px solid transparent;
 }
+
+.tree {
+  width: 100px;
+  height: 50px;
+}
