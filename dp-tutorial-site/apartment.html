@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md">
-      <h1 class="uscb-h2 uscb-color-white">Census Privacy Tutorial</h1>
+      <h1 class="uscb-h2 uscb-color-white">Noise Infusion for Census Data Privacy</h1>
     </div>
   </header>
 
@@ -34,22 +34,22 @@
       <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em">
         <ul role="menu" class="uscb-tabs uscb-layout-row uscb-layout-align-space-between">
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="index.html" role="menuitem" class="uscb-tabs-link">Introduction</a>
+            <a href="index.html" role="menuitem" class="uscb-tabs-link">Noise in the Census</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section1.html" role="menuitem" class="uscb-tabs-link">Section 1</a>
+            <a href="section2.html" role="menuitem" class="uscb-tabs-link">Noise in a Block</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section2.html" role="menuitem" class="uscb-tabs-link">Section 2</a>
+            <a href="apartment.html" role="menuitem" class="uscb-tabs-link">Noise and Accuracy</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section3.html" role="menuitem" class="uscb-tabs-link">Section 3</a>
+            <a href="section3.html" role="menuitem" class="uscb-tabs-link">Protecting Data Releases</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section4.html" role="menuitem" class="uscb-tabs-link">Section 4</a>
+            <a href="section4.html" role="menuitem" class="uscb-tabs-link">Protecting Group Quarters</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="end.html" role="menuitem" class="uscb-tabs-link">Conclusion</a>
+            <a href="end.html" role="menuitem" class="uscb-tabs-link">Data Privacy in 2020</a>
           </li>
 
         </ul>
@@ -61,52 +61,48 @@
                                                                                 padding: 1em;">
             <p class="uscb-title-1 uscb-margin-TB-02"> Simulator</p>
           </div>
+          <h3>In the last example, we saw how adding noise to data protected the privacy of a family. With noise, we have obscured the family’s data, but now our results are slightly less accurate. Recall that the noise we add is random, many of the residences have small amounts of noise added, and a few have large amounts of noise added.</h3>
+
+          <h3>Here, we simulate how noise changes the reported statistics. Adjust the number of people, and the privacy loss epsilon, to see how the reported statistics are affected. </h3>
+
           <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;">
             <table width=100%>
               <tr>
                 <th>True Data: </th>
                 <th class="metrics">Avg. Age</th>
-                <td id="trueAvgAge" class="metrics" style="background-color: yellow;">35</td>
+                <td id="trueAvgAge" class="metrics">0</td>
                 <th class="metrics"># Female</th>
-                <td id="trueCountF" class="metrics" style="background-color: yellow;">4</td>
+                <td id="trueCountF" class="metrics">0</td>
                 <th class="metrics"># Male</th>
-                <td id="trueCountM" class="metrics" style="background-color: yellow;">4</td>
-                <th class="metrics" style="background-color: lightgreen;">ACCURACY</th>
-                <td>100%</td>
+                <td id="trueCountM" class="metrics">0</td>
+                <th class="metrics"></th>
+                <td></td>
               </tr>
 
               <tr>
                 <th>Reported Data: </th>
                 <th class="metrics">Avg. Age</th>
-                <td id="reportedAvgAge" class="metrics" style="background-color: yellow;">35</td>
+                <td id="reportedAvgAge" class="metrics" style="background-color: yellow;">0</td>
                 <th class="metrics"># Female</th>
-                <td id="reportedCountF" class="metrics" style="background-color: yellow;">4</td>
+                <td id="reportedCountF" class="metrics" style="background-color: yellow;">0</td>
                 <th class="metrics"># Male</th>
-                <td id="reportedCountM" class="metrics" style="background-color: yellow;">4</td>
+                <td id="reportedCountM" class="metrics" style="background-color: yellow;">0</td>
                 <th class="metrics" style="background-color: lightgreen;">ACCURACY:</th>
-                <td>78%
+                <td id="accuracy">100%
                   <td/>
               </tr>
-              <!-- <tr>
-                <th colspan=9 style='background-color:black; row-height:2pt;'>&nbsp;</th>
-              </tr> -->
+
 
             </table>
 
-            <div id="illustration" class="uscb-layout-column uscb-layout-align-center" style="height: 375px; background-color: lightblue;">
+            <div id="illustration" class="uscb-layout-column uscb-layout-align-flex-end" style="height: 375px; background-color: lightblue;">
               <div id="houses" class="uscb-layout-row uscb-layout-align-space-around" style="height: 200px; background-color: lightblue;">
               </div>
-              <div id="grass" class="uscb-layout-row uscb-layout-align-space-around" style="height: 70px; background-color: lightgreen;">
+              <div id="grass" class="uscb-layout-row uscb-layout-align-space-around" style="height: 100px; background-color: lightgreen;">
               </div>
             </div>
 
             <div id="sliders" class="uscb-layout-row uscb-layout-align-center uscb-layout-align-vert-center" style="height: 80px;">
-              <!-- <img id="Lhouse" src="images/Lhouse.png" width=37px alt="person">
-              <div class="myslider">
-                <input id="slider1" type="range" min="1" max="4" value="50" class="slider">
-              </div>
-              <img id="Rhouse" src="images/Rhouse.png" width=60px alt="person">
-              <div width=50px></div> -->
               <img id="Lhouse" src="images/Lpeople.png" width=20px alt="person">
               <div width=100px></div>
               <div class="myslider">
@@ -114,13 +110,6 @@
               </div>
               <div width=100px></div>
               <img id="Rhouse" src="images/Rpeople.png" width=60px alt="person">
-              <!-- <div width=50px></div>
-              <img id="Lhouse" src="images/Lgender.png" width=25px alt="person">
-              <div class="myslider">
-                <input id="slider3" type="range" min="1" max="100" value="50" class="slider">
-              </div>
-              <img id="Rhouse" src="images/Rgender.png" width=25px alt="person">
-              <div width=50px></div> -->
             </div>
 
             <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-space-evenly uscb-layout-align-vert-center" style="height: 50px; font-family: Lora, sans-serif; background-color:lightgreen;">
@@ -128,9 +117,23 @@
               <div class="myslider" width=200px>
                 <input id="epsilonSlider" type="range" min="1" max="100" value="50" class="slider" width=100%>
               </div>
-              <div class="uscb-primary-button">PROTECT</div>
+              <div id="rollButton" class="uscb-primary-button">PROTECT</div>
             </div>
+            <h3>Because of the noise, some blocks will overcount statistics with positive noise, and others will undercount them with negative noise. These undercounts and overcounts are easier to spot at small geographic levels like census blocks, since the reported results can vary slightly.</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/cblock.png" alt="House" width="550px">
+            </div>
+            <h3>But remember, the Census Bureau collects data on the entire country, counting over <strong>300 million people</strong> in over 11 million census blocks.</h3>
+
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/city.png" alt="House" width="550px">
+            </div>
+
+
+            <h3>At larger geographic levels like states, often with millions of residents, the undercounts and overcounts balance the noise, and the reported results are not as affected as at the block level. This results in a set of Census 2020 data that is accurate for the needs of data users. </h3>
+
           </div>
+
         </div>
       </section>
     </div>
@@ -155,7 +158,13 @@
         'men': 2,
         'women': 1,
         'age': 30
-      } //family
+      }, //family
+      {
+        'html': '&#x1F481;',
+        'men': 0,
+        'women': 1,
+        'age': 25
+      } //woman2
     ]
 
 
@@ -170,15 +179,14 @@
     }
 
     function draw_houses(count) {
-      tree = '<div class="tree">&#x1F332;</div>'
-      $('#houses').html('<div id="house1" class="house">' + '<div id="test" style="padding-top:10pt; font-size:20pt"></div>' + '</div>');
+      $('#houses').html('<div id="house1" class="house">' + '<div id="apartment" style="padding-top:10pt; font-size:20pt"></div>' + '</div>');
     }
 
     function draw_windows(count) {
-      $('#test').html(repeat(
+      $('#apartment').html(repeat(
         '<div class="windowHolder" id="wh%i"></div>', 0, 4));
       for (index = 0, i = 0; i < 4; i++) {
-        $('#wh' + i).html(repeat('<div class="window" id="w%i"/>', index, index + 4))
+        $('#wh' + i).html(repeat('<div class="window" id="w%i"/><div class="windowSpacer" id="wsp%i"/>', index, index + 4))
         index += 4;
       }
     }
@@ -200,21 +208,23 @@
 
     function update_values() {
       //update counts using people dictionary
-      men = 0;
-      women = 0;
-      age = 0;
+      metrics = {
+        'men': 0,
+        'women': 0,
+        'age': 0
+      };
       for (i = 0; i < apt_residents.length; i++) {
         elem = apt_residents[i];
-        men += elem['men'];
-        age += elem['age'];
-        women += elem['women'];
+        metrics['men'] += elem['men'];
+        metrics['age'] += elem['age'];
+        metrics['women'] += elem['women'];
       }
-      age /= apt_residents.length;
-      age = Math.round(age * 10) / 10;
+      metrics['age'] /= apt_residents.length;
+      metrics['age'] = Math.round(metrics['age'] * 10) / 10;
       //update html elements
-      $('#trueAvgAge').html('' + age)
-      $('#trueCountF').html('' + women)
-      $('#trueCountM').html('' + men)
+      $('#trueAvgAge').html('' + metrics['age']);
+      $('#trueCountF').html('' + metrics['women']);
+      $('#trueCountM').html('' + metrics['men']);
     }
 
     // Set the number of people the apartment
@@ -224,29 +234,50 @@
       set_people_count(count);
     }
 
+    function update_accuracy(model) {
+      trueVals = [];
+      repVals = [];
+      for (i = 0; i < 3; i++) {
+        trueVals[i] = parseInt($('#true' + model.labels[i]).html());
+      }
+      for (i = 0; i < 3; i++) {
+        repVals[i] = parseInt($('#reported' + model.labels[i]).html());
+      }
+      accuracy = 0
+      for (i = 0; i < trueVals.length; i++) {
+        accuracy += Math.abs(trueVals[i] / repVals[i] * 100);
+      }
+      accuracy /= trueVals.length;
+      $('#accuracy').html('' + Math.round(accuracy * 10) / 10 + "%");
+    }
+
     var update = function(model) {
+      console.log("UPDATING");
       var i;
       for (i = 0; i < model.counts.length; i++) {
-        $('#' + model.labels[i]).text(model.noisy_counts[i]);
+        $('#reported' + model.labels[i]).html(model.noisy_counts[i]);
       }
     }
 
     function roll_dp(event) {
-      epsilon_slider_value = $('#epsilonProtect').val();
+      console.log("ROLLING");
+      epsilon_slider_value = $('#epsilonSlider').html();
       // Create the differential privacy object
       model = {
         epsilon: epsilon_slider_value,
         callback: update,
         counts: [],
-        labels: ['fu', 'fo', 'mu', 'mo'],
+        labels: ['CountM', 'CountF', 'AvgAge'],
         invariant_counts: 1
       };
       // Now get the counts from the HTML form
       var i;
       for (i = 0; i < model.labels.length; i++) {
-        model.counts[i] = parseInt($('#i' + model.labels[i]).val());
+        model.counts[i] = parseInt($('#true' + model.labels[i]).html());
       }
-      privitize_histogram(model);
+      console.log("CALLING PRIVATIZE");
+      privatize_histogram(model);
+      update_accuracy(model);
     }
 
     // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
@@ -257,7 +288,7 @@
       draw_windows(4);
       $('#slider2').val(0);
       $('#slider2').on('input', slider2_moves);
-      $('#epsilonProtect').on('input', roll_dp);
+      $('#rollButton').on('click', roll_dp);
     });
   </script>
 </body>

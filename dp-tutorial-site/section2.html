@@ -6,49 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="index.css" rel="stylesheet">
+  <link href="apartment.css" rel="stylesheet">
+  <script src='jquery.min.js'></script>
+  <script src='privatize.js'></script>
 </head>
 
 <body>
   <header class="uscb-layout-row uscb-header-container">
     <div class="uscb-flex-row-20 uscb-flex-row-md-100
-    uscb-layout-align-center-center uscb-layout-align-md-start-center">
+                  uscb-layout-align-center-center uscb-layout-align-md-start-center">
       <div class="uscb-menu-icon-container uscb-hide-gt-md
-          uscb-flex-row-md-20"></div>
+                    uscb-flex-row-md-20"></div>
       <div class="uscb-flex-row-md-80">
         <a href="https://www.census.gov">
-              <img class="uscb-nav-image" src="images/census.svg">
-            </a>
+            <img class="uscb-nav-image" src="images/census.svg">
+          </a>
       </div>
     </div>
     <div class="uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md">
-      <h1 class="uscb-h2 uscb-color-white">Census Privacy Tutorial</h1>
+      <h1 class="uscb-h2 uscb-color-white">Noise for Census 2020 Data Privacy</h1>
     </div>
   </header>
-
 
   <div class="uscv-layout-row uscb-min-height-100vh uscb-layout-align-center-center">
     <div class="uscb-flex-row-80 uscb-flex-row-md-100 uscb-padding-3em">
 
-      <div class="   " style="box-shadow: black 0px 8px 6px -6px; border:
-1px solid rgb(238, 238, 238); padding: 1em">
+      <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em">
         <ul role="menu" class="uscb-tabs uscb-layout-row uscb-layout-align-space-between">
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="index.html" role="menuitem" class="uscb-tabs-link">Introduction</a>
+            <a href="index.html" role="menuitem" class="uscb-tabs-link">Noise in the Census</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section1.html" role="menuitem" class="uscb-tabs-link">Section 1</a>
+            <a href="section2.html" role="menuitem" class="uscb-tabs-link">Noise in a Block</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section2.html" role="menuitem" class="uscb-tabs-link">Section 2</a>
+            <a href="apartment.html" role="menuitem" class="uscb-tabs-link">Noise and Accuracy</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section3.html" role="menuitem" class="uscb-tabs-link">Section 3</a>
+            <a href="section3.html" role="menuitem" class="uscb-tabs-link">Protecting Data Releases</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section4.html" role="menuitem" class="uscb-tabs-link">Section 4</a>
+            <a href="section4.html" role="menuitem" class="uscb-tabs-link">Protecting Group Quarters</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="end.html" role="menuitem" class="uscb-tabs-link">Conclusion</a>
+            <a href="end.html" role="menuitem" class="uscb-tabs-link">Data Privacy in 2020</a>
           </li>
 
         </ul>
@@ -58,32 +59,52 @@
         <div style="margin-top: 1em; margin-bottom:1em;">
           <div class="uscb-layout-row uscb-layout-align-space-between" style="background-color: rgb(17,46,81); color: rgb(255,255,255);
         padding: 1em;">
-            <p class="uscb-title-1 uscb-margin-TB-02"> This is Section 2</p>
+            <p class="uscb-title-1 uscb-margin-TB-02">Noise in a Block</p>
           </div>
           <div class="   " style="box-shadow: black 0px 8px 6px -6px; border:
         1px solid rgb(238, 238, 238); padding: 1em">
-            <h2><strong>We protect the privacy of all.</strong></h2>
-            <h3>Just as there is a chance of being the only household on a census block, there are other situations that could put privacy at risk. Adding noise to the data protects against these situations as well.</h3>
-            <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
-            uscb-dark-grey-content-container uscb-layout-align-space-between
-            uscb-wrap">
-              <h3>Let us use dormitories as an example. Imagine two college dormitories on different census blocks.</h3>
-            </div>
+            <h3>This is a Census Block.</h3>
             <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-              <img src="images/temp.png" alt="House" width="450px">
+              <img src="images/house.png" alt="House" width="450px">
+            </div>
+            <h3> We report census data grouped by these areas, called blocks. Blocks can be empty, have a single house, or can have hundreds of residents, and are typically divided by geographic features like roads or creeks.
+            </h3>
+            <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
+        uscb-dark-grey-content-container uscb-layout-align-space-between
+        uscb-wrap">
+              <p> This block is home to a family of four.</p>
+            </div>
+            <h3> This is what their data look like.</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/chart1.png" alt="House" width="350px">
+            </div>
+            <h3> The first thing we do is remove the names and other identifying information from the data:</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/chart2.png" alt="House" width="350px">
+            </div>
+            <h3>This may seem like enough to protect this family’s data, but what if someone knows this family’s address? Just from the information above, one can easily identify a mother and father, and their son and daughter, putting the family at risk.</h3>
+            <h3>To truly protect the privacy of this family, we must do more. We want to provide accurate data while protecting Americans from having their data identified. We do this by making small, random changes to the data before we publish our reports. </h3>
+            <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
+        uscb-dark-grey-content-container uscb-layout-align-space-between
+        uscb-wrap">
+              <h3>This is called adding <strong>noise</strong> to the data.</h3>
+            </div>
+            <h3>For example, let’s add random noise to this family’s data. Now the data look like this:</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/chart6.png" alt="House" width="550px">
+            </div>
+            <h3>Let us compare the aggregate data we might report for the original and noisy data.</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/chart5.png" alt="House" width="550px">
             </div>
             <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
-            uscb-dark-grey-content-container uscb-layout-align-space-between
-            uscb-wrap">
-              <h3>Dorm A happens to only house <strong>10 male residents</strong>, while Dorm B happens to house <strong>1 female resident and 9 male residents</strong>.</h3>
+        uscb-dark-grey-content-container uscb-layout-align-space-between
+        uscb-wrap">
+              <h3>Adding noise to the data creates <strong>uncertainty</strong>.</h3>
             </div>
-            <h3>The woman in Dorm B can be identified in the data, since she would have the only data with “sex = F”. We protect her by adding noise to all group quarters, not just ones with one person at risk, This avoids situations with only members of one group.</h3>
-            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-              <img src="images/temp.png" alt="House" width="450px">
-            </div>
-            <h3>Here is where uncertainty comes in again.</h3>
-            <h3>Because there is random noise added to the Census reported data, <strong>no one can be certain how many women live in either Dorm A or Dorm B</strong>. This change has a minimal effect on the accuracy of the data, but protects the privacy of people in these situations. </h3>
-            <h3>Protecting people in situations such as this by adding noise to the data is one of the major improvements we have made since the 2010 Census. It is one more way that the new method of adding random noise to the data is providing <strong>reliable privacy protection</strong>.</h3>
+            <h3>Say a person was looking at the data for this census block, and knew that only one family lived there. Knowing that noise has changed some of the data, they will not know from our data whether the family has 0, 1, 2, 3, or even 4 female members. This uncertainty about which numbers are exact and which have been adjusted protects families from having their data identified. </h3>
+            <h3>Looking at the raw data, the average age has remained the same, but the Female Count and Male Count have both changed. In the next section, we explore this relationship between privacy and data accuracy.</h3>
+            <h3>It is important to note that though some statistics are adjusted with noise, the total number of people counted will not change. Adding noise does not create imaginary people, it simply adjusts existing data values to protect the data of individuals.</h3>
 
           </div>
       </section>
