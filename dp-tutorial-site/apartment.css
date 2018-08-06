@@ -14,7 +14,7 @@
 .house {
   height: 270px;
   width: 300px;
-  background-color: rgb(255, 128, 0);
+  background-color: #ff7043;
   text-align: center;
   position: relative;
 }
@@ -41,7 +41,7 @@
 .windowHolder {
   height: 250px;
   width: 60px;
-  background-color: rgb(255, 128, 0);
+  background-color: #ff7043;
   float: left;
   padding-left: 14px;
   padding-top: 5px;
@@ -50,7 +50,7 @@
 .windowSpacer {
   height: 5px;
   width: 40px;
-  background-color: rgb(255, 128, 0);
+  background-color: #ff7043;
 }
 
 .driveway {

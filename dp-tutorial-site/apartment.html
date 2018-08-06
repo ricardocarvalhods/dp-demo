@@ -43,12 +43,12 @@
             <p class="uscb-title-1 uscb-margin-TB-02">Privacy Simulator</p>
           </div>
           <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;">
+            <p>The slider on the left represents the population. Move it right to increase the number of residents in the apartment. The residents are random, and may be singles, couples, or families.</p>
 
-            <p class="uscb-title-2 uscb-margin-BTM-8px uscb-color-primary">Testing Header</p>
+            <p>The slider on the right is epsilon, the <strong>privacy loss budget</strong>. The lower the privacy loss, the greater the privacy protection. Thus, move this to the right to decrease privacy protection. Moving the slider to the right also
+              decreases the amount of noise added to the data.</p>
 
-            <h3>NEW INTRO WRITTEN</h3>
-
-            <h3>LOREM IMPSUM SIT AMET</h3>
+            <h3><strong>Move the sliders and see how different populations and privacy protection affect data accuracy.</strong></h3>
 
             <hr class="uscb-hr-flex uscb-bg-primary" />
 
@@ -89,31 +89,43 @@
               </div>
             </div>
 
-            <div id="sliders" class="uscb-layout-row uscb-layout-align-center uscb-layout-align-vert-center" style="height: 80px;">
+            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-center-center" style="height: 80px; font-family: Lora, sans-serif; background-color:lightgrey;">
+              <div style="width:25px;"></div>
               <img id="Lhouse" src="images/Lpeople.png" width=20px alt="person">
-              <div width=100px></div>
+              <div style="width:20px;"></div>
               <div class="myslider">
                 <input id="slider2" type="range" min="1" max="10" value="50" class="slider">
               </div>
-              <div width=100px></div>
+              <div style="width:20px;"></div>
               <img id="Rhouse" src="images/Rpeople.png" width=60px alt="person">
-            </div>
+              <div style="width:70px;"></div>
 
-            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-space-evenly uscb-layout-align-vert-center" style="height: 50px; font-family: Lora, sans-serif; background-color:lightgreen;">
               <img id="epsilon" src="images/epsilon.png" width=25px alt="epsilon">
+              <div style="width:20px;"></div>
               <div class="myslider" width=200px>
                 <input id="epsilonSlider" type="range" min="1" max="100" value="50" class="slider" width=100%>
               </div>
-              <div id="rollButton" class="uscb-primary-button">PROTECT</div>
+              <div style="width:20px;"></div>
+              <div id="rollButton" class="uscb-cta-button">PROTECT</div>
             </div>
+            <br>
+            <br>
             <h3>Here are a few key observations:</h3>
             <br>
 
-            <h2>Low Epsilon = Low Accuracy</h2>
-            <h3>A lower epsilon value (and thus, a low privacy loss) results in lower accuracy ratings. This is because the more we noise we add to obscure individual data, </h3>
+            <h2>More People = Higher Accuracy</h2>
+            <h3>You'll notice that when there are more people in the apartment, the accuracy is higher than when there are few people. When we add noise, some values get raised, and some get lowered. With only a few people, it is easy to see the changes, but when there are more people, and more values to raise and lower, the noise balances, and the accuracy increases. </h3>
 
-            <h2>Less People = Low Accuracy</h2>
+            <h3>This means that looking at data at the census block level will be "noisier" than when we zoom out, and will get more accurate at the county, state, and national level.</h3>
 
+            <br>
+
+            <h2>Low Epsilon = Lower Accuracy</h2>
+            <h3>A lower epsilon value (and thus, better privacy protection) results in lower accuracy ratings. This is because the more we noise we add to obscure individual data, the farther the reported values get from the true values. </h3>
+
+            <h3>Remember, though, the trend we learned above: accuracy increases with population. The more people in the apartment, the less impact that the noise has on the overall data accuracy. By balancing noise and accuracy, and look</h3>
+
+            <br>
             <h3>To learn more, check out the <a href="section2.html">Noise and Accuracy </a>section in our <a href="index.html">tutorial</a>.</h3>
 
             <br>
