@@ -61,8 +61,9 @@
                 <td id="trueCountF" class="metrics">0</td>
                 <th class="metrics"># Male</th>
                 <td id="trueCountM" class="metrics">0</td>
-                <th class="metrics"></th>
-                <td></td>
+                <th class="metrics" style="background-color: lightblue;">EPSILON:</th>
+                <td class="metrics" id="epsilonTable"> 1
+                </td>
               </tr>
 
               <tr>
@@ -74,7 +75,7 @@
                 <th class="metrics"># Male</th>
                 <td id="reportedCountM" class="metrics" style="background-color: yellow;">0</td>
                 <th class="metrics" style="background-color: lightgreen;">ACCURACY:</th>
-                <td id="accuracy">100%
+                <td class="metrics" id="accuracy">100%
                   <td/>
               </tr>
 
@@ -105,8 +106,15 @@
               </div>
               <div id="rollButton" class="uscb-primary-button">PROTECT</div>
             </div>
-            <p>AFTERWORD</p>
-            <p>Unicode playpen: <span style="font-size: 30pt;">&#x1F64E;&#xFE0F; </span></p>
+            <h3>Here are a few key observations:</h3>
+            <br>
+
+            <h2>Low Epsilon = Low Accuracy</h2>
+            <h3>A lower epsilon value (and thus, a low privacy loss) results in lower accuracy ratings. This is because the more we noise we add to obscure individual data, </h3>
+
+            <h2>Less People = Low Accuracy</h2>
+
+            <h3>To learn more, check out the <a href="section2.html">Noise and Accuracy </a>section in our <a href="index.html">tutorial</a>.</h3>
 
             <br>
             <a class="uscb-primary-link" style="float:right" href="home.html">Privacy Education Home</a>
@@ -121,29 +129,46 @@
     apt_residents = [];
 
     icons = [{
-        'html': '3&#x1F64E;&#xFE0F;',
+        'html': [
+          '👩🏻',
+          '👩🏼',
+          '👩🏽',
+          '👩🏾',
+          '👩🏿'
+        ],
         'men': 0,
         'women': 1,
         'age': 25
       }, //woman
       {
-        'html': '&#x1F46B;',
+        'html': [
+          '👨🏻',
+          '👨🏼',
+          '👨🏽',
+          '👨🏾',
+          '👨🏿'
+        ],
+        'men': 1,
+        'women': 0,
+        'age': 55
+      }, //man
+      {
+        'html': [
+          '&#x1F46B;'
+        ],
         'men': 1,
         'women': 1,
-        'age': 27
+        'age': 33
       }, //man and woman
       {
-        'html': '&#x1F46A;',
+        'html': [
+          '&#x1F46A;'
+        ],
         'men': 2,
         'women': 1,
         'age': 30
       }, //family
-      {
-        'html': '&#x1F481;',
-        'men': 0,
-        'women': 1,
-        'age': 25
-      } //woman2
+
     ]
 
 
@@ -178,13 +203,19 @@
         if (i < people) {
           person = icons[Math.round(Math.random() * 2)];
           apt_residents.push(person);
-          html = person['html'];
+          emojis = person['html'];
+          html = emojis[Math.round(Math.random() * emojis.length)];
+        }
+        if (!(html == undefined)) {
+          html = "<span class='emoji'>" + html + "</span>";
         }
         $('#w' + i).html(html);
       }
       update_values()
     }
 
+    //Updates the metrics at the top given the number of people set by the slider
+    //Is called every time the people slider is touched
     function update_values() {
       //update counts using people dictionary
       metrics = {
@@ -213,38 +244,41 @@
       set_people_count(count);
     }
 
+    //Update metric for epsilon value
+    function epsilon_moves(event) {
+      var epsilon = $('#epsilonSlider').val() / 50;
+      $('#epsilonTable').html(epsilon);
+    }
+
     // given the current model, update the accuracy cell in the view.
+    //Accuracy is caluclated by averaging the fraction difference
+    //the noisy value is away from the true value
     function update_accuracy(model) {
-      trueVals = [];
-      repVals = [];
-      for (i = 0; i < 3; i++) {
-        trueVals[i] = parseInt($('#true' + model.labels[i]).html());
-      }
-      for (i = 0; i < 3; i++) {
-        repVals[i] = parseInt($('#reported' + model.labels[i]).html());
-      }
+      trueVals = model.counts;
+      repVals = model.noisy_counts;
       accuracy = 0
       for (i = 0; i < trueVals.length; i++) {
-        accuracy += Math.abs(trueVals[i] / repVals[i] * 100);
+        accuracy += 1 - Math.abs(repVals[i] - trueVals[i]) / trueVals[i];
       }
+      console.log('accuracy ' + accuracy);
       accuracy /= trueVals.length;
-      $('#accuracy').html('' + Math.round(accuracy * 10) / 10 + "%");
+      accuracy *= 100;
+      console.log('accuracy ' + accuracy);
+      $('#accuracy').html(Math.round(accuracy * 10) / 10 + "%");
     }
 
     // update is called by the engine after a differential privacy operation is done.
     // We update the screen and recalculate the accuracy
     var update = function(model) {
-      console.log("UPDATING with values " + model.noisy_counts);
       var i;
       for (i = 0; i < model.counts.length; i++) {
         $('#reported' + model.labels[i]).html(model.noisy_counts[i]);
       }
-      //update_accuracy(model);
+      update_accuracy(model);
     }
 
     function roll_dp(event) {
       epsilon_slider_value = $('#epsilonSlider').val() / 50;
-      console.log("ROLLING with slider " + epsilon_slider_value);
       // Create the differential privacy object
       model = {
         epsilon: epsilon_slider_value,
@@ -258,7 +292,6 @@
       for (i = 0; i < model.labels.length; i++) {
         model.counts[i] = parseFloat($('#true' + model.labels[i]).html());
       }
-      console.log("true values " + model.counts + " CALLING uscb-primary-ul");
       privatize_histogram(model);
     }
 
@@ -270,6 +303,7 @@
       draw_windows(4);
       $('#slider2').val(0);
       $('#slider2').on('input', slider2_moves);
+      $('#epsilonSlider').on('input', epsilon_moves);
       $('#rollButton').on('click', roll_dp);
     });
   </script>

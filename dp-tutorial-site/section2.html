@@ -66,85 +66,36 @@
           </div>
           <h3>In the last example, we saw how adding noise to data protected the privacy of a family. With noise, we have obscured the family’s data, but now our results are slightly less accurate. Recall that the noise we add is random, many of the residences have small amounts of noise added, and a few have large amounts of noise added.</h3>
 
-          <h3>Here, we simulate how noise changes the reported statistics. Adjust the number of people, and the privacy loss epsilon, to see how the reported statistics are affected. </h3>
           <br><br>
-          <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;">
-            <table width=100%>
-              <tr>
-                <th>True Data: </th>
-                <th class="metrics">Avg. Age</th>
-                <td id="trueAvgAge" class="metrics">0</td>
-                <th class="metrics"># Female</th>
-                <td id="trueCountF" class="metrics">0</td>
-                <th class="metrics"># Male</th>
-                <td id="trueCountM" class="metrics">0</td>
-                <th class="metrics"></th>
-                <td></td>
-              </tr>
+          <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
+      uscb-dark-grey-content-container uscb-layout-align-space-between
+      uscb-wrap">
+            <h3>To visualize how privacy and accuracy are related, and how noise affects data, play with our <a href="apartment.html">interactive simulator</a>.</h3> </div>
 
-              <tr>
-                <th>Reported Data: </th>
-                <th class="metrics">Avg. Age</th>
-                <td id="reportedAvgAge" class="metrics" style="background-color: yellow;">0</td>
-                <th class="metrics"># Female</th>
-                <td id="reportedCountF" class="metrics" style="background-color: yellow;">0</td>
-                <th class="metrics"># Male</th>
-                <td id="reportedCountM" class="metrics" style="background-color: yellow;">0</td>
-                <th class="metrics" style="background-color: lightgreen;">ACCURACY:</th>
-                <td id="accuracy">100%
-                  <td/>
-              </tr>
+          <br><br>
 
+          <h3>Because of the noise, some blocks will overcount statistics with positive noise, and others will undercount them with negative noise. These undercounts and overcounts are easier to spot at small geographic levels like census blocks, since the reported results can vary slightly.</h3>
+          <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+            <img src="images/cblock.png" alt="House" width="550px">
+          </div>
+          <h3>But remember, the Census Bureau collects data on the entire country, counting over <strong>300 million people</strong> in over 11 million census blocks.</h3>
 
-            </table>
-
-            <div id="illustration" class="uscb-layout-column uscb-layout-align-flex-end" style="height: 375px; background-color: lightblue;">
-              <div id="houses" class="uscb-layout-row uscb-layout-align-space-around" style="height: 200px; background-color: lightblue;">
-              </div>
-              <div id="grass" class="uscb-layout-row uscb-layout-align-space-around" style="height: 100px; background-color: lightgreen;">
-              </div>
-            </div>
-
-            <div id="sliders" class="uscb-layout-row uscb-layout-align-center uscb-layout-align-vert-center" style="height: 80px;">
-              <img id="Lhouse" src="images/Lpeople.png" width=20px alt="person">
-              <div width=100px></div>
-              <div class="myslider">
-                <input id="slider2" type="range" min="1" max="10" value="50" class="slider">
-              </div>
-              <div width=100px></div>
-              <img id="Rhouse" src="images/Rpeople.png" width=60px alt="person">
-            </div>
-
-            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-space-evenly uscb-layout-align-vert-center" style="height: 50px; font-family: Lora, sans-serif; background-color:lightgreen;">
-              <img id="epsilon" src="images/epsilon.png" width=25px alt="epsilon">
-              <div class="myslider" width=200px>
-                <input id="epsilonSlider" type="range" min="1" max="100" value="50" class="slider" width=100%>
-              </div>
-              <div id="rollButton" class="uscb-primary-button">PROTECT</div>
-            </div>
-            <br><br>
-            <h3>Because of the noise, some blocks will overcount statistics with positive noise, and others will undercount them with negative noise. These undercounts and overcounts are easier to spot at small geographic levels like census blocks, since the reported results can vary slightly.</h3>
-            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-              <img src="images/cblock.png" alt="House" width="550px">
-            </div>
-            <h3>But remember, the Census Bureau collects data on the entire country, counting over <strong>300 million people</strong> in over 11 million census blocks.</h3>
-
-            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-              <img src="images/city.png" alt="House" width="550px">
-            </div>
-
-
-            <h3>At larger geographic levels like states, often with millions of residents, the undercounts and overcounts balance the noise, and the reported results are not as affected as at the block level. This results in a set of Census 2020 data that is accurate for the needs of data users. </h3>
-            <br>
-
-            <a class="uscb-primary-link" style="float:right" href="section3.html">Next Section</a>
-            <hr class="uscb-light-teal-hr" />
-
+          <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+            <img src="images/city.png" alt="House" width="550px">
           </div>
 
+
+          <h3>At larger geographic levels like states, often with millions of residents, the undercounts and overcounts balance the noise, and the reported results are not as affected as at the block level. This results in a set of Census 2020 data that is accurate for the needs of data users. </h3>
+          <br>
+
+          <a class="uscb-primary-link" style="float:right" href="section3.html">Next Section</a>
+          <hr class="uscb-light-teal-hr" />
+
         </div>
-      </section>
+
     </div>
+    </section>
+  </div>
   </div>
   <script>
     apt_residents = [];
