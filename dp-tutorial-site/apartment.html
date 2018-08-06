@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="index.css" rel="stylesheet">
+  <link href="tutorial.css" rel="stylesheet">
+  <link href="census.css" rel="stylesheet">
   <link href="apartment.css" rel="stylesheet">
   <script src='jquery.min.js'></script>
   <script src='privatize.js'></script>
@@ -24,48 +25,33 @@
       </div>
     </div>
     <div class="uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md">
-      <h1 class="uscb-h2 uscb-color-white">Noise Infusion for Census Data Privacy</h1>
+      <a href="home.html">
+        <h1 class="uscb-h2 uscb-color-white">Disclosure Avoidance</h1>
+      </a>
     </div>
   </header>
 
-  <div class="uscv-layout-row uscb-min-height-100vh uscb-layout-align-center-center">
-    <div class="uscb-flex-row-80 uscb-flex-row-md-100 uscb-padding-3em">
 
-      <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em">
-        <ul role="menu" class="uscb-tabs uscb-layout-row uscb-layout-align-space-between">
-          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="index.html" role="menuitem" class="uscb-tabs-link">Noise in the Census</a>
-          </li>
-          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section2.html" role="menuitem" class="uscb-tabs-link">Noise in a Block</a>
-          </li>
-          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="apartment.html" role="menuitem" class="uscb-tabs-link">Noise and Accuracy</a>
-          </li>
-          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section3.html" role="menuitem" class="uscb-tabs-link">Protecting Data Releases</a>
-          </li>
-          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section4.html" role="menuitem" class="uscb-tabs-link">Protecting Group Quarters</a>
-          </li>
-          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="end.html" role="menuitem" class="uscb-tabs-link">Data Privacy in 2020</a>
-          </li>
+  <div class="uscv-layout-row uscb-min-height-100vh uscb-layout-align-center-center uscb-layout-align-vert-center">
 
-        </ul>
-      </div>
 
+    <div class="uscb-flex-row-70 uscb-flex-row-md-100 uscb-padding-3em">
       <section>
         <div style="margin-top: 1em; margin-bottom:1em;">
           <div class="uscb-layout-row uscb-layout-align-space-between" style="background-color: rgb(17,46,81); color: rgb(255,255,255);
                                                                                 padding: 1em;">
-            <p class="uscb-title-1 uscb-margin-TB-02"> Simulator</p>
+            <p class="uscb-title-1 uscb-margin-TB-02">Privacy Simulator</p>
           </div>
-          <h3>In the last example, we saw how adding noise to data protected the privacy of a family. With noise, we have obscured the family’s data, but now our results are slightly less accurate. Recall that the noise we add is random, many of the residences have small amounts of noise added, and a few have large amounts of noise added.</h3>
-
-          <h3>Here, we simulate how noise changes the reported statistics. Adjust the number of people, and the privacy loss epsilon, to see how the reported statistics are affected. </h3>
-
           <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;">
+
+            <p class="uscb-title-2 uscb-margin-BTM-8px uscb-color-primary">Testing Header</p>
+
+            <h3>NEW INTRO WRITTEN</h3>
+
+            <h3>LOREM IMPSUM SIT AMET</h3>
+
+            <hr class="uscb-hr-flex uscb-bg-primary" />
+
             <table width=100%>
               <tr>
                 <th>True Data: </th>
@@ -119,19 +105,12 @@
               </div>
               <div id="rollButton" class="uscb-primary-button">PROTECT</div>
             </div>
-            <h3>Because of the noise, some blocks will overcount statistics with positive noise, and others will undercount them with negative noise. These undercounts and overcounts are easier to spot at small geographic levels like census blocks, since the reported results can vary slightly.</h3>
-            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-              <img src="images/cblock.png" alt="House" width="550px">
-            </div>
-            <h3>But remember, the Census Bureau collects data on the entire country, counting over <strong>300 million people</strong> in over 11 million census blocks.</h3>
+            <p>AFTERWORD</p>
+            <p>Unicode playpen: <span style="font-size: 30pt;">&#x1F64E;&#xFE0F; </span></p>
 
-            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-              <img src="images/city.png" alt="House" width="550px">
-            </div>
-
-
-            <h3>At larger geographic levels like states, often with millions of residents, the undercounts and overcounts balance the noise, and the reported results are not as affected as at the block level. This results in a set of Census 2020 data that is accurate for the needs of data users. </h3>
-
+            <br>
+            <a class="uscb-primary-link" style="float:right" href="home.html">Privacy Education Home</a>
+            <hr class="uscb-light-teal-hr" />
           </div>
 
         </div>
@@ -142,7 +121,7 @@
     apt_residents = [];
 
     icons = [{
-        'html': '&#x1F64E;&#xFE0F;',
+        'html': '3&#x1F64E;&#xFE0F;',
         'men': 0,
         'women': 1,
         'age': 25
@@ -234,6 +213,7 @@
       set_people_count(count);
     }
 
+    // given the current model, update the accuracy cell in the view.
     function update_accuracy(model) {
       trueVals = [];
       repVals = [];
@@ -251,17 +231,20 @@
       $('#accuracy').html('' + Math.round(accuracy * 10) / 10 + "%");
     }
 
+    // update is called by the engine after a differential privacy operation is done.
+    // We update the screen and recalculate the accuracy
     var update = function(model) {
-      console.log("UPDATING");
+      console.log("UPDATING with values " + model.noisy_counts);
       var i;
       for (i = 0; i < model.counts.length; i++) {
         $('#reported' + model.labels[i]).html(model.noisy_counts[i]);
       }
+      //update_accuracy(model);
     }
 
     function roll_dp(event) {
-      console.log("ROLLING");
-      epsilon_slider_value = $('#epsilonSlider').html();
+      epsilon_slider_value = $('#epsilonSlider').val() / 50;
+      console.log("ROLLING with slider " + epsilon_slider_value);
       // Create the differential privacy object
       model = {
         epsilon: epsilon_slider_value,
@@ -273,11 +256,10 @@
       // Now get the counts from the HTML form
       var i;
       for (i = 0; i < model.labels.length; i++) {
-        model.counts[i] = parseInt($('#true' + model.labels[i]).html());
+        model.counts[i] = parseFloat($('#true' + model.labels[i]).html());
       }
-      console.log("CALLING PRIVATIZE");
+      console.log("true values " + model.counts + " CALLING uscb-primary-ul");
       privatize_histogram(model);
-      update_accuracy(model);
     }
 
     // All wrapped inside the document.ready() function so that it runs when the document is completely loaded

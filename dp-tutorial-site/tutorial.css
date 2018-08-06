@@ -1,0 +1,16 @@
+h3 {
+  line-height: 1.5;
+}
+
+.tutorial-ul {
+  list-style-position: inside;
+}
+
+.tutorial-ul li {
+  font-size: 1.25rem;
+  letter-spacing: 0;
+  line-height: 25px;
+  font-family: "Roboto", sans-serif;
+  list-style-type: disc !important;
+  color: #112e51;
+}

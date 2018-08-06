@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="index.css" rel="stylesheet">
+  <link href="census.css" rel="stylesheet">
+  <link href="tutorial.css" rel="stylesheet">
   <link href="apartment.css" rel="stylesheet">
   <script src='jquery.min.js'></script>
   <script src='privatize.js'></script>
@@ -24,7 +25,9 @@
       </div>
     </div>
     <div class="uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md">
-      <h1 class="uscb-h2 uscb-color-white">Noise Infusion for Census Data Privacy</h1>
+      <a href="home.html">
+        <h1 class="uscb-h2 uscb-color-white">Disclosure Avoidance</h1>
+      </a>
     </div>
   </header>
 
@@ -37,10 +40,10 @@
             <a href="index.html" role="menuitem" class="uscb-tabs-link">Noise in the Census</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="section2.html" role="menuitem" class="uscb-tabs-link">Noise in a Block</a>
+            <a href="section1.html" role="menuitem" class="uscb-tabs-link">Noise in a Block</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-            <a href="apartment.html" role="menuitem" class="uscb-tabs-link">Noise and Accuracy</a>
+            <a href="section2.html" role="menuitem" class="uscb-tabs-link">Noise and Accuracy</a>
           </li>
           <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
             <a href="section3.html" role="menuitem" class="uscb-tabs-link">Protecting Data Releases</a>
@@ -59,171 +62,58 @@
         <div style="margin-top: 1em; margin-bottom:1em;">
           <div class="uscb-layout-row uscb-layout-align-space-between" style="background-color: rgb(17,46,81); color: rgb(255,255,255);
         padding: 1em;">
-            <p class="uscb-title-1 uscb-margin-TB-02"> Simulator</p>
+            <p class="uscb-title-1 uscb-margin-TB-02">Noise in a Block</p>
           </div>
           <div class="   " style="box-shadow: black 0px 8px 6px -6px; border:
         1px solid rgb(238, 238, 238); padding: 1em">
-
-            <div id="reportedMetrics" class="uscb-layout-row
-            uscb-layout-align-space-around uscb-layout-align-vert-flex-start" style="height: 50px; font-family: Lora, sans-serif; background-color:pink;">
-              <h3>Reported Data: </h3>
-              <div class="metrics">Avg. Age</div>
-              <div id="reportedAvgAge" class="metrics" style="background-color: yellow;">35</div>
-              <div class="metrics"># Female</div>
-              <div id="reportedCountF" class="metrics" style="background-color: yellow;">4</div>
-              <div class="metrics"># Male</div>
-              <div id="reportedCountM" class="metrics" style="background-color: yellow;">4</div>
-              <div class="metrics" style="background-color: lightgreen;">ACCURACY: 78%</div>
+            <h3>This is a Census Block.</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/house.png" alt="House" width="450px">
             </div>
-            <div id="trueMetrics" class="uscb-layout-row
-            uscb-layout-align-space-around uscb-layout-align-vert-flex-start" style="height: 50px; font-family: Lora, sans-serif; background-color:lightblue;">
-              <h3>True Data: </h3>
-              <div class="metrics">Avg. Age</div>
-              <div id="trueAvgAge" class="metrics" style="background-color: yellow;">35</div>
-              <div class="metrics"># Female</div>
-              <div id="trueCountF" class="metrics" style="background-color: yellow;">4</div>
-              <div class="metrics"># Male</div>
-              <div id="trueCountM" class="metrics" style="background-color: yellow;">4</div>
-              <div class="metrics" style="background-color: lightgreen;">ACCURACY: 78%</div>
+            <h3> We report census data grouped by these areas, called blocks. Blocks can be empty, have a single house, or can have hundreds of residents, and are typically divided by geographic features like roads or creeks.
+            </h3>
+
+            <h3> This block is home to a family of four, and this is what their data look like:</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/chart1.png" alt="House" width="350px">
             </div>
-            <div id="graphics" class="uscb-layout-column uscb-layout-align-center" style="height: 315px; background-color: lightblue;">
-              <div class="uscb-layout-row
-              uscb-layout-align-space-around" style="height: 50px; background-color: lightgrey;">
-                <div id="roof1" class="roof">
-                </div>
-                <div id="roof2" class="roof">
-                </div>
-                <div id="roof3" class="roof">
-                </div>
-                <div id="roof4" class="roof">
-                </div>
-                <div id="roof5" class="roof">
-                </div>
-              </div>
-              <div id="housing" class="uscb-layout-row
-              uscb-layout-align-space-around" style="height: 86px; background-color: lightpink;">
-                <div id="house1" class="house">
-                  <div id="w1a" class="window"></div>
-                  <div id="w1b" class="window"></div>
-                  <div id="w1c" class="window"></div>
-                  <div id="w1d" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w1e" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w1f" class="window" style="left:30px; top:-60px"></div>
-                </div>
-                <div id="house2" class="house">
-                  <div id="w2a" class="window"></div>
-                  <div id="w2b" class="window"></div>
-                  <div id="w2c" class="window"></div>
-                  <div id="w2d" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w2e" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w2f" class="window" style="left:30px; top:-60px"></div>
-                </div>
-                <div id="house3" class="house">
-                  <div id="w3a" class="window"></div>
-                  <div id="w3b" class="window"></div>
-                  <div id="w3c" class="window"></div>
-                  <div id="w3d" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w3e" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w3f" class="window" style="left:30px; top:-60px"></div>
-                </div>
-                <div id="house4" class="house">
-                  <div id="w4a" class="window"></div>
-                  <div id="w4b" class="window"></div>
-                  <div id="w4c" class="window"></div>
-                  <div id="w4d" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w4e" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w4f" class="window" style="left:30px; top:-60px"></div>
-                </div>
-                <div id="house5" class="house">
-                  <div id="w5a" class="window"></div>
-                  <div id="w5b" class="window"></div>
-                  <div id="w5c" class="window"></div>
-                  <div id="w5d" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w5e" class="window" style="left:30px; top:-60px"></div>
-                  <div id="w5f" class="window" style="left:30px; top:-60px"></div>
-                </div>
-              </div>
-
-              <div id="driveways" class="uscb-layout-row
-              uscb-layout-align-space-around" style="height: 80px; background-color: lightgreen;">
-                <div id="drive1" class="driveway">
-                  <img id="p1a" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p1b" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p1c" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p1d" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p1e" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p1f" src="images/person.png" width=37px align="right" alt="person">
-                </div>
-                <div id="drive2 " class="driveway ">
-                  <img id="p2a" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p2b" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p2c" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p2d" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p2e" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p2f" src="images/person.png" width=37px align="right" alt="person">
-                </div>
-                <div id="drive3 " class="driveway ">
-                  <img id="p3a" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p3b" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p3c" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p3d" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p3e" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p3f" src="images/person.png" width=37px align="right" alt="person">
-                </div>
-                <div id="drive4 " class="driveway ">
-                  <img id="p4a" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p4b" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p4c" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p4d" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p4e" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p4f" src="images/person.png" width=37px align="right" alt="person">
-                </div>
-                <div id="drive5 " class="driveway ">
-                  <img id="p5a" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p5b" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p5c" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p5d" src="images/person.png" width=37px align="right" alt="person">
-                  <img id="p5e" src="images/person.png" width=37px align="left" alt="person">
-                  <img id="p5f" src="images/person.png" width=37px align="right" alt="person">
-                </div>
-
-              </div>
+            <h3> The first thing we do is remove the names and other identifying information from the data:</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/chart2.png" alt="House" width="350px">
             </div>
-
-            <div id="sliders" class="uscb-layout-row uscb-layout-align-space-around uscb-layout-align-vert-center" style="height: 80px;">
-              <img id="Lhouse" src="images/Lhouse.png" width=37px alt="person">
-              <div class="myslider">
-                <input id="slider1" type="range" min="1" max="100" value="50" class="slider">
-              </div>
-              <img id="Rhouse" src="images/Rhouse.png" width=60px alt="person">
-              <div width=50px></div>
-              <img id="Lhouse" src="images/Lpeople.png" width=20px alt="person">
-              <div class="myslider">
-                <input id="slider1" type="range" min="1" max="100" value="50" class="slider">
-              </div>
-              <img id="Rhouse" src="images/Rpeople.png" width=60px alt="person">
-              <div width=50px></div>
-              <img id="Lhouse" src="images/Lgender.png" width=25px alt="person">
-              <div class="myslider">
-                <input id="slider1" type="range" min="1" max="100" value="50" class="slider">
-              </div>
-              <img id="Rhouse" src="images/Rgender.png" width=25px alt="person">
-              <div width=50px></div>
+            <h3>This may seem like enough to protect this family’s data, but what if someone knows this family’s address? Just from the information above, one can easily identify a mother and father, and their son and daughter, putting the family at risk.</h3>
+            <h3>To truly protect the privacy of this family, we must do more. We want to provide accurate data while protecting Americans from having their data identified. We do this by making small, random changes to the data before we publish our reports. </h3>
+            <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
+        uscb-dark-grey-content-container uscb-layout-align-space-between
+        uscb-wrap">
+              <h3>This is called adding <strong>noise</strong> to the data.</h3>
             </div>
-
-            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-space-evenly uscb-layout-align-vert-center" style="height: 50px; font-family: Lora, sans-serif; background-color:orange;">
-              <img id="epsilon" src="images/epsilon.png" width=25px alt="epsilon">
-              <div class="myslider" width=200px>
-                <input id="epsilonSlider" type="range" min="1" max="100" value="50" class="slider" width=100%>
-              </div>
-              <div class="uscb-primary-button">PROTECT</div>
+            <h3>For example, let’s add random noise to this family’s data. Now the data look like this:</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/chart6.png" alt="House" width="550px">
             </div>
+            <h3>Let us compare the aggregate data we might report for the original and noisy data.</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/chart5.png" alt="House" width="550px">
+            </div>
+            <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
+        uscb-dark-grey-content-container uscb-layout-align-space-between
+        uscb-wrap">
+              <h3>Adding noise to the data creates <strong>uncertainty</strong>.</h3>
+            </div>
+            <h3>Say a person was looking at the data for this census block, and knew that only one family lived there. Knowing that noise has changed some of the data, they will not know from our data whether the family has 0, 1, 2, 3, or even 4 female members. This uncertainty about which numbers are exact and which have been adjusted protects families from having their data identified. </h3>
+            <h3>Looking at the raw data, the average age has remained the same, but the Female Count and Male Count have both changed. In the next section, we explore this relationship between privacy and data accuracy.</h3>
+            <h3>It is important to note that though some statistics are adjusted with noise, the total number of people counted will not change. Adding noise does not create imaginary people, it simply adjusts existing data values to protect the data of individuals.</h3>
+            <br>
 
+            <a class="uscb-primary-link" style="float:right" href="section2.html">Next Section</a>
+            <hr class="uscb-light-teal-hr" />
 
+          </div>
       </section>
       </div>
 
-      </div>
+    </div>
 
 
 
