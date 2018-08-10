@@ -25,9 +25,7 @@
       </div>
     </div>
     <div class="uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md">
-      <a href="home.html">
-        <h1 class="uscb-h2 uscb-color-white">Disclosure Avoidance</h1>
-      </a>
+      <h1 class="uscb-h2 uscb-color-white"><a href="index.html">Disclosure Avoidance</a></h1>
     </div>
   </header>
 
@@ -128,10 +126,10 @@
             <h3>Remember, though, the trend we learned above: accuracy increases with population. The more people in the apartment, the less impact that the noise has on the overall data accuracy. By balancing noise and accuracy, and look</h3>
 
             <br>
-            <h3>To learn more, check out the <a href="section2.html">Noise and Accuracy </a>section in our <a href="index.html">tutorial</a>.</h3>
+            <h3>To learn more, check out the <a href="section2.html">Noise and Accuracy </a>section in our <a href="intro.html">tutorial</a>.</h3>
 
             <br>
-            <a class="uscb-primary-link" style="float:right" href="home.html">Privacy Education Home</a>
+            <a class="uscb-primary-link" style="float:right" href="index.html">Privacy Education Home</a>
             <hr class="uscb-light-teal-hr" />
           </div>
 
@@ -261,6 +259,7 @@
     //Update metric for epsilon value
     function epsilon_moves(event) {
       var epsilon = $('#epsilonSlider').val() / 50;
+      if (epsilon<.05) epsilon=.05;
       $('#epsilonTable').html(epsilon);
     }
 
