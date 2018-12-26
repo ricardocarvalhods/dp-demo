@@ -85,3 +85,4 @@ target/
 var/
 venv/
 wheels/
+.DS_Store
