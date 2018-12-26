@@ -74,15 +74,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             <p class="uscb-title-1 uscb-margin-TB-02">Privacy Simulator</p>
           </div>
           <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;">
-            <p>This is a simulation of how differential privacy can be used to report the average age and sex distribution of the residents of a fictional apartment building.</p>
+            <p>This is a simulation of how differential privacy can be used to report the average age and sex distribution of a fictional apartment building.</p>
 
-            <p>The orange square below represents a fictional apartment
-            building with 16 units.</p>
+            <p>The orange square below represents the apartment
+            building. It has 16 units.</p>
 
             <p>The slider on the left lets you control the number of
             occupied units. <strong>Move
             it right</strong> to increase the number of people in the
-            building. Occupants in each unit are randomly assigned. </p> 
+            building. Occupants in each unit are assigned randomly. </p> 
 
             <p>The slider on the right controls epsilon, the privacy
               loss budget. <strong>Move it right</strong> to increase
@@ -127,18 +127,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
               </div>
             </div>
 
-            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-center-center" style="height: 80px; font-family: Lora, sans-serif; background-color:lightgrey;">
+            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-center-center" 
+                 style="height: 80px; font-family: Lora, sans-serif; background-color:lightgrey;">
               <div style="width:25px;"></div>
-              <img id="Lhouse" src="images/person.png" width=40px alt="person">
-              <div style="width:20px;"></div>
+              <img id="Lhouse" src="images/person.png" width='25px' alt="person">
+              <div style="width:10px;"></div>
               <div class="myslider">
-                <input id="slider2" type="range" min="1" max="10" value="50" class="slider">
+                <input id="popSlider" type="range" min="1" max="10" value="50" class="slider">
               </div>
               <div style="width:20px;"></div>
-              <img id="Rhouse" src="images/person.png" width='40px' alt="person">
-              <img id="Rhouse" src="images/person.png" width='40px' alt="person">
-              <img id="Rhouse" src="images/person.png" width='40px' alt="person">
-              <div style="width:70px;"></div>
+              <img id="Rhouse" src="images/person.png" width='25px' alt="person">
+              <img id="Rhouse" src="images/person.png" width='25px' alt="person">
+              <img id="Rhouse" src="images/person.png" width='25px' alt="person">
+              <div style="width:20px;"></div>
 
               <img id="epsilon" src="images/epsilon.png" width=25px alt="epsilon">
               <div style="width:20px;"></div>
@@ -146,7 +147,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 <input id="epsilonSlider" type="range" min="1" max="100" value="50" class="slider" width=100%>
               </div>
               <div style="width:20px;"></div>
-              <div id="rollButton" class="uscb-cta-button" width=20px>Report</div>
+              <div id="rollButton" class="uscb-cta-button" width=30px>Report</div>
             </div>
             <br>
             <br>

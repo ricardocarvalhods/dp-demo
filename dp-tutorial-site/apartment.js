@@ -156,9 +156,9 @@ function roll_dp(event) {
 }
 
 // Set the number of people the apartment
-function slider2_moves(event) {
-    var slider2 = $('#slider2').val();
-    count = slider2;
+function popSlider_moves(event) {
+    var popSlider = $('#popSlider').val();
+    count = popSlider;
     set_people_count(count);
     blank_reported_results();
 }
@@ -178,8 +178,8 @@ $(document).ready(function() {
     draw_houses(1);
     draw_windows(4);
     blank_reported_results();
-    $('#slider2').val(0);
-    $('#slider2').on('input', slider2_moves);
+    $('#popSlider').val(0);
+    $('#popSlider').on('input', popSlider_moves);
     $('#epsilonSlider').on('input', epsilon_moves);
     $('#rollButton').on('click', roll_dp);
 });
