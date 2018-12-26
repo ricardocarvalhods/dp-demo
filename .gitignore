@@ -101,3 +101,7 @@ ENV/
 .mypy_cache/
 *~
 Thumbs.db
+*T13*
+*T26*
+*.pyc
+*.old

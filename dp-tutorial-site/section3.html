@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="tutorial.css" rel="stylesheet">
+  <link href="census.css" rel="stylesheet">
+  <link href="apartment.css" rel="stylesheet">
+  <script src='jquery.min.js'></script>
+  <script src='privatize.js'></script>
+</head>
+
+<body>
+  <header class="uscb-layout-row uscb-header-container">
+    <div class="uscb-flex-row-20 uscb-flex-row-md-100
+                  uscb-layout-align-center-center uscb-layout-align-md-start-center">
+      <div class="uscb-menu-icon-container uscb-hide-gt-md
+                    uscb-flex-row-md-20"></div>
+      <div class="uscb-flex-row-md-80">
+        <a href="https://www.census.gov">
+            <img class="uscb-nav-image" src="images/census.svg">
+          </a>
+      </div>
+    </div>
+    <div class="uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md">
+      <a href="home.html">
+        <h1 class="uscb-h2 uscb-color-white">Disclosure Avoidance</h1>
+      </a>
+    </div>
+  </header>
+
+  <div class="uscv-layout-row uscb-min-height-100vh uscb-layout-align-center-center">
+    <div class="uscb-flex-row-80 uscb-flex-row-md-100 uscb-padding-3em">
+
+      <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em">
+        <ul role="menu" class="uscb-tabs uscb-layout-row uscb-layout-align-space-between">
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="index.html" role="menuitem" class="uscb-tabs-link">Noise in the Census</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="section1.html" role="menuitem" class="uscb-tabs-link">Noise in a Block</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="section2.html" role="menuitem" class="uscb-tabs-link">Noise and Accuracy</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="section3.html" role="menuitem" class="uscb-tabs-link">Protecting Data Releases</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="section4.html" role="menuitem" class="uscb-tabs-link">Protecting Group Quarters</a>
+          </li>
+          <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
+            <a href="end.html" role="menuitem" class="uscb-tabs-link">Data Privacy in 2020</a>
+          </li>
+
+        </ul>
+      </div>
+
+      <section>
+        <div style="margin-top: 1em; margin-bottom:1em;">
+          <div class="uscb-layout-row uscb-layout-align-space-between" style="background-color: rgb(17,46,81); color: rgb(255,255,255);
+        padding: 1em;">
+            <p class="uscb-title-1 uscb-margin-TB-02">Protecting Data Releases</p>
+          </div>
+          <div class="   " style="box-shadow: black 0px 8px 6px -6px; border:
+        1px solid rgb(238, 238, 238); padding: 1em">
+            <h3> Another risk to privacy comes in the data analysis stage. After we collect the census data form around the country, we perform calculations to <strong>turn the raw data into reportable data</strong>.</h3>
+
+            <h3> These calculations are called <strong>queries</strong>. We count totals using count queries, like with sex, and average values like age with averaging queries. </h3>
+            <h3>Below are the reported data for an apartment building, without noise added. To discover the privacy risk, let’s work backwards from this reported data to see if we can learn things about the individual residents of this apartment.</h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
+              <img src="images/sec3a.png" alt="House" width="250px">
+            </div>
+            <h3>With just these queries, it is hard to guess which people might live here. It could be 7 people who are all 41 years old, or perhaps several seniors and several young adults.</h3>
+            <h3>But what happens when we add more queries to the reported data?</h3>
+            <div class="uscb-layout-row uscb-layout-align-center uscb-padding-TB-30">
+              <img src="images/sec3b.png" alt="House" height="250px">
+            </div>
+            <h3>With additional queries released in the reported data, it is possible to learn more about the raw data. Someone looking at the reported data knows the following:</h3>
+
+            <div class="uscb-layout-column uscb-layout-align-center-center">
+              <ul class="tutorial-ul">
+                <li>The average male age is higher than the average age</li>
+                <li>There are only 3 men in the apartment</li>
+              </ul>
+            </div>
+
+            <h3>These make it likely that there are one or two senior men in this apartment. Releasing more queries from the same unprotected data makes it easier to identify individual people in that data.</h3>
+            <h3>Now, let’s look at reported data that has had noise added to it, and see if we can still identify people from the raw data. </h3>
+            <div class="uscb-layout-row uscb-layout-align-center-center">
+              <img src="images/sec3c.png" alt="House" width="250px">
+            </div>
+
+            <h3>Using the same process as before, we might guess the following about the apartment:</h3>
+
+            <ul class="tutorial-ul">
+              <li>The average male age is higher than the average age</li>
+              <li>There are only 2 women in the apartment</li>
+            </ul>
+
+            <h3>However, these guesses are <strong>not necessarily true</strong>. Remember that the reported data here have an unknown amount of noise added to them.</h3>
+
+            <h3>If the data have a small amount of noise, we might guess that there are one or more young women in this apartment. But if the data have a high amount of noise, perhaps the female count is actually much higher and the average male age is much lower. This would completely change our guesses about the raw data.</h3>
+
+            <h3>Without knowledge of how much noise has been introduced to a residence, <strong>people are unable to make accurate guesses about the raw data</strong>, protecting the individuals in the residence. </h3>
+
+            <br>
+            <a class="uscb-primary-link" style="float:right" href="section4.html">Next Section</a>
+            <hr class="uscb-light-teal-hr" />
+
+          </div>
+      </section>
+      </div>
+
+    </div>
+
+
+
+</body>
+
+</html>
