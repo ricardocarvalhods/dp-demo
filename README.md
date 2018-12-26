@@ -40,14 +40,8 @@ The DP engine implements a simple privitized histogram. That is, it is given an 
   * noises:array --- The noise that was added to each slot in the array.  
   * noisy_counts:array --- A new array, with the final values.  Note that the post-processing optimizer may prevent counts + noise from equalling noisy_counts
 
-
-
-
-
-
 ## DP Experiments
 For advanced users, it is useful to see how multiple runs on the DP engine result in different values, but that those values produce a distribution. The simulator does this by running multiple runs of the DP engine and presenting the results as a table and a graph.
-
 
 # Development Notes
 
