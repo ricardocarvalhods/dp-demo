@@ -72,7 +72,7 @@
 
           <br><br>
 
-          <h3>Because of the noise, some blocks will overcount statistics with positive noise, and others will undercount them with negative noise. These undercounts and overcounts are easier to spot at small geographic levels like census blocks, since the reported results can vary slightly.</h3>
+          <h3>Because of the noise, some blocks will overcount statistics with positive noise, and others will undercount them with negative noise. These undercounts and overcounts are easier to spot at small geographic levels like census blocks, since the published results can vary slightly.</h3>
           <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
             <img src="images/cblock.png" alt="House" width="550px">
           </div>
@@ -83,7 +83,7 @@
           </div>
 
 
-          <h3>At larger geographic levels like states, often with millions of residents, the undercounts and overcounts balance the noise, and the reported results are not as affected as at the block level. This results in a set of Census 2020 data that is accurate for the needs of data users. </h3>
+          <h3>At larger geographic levels like states, often with millions of residents, the undercounts and overcounts balance the noise, and the published results are not as affected as at the block level. This results in a set of Census 2020 data that is accurate for the needs of data users. </h3>
           <br>
 
           <a class="uscb-primary-link" style="float:right" href="section3.html">Next Section</a>
@@ -199,7 +199,7 @@
         trueVals[i] = parseInt($('#true' + model.labels[i]).html());
       }
       for (i = 0; i < 3; i++) {
-        repVals[i] = parseInt($('#reported' + model.labels[i]).html());
+        repVals[i] = parseInt($('#published' + model.labels[i]).html());
       }
       accuracy = 0
       for (i = 0; i < trueVals.length; i++) {
@@ -215,7 +215,7 @@
       console.log("UPDATING");
       var i;
       for (i = 0; i < model.counts.length; i++) {
-        $('#reported' + model.labels[i]).html(model.noisy_counts[i]);
+        $('#published' + model.labels[i]).html(model.noisy_counts[i]);
       }
       //update_accuracy(model);
     }

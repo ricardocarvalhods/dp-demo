@@ -1,29 +1,61 @@
-apt_residents = [];
+// Authors: Sarah Powazek, Summer 2018, 
+//          Simson Garfinkel, Summer 2018-Dec. 2018
+// 
+// This code is the result of a joint research between the Massachusetts
+// Institute of Technology and the US Census Bureau. 
+// 
+// Copyright 2018 Sarah Powazek
+// 
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// 'Software'), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be 
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// 
+// we apologize for the gender binary assumption
 
-icons = [
+var MIN_EPSILON=0.05;
+var EPSILON_SLIDER_MAX=5;
+var EPSILON_SLIDER_MAX_HTML=100;      // maximum value specified in the HTML
+var apt_residents = [];               // global variable for who is living in the apartment building. Each is a random take from icons below.
+var ADULT_AGE=18;
+var icons = [
     {//woman
         'html': [ '👩🏻', '👩🏼', '👩🏽', '👩🏾', '👩🏿' ],
         'men': 0,
         'women': 1,
-        'age': 25
+        'ages': [25]
     }, 
     {//man
         'html': [ '👨🏻', '👨🏼', '👨🏽', '👨🏾', '👨🏿' ],
         'men': 1,
         'women': 0,
-        'age': 55
+        'ages': [55]
     }, 
     {//man and woman
         'html': [ '&#x1F46B;' ],
         'men': 1,
         'women': 1,
-        'age': 33
+        'ages': [30,40]
     }, 
     {//family
         'html': [ '&#x1F46A;' ],
         'men': 2,
         'women': 1,
-        'age': 30
+        'ages': [25,30,5]
     }, 
 ]
 
@@ -59,117 +91,139 @@ function draw_windows(count) {
     }
 }
 
-function set_people_count(count) {
-    apt_residents = []
-    people = Math.round(count / 10 * 16); //fraction of the slider * window number
-    for (i = 0; i < 16; i++) {
-        html = '';
-        if (i < people) {
-            person = getArrayRandomElement(icons)
-            apt_residents.push(person);
-            emojis = person['html'];
-            html   = getArrayRandomElement(emojis)
-        }
-        if (!(html == undefined)) {
-            html = "<span class='emoji'>" + html + "</span>";
-        }
-        $('#w' + i).html(html);
-    }
-    update_values()
-}
-
 //Updates the metrics at the top given the number of people set by the slider
 //Is called every time the people slider is touched
-function update_values() {
+function compute_confidential_values() {
     //update counts using people dictionary
     metrics = {
         'men': 0,
         'women': 0,
-        'age': 0
+        'adults': 0,
+        'children': 0,
+        'total_age': 0,
+        'total_population': 0
     };
-    for (i = 0; i < apt_residents.length; i++) {
+    for (var i = 0; i < apt_residents.length; i++) {
         elem = apt_residents[i];
-        metrics['men'] += elem['men'];
-        metrics['age'] += elem['age'];
+        metrics['men']   += elem['men'];
         metrics['women'] += elem['women'];
+        metrics['total_population'] += elem['men'] + elem['women']; 
+        var ages=elem['ages'];
+        for (var j=0; j < ages.length; j++){
+            metrics['total_age'] += ages[j];
+            if (ages[j] >= ADULT_AGE){
+                metrics['adults'] += 1;
+            } else {
+                metrics['children'] += 1;
+            }
+        }
     }
-    metrics['age'] /= apt_residents.length;
-    metrics['age'] = Math.round(metrics['age'] * 10) / 10;
-    //update html elements
-    $('#trueAvgAge').html('' + metrics['age']);
-    $('#trueCountF').html('' + metrics['women']);
-    $('#trueCountM').html('' + metrics['men']);
+    if (metrics['total_population']>0) {
+        metrics['average_age'] = metrics['total_age'] / metrics['total_population'];
+        $('#confidentialAvgAge').html('' + metrics['average_age'].toPrecision(4));
+    } else {
+        $('#confidentialAvgAge').html('n/a');
+    }
+
+    //update the other html elements
+    $('#confidentialAdults').text('' + metrics['adults']);
+    $('#confidentialTotalPopulation').text('' + metrics['total_population']);
+    $('#confidentialCountF').text('' + metrics['women']);
+    $('#confidentialCountM').text('' + metrics['men']);
+    return metrics;
 }
+
+// Given count occupied units, give each one a random occupant, and then update the confidential values
+function set_occupied_units_count(count) {
+    apt_residents = []
+    for (i = 0; i < 16; i++) {
+        if (i < count) {
+            person = getArrayRandomElement(icons)
+            apt_residents.push(person);
+            emojis = person['html'];
+            html   = getArrayRandomElement(emojis)
+            if (typeof html != 'undefined') {
+                html = "<span class='emoji'>" + html + "</span>";
+            }
+        } else {
+            html = '';
+        }
+        $('#w' + i).html(html);
+    }
+    compute_confidential_values()
+}
+
+
 
 // given the current model, update the accuracy cell in the view.
 //Accuracy is caluclated by averaging the fraction difference
-//the noisy value is away from the true value
+//the noisy value is away from the confidential value
 function update_accuracy(model) {
-    trueVals = model.counts;
-    repVals = model.noisy_counts;
+    confidentialVals = model.counts;
+
+    repVals  = model.noisy_counts;
     accuracy = 0
-    for (i = 0; i < trueVals.length; i++) {
-        accuracy += 1 - Math.abs(repVals[i] - trueVals[i]) / trueVals[i];
+    for (i = 0; i < confidentialVals.length; i++) {
+        if (confidentialVals[i]==0){
+            $('#accuracy').html('n/a');
+            return;
+        }
+        accuracy += 1 - Math.abs(repVals[i] - confidentialVals[i]) / confidentialVals[i];
     }
-    console.log('accuracy ' + accuracy);
-    accuracy /= trueVals.length;
+
+    if (confidentialVals.length<1){
+        $('#accuracy').html('n/a');
+        return;
+    }
+    accuracy /= confidentialVals.length;
     accuracy *= 100;
-    console.log('accuracy ' + accuracy);
-    $('#accuracy').html(Math.round(accuracy * 10) / 10 + "%");
+    $('#accuracy').html( accuracy.toPrecision(4) + "%");
 }
 
 
 // update is called by the engine after a differential privacy operation is done.
 // We update the screen and recalculate the accuracy
+// For some reason, it only works if we bind the nameless function to a defined variable.
 var update = function(model) {
-    var i;
-    for (i = 0; i < model.counts.length; i++) {
-        $('#reported' + model.labels[i]).html(model.noisy_counts[i]);
-    }
-    update_accuracy(model);
+    adults   = model.noisy_counts[0];
+    children = model.noisy_counts[1];
+    console.log("adults=",adults,"children=",children);
+    $('#publishedTotalPopulation').text('' + (adults+children));
+    $('#publishedAdults').text('' + adults);
 }
-
-function blank_reported_results() {
-    console.log('blank');
-    $('.reported').html('');
-    $('#reportedAvgAge').html('');
-    $('#reportedCountF').html('');
-    $('#reportedCountM').html('');
-}
-
 
 function roll_dp(event) {
-    epsilon_slider_value = $('#epsilonSlider').val() / 50;
+    epsilon_slider_value = $('#epsilonSlider').val() * EPSILON_SLIDER_MAX / EPSILON_SLIDER_MAX_HTML;
     // Create the differential privacy object
+    metrics = compute_confidential_values();
     model = {
         epsilon: epsilon_slider_value,
         callback: update,
-        counts: [],
-        labels: ['CountM', 'CountF', 'AvgAge'],
-        invariant_counts: 1
+        counts: [ metrics['adults'], metrics['children'] ],
+        invariant_counts: 0
     };
-    // Now get the counts from the HTML form
-    var i;
-    for (i = 0; i < model.labels.length; i++) {
-        model.counts[i] = parseFloat($('#true' + model.labels[i]).html());
-    }
     privatize_histogram(model);
 }
+
+function blank_computed_results() {
+    $('.computed').html('');
+}
+
 
 // Set the number of people the apartment
 function popSlider_moves(event) {
     var popSlider = $('#popSlider').val();
     count = popSlider;
-    set_people_count(count);
-    blank_reported_results();
+    set_occupied_units_count(count);
+    blank_computed_results();
 }
 
 //Update metric for epsilon value
 function epsilon_moves(event) {
     var epsilon = $('#epsilonSlider').val() / 50;
-    if (epsilon<.05) epsilon=.05;
+    if (epsilon < MIN_EPSILON) epsilon=MIN_EPSILON;
     $('#epsilonTable').html(epsilon);
-    blank_reported_results();
+    blank_computed_results();
 }
 
 // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
@@ -178,9 +232,16 @@ function epsilon_moves(event) {
 $(document).ready(function() {
     draw_houses(1);
     draw_windows(4);
-    blank_reported_results();
-    $('#popSlider').val(0);
+    blank_computed_results();
+
     $('#popSlider').on('input', popSlider_moves);
     $('#epsilonSlider').on('input', epsilon_moves);
     $('#rollButton').on('click', roll_dp);
+
+    // Establish some reasonable defaults
+    $('#popSlider').val(4);
+    $('#epsilonSlider').val(2);
+    popSlider_moves();
+    epsilon_moves();
+    roll_dp();
 });

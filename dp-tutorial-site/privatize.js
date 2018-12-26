@@ -101,9 +101,8 @@ function privatize_histogram(model) {
         return geometric_noise(model.epsilon, 1);
     });
     // compute the privitized values
-    var i;
     model.noisy_counts = [];
-    for (i = 0; i < model.counts.length; i++) {
+    for (var i = 0; i < model.counts.length; i++) {
         model.noisy_counts[i] = model.counts[i] + model.noises[i];
     }
     // PRIVACY BARRIER END
@@ -111,11 +110,10 @@ function privatize_histogram(model) {
     console.log("privitized model:",model)
 
     // post-process: round all negative numbers up to zero.
-    // If we have invariant_counts, then move all numbers up as long as any number is zero, and then randomly distribute the error.
-    // Otherwise, just bring all the negative numbers up to zero.
+    // If we do not have invariant_counts, just bring all the negative numbers up to zero.
     if (model.invariant_counts == 0) {
         model.noisy_counts = model.noisy_counts.map(function(a) {
-            return Math.floor( Math.min(a, 0) );
+            return Math.floor( Math.max(a, 0) );
         });
         return model.callback(model);
     }

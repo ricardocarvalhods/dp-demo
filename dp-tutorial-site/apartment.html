@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+<html lang='en'>
 
 <!--
 
 apartment.html - Display an apartment building with 16 units and 
 controls to change the occupants. Apply differential privacy to the --
-statistics when the "Protect" button is pressed.
+statistics when the 'Protect' button is pressed.
 
 Authors: Sarah Powazek, Summer 2018, 
          Simson Garfinkel, Summer 2018-Dec. 2018
@@ -17,7 +18,7 @@ Copyright 2018 Sarah Powazek
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
+'Software'), to deal in the Software without restriction, including
 without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
@@ -26,7 +27,7 @@ the following conditions:
 The above copyright notice and this permission notice shall be 
 included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
@@ -37,118 +38,127 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -->
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="tutorial.css" rel="stylesheet">
-  <link href="census.css" rel="stylesheet">
-  <link href="apartment.css" rel="stylesheet">
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <link href='tutorial.css' rel='stylesheet'>
+  <link href='census.css' rel='stylesheet'>
+  <link href='apartment.css' rel='stylesheet'>
   <script src='jquery.min.js'></script>
   <script src='privatize.js'></script>
-  <script src="apartment.js"></script>
+  <script src='apartment.js'></script>
 </head>
 
 <body>
-  <header class="uscb-layout-row uscb-header-container">
-    <div class="uscb-flex-row-20 uscb-flex-row-md-100
-                  uscb-layout-align-center-center uscb-layout-align-md-start-center">
-      <div class="uscb-menu-icon-container uscb-hide-gt-md
-                    uscb-flex-row-md-20"></div>
-      <div class="uscb-flex-row-md-80">
-        <a href="https://www.census.gov">
-            <img class="uscb-nav-image" src="images/census.svg">
+  <header class='uscb-layout-row uscb-header-container'>
+    <div class='uscb-flex-row-20 uscb-flex-row-md-100
+                  uscb-layout-align-center-center uscb-layout-align-md-start-center'>
+      <div class='uscb-menu-icon-container uscb-hide-gt-md
+                    uscb-flex-row-md-20'></div>
+      <div class='uscb-flex-row-md-80'>
+        <a href='https://www.census.gov'>
+            <img class='uscb-nav-image' src='images/census.svg'>
           </a>
       </div>
     </div>
-    <div class="uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md">
-      <h1 class="uscb-h2 uscb-color-white"><a href="index.html">Disclosure Avoidance</a></h1>
+    <div class='uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md'>
+      <h1 class='uscb-h2 uscb-color-white'><a href='index.html'>Disclosure Avoidance</a></h1>
     </div>
   </header>
 
-  <div class="uscv-layout-row uscb-min-height-100vh uscb-layout-align-center-center uscb-layout-align-vert-center">
-    <div class="uscb-flex-row-70 uscb-flex-row-md-100 uscb-padding-3em">
+  <div class='uscv-layout-row uscb-min-height-100vh uscb-layout-align-center-center uscb-layout-align-vert-center'>
+    <div class='uscb-flex-row-70 uscb-flex-row-md-100 uscb-padding-3em'>
       <section>
-        <div style="margin-top: 1em; margin-bottom:1em;">
-          <div class="uscb-layout-row uscb-layout-align-space-between" style="background-color: rgb(17,46,81); color: rgb(255,255,255);
-                                                                                padding: 1em;">
-            <p class="uscb-title-1 uscb-margin-TB-02">Privacy Simulator</p>
+        <div style='margin-top: 1em; margin-bottom:1em;'>
+          <div class='uscb-layout-row uscb-layout-align-space-between' style='background-color: rgb(17,46,81); color: rgb(255,255,255);
+                                                                                padding: 1em;'>
+            <p class='uscb-title-1 uscb-margin-TB-02'>Privacy Simulator</p>
           </div>
-          <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;">
-            <p>This is a simulation of how differential privacy can be used to report the average age and sex distribution of a fictional apartment building.</p>
+          <div class='   ' style='box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;'>
+            <p>This is a simulation of how differential privacy can be
+            used to publish statistical information about a fictional
+            apartment building in a way that prevents the
+            reconstruction of the underlying confidential data.</p>
 
-            <p>The orange square below represents the apartment
-            building. It has 16 units.</p>
+            <p> In this example, differential privacy is used to protect the
+            population count, the age and sex of the residents, but
+            the total population is held constant as an invariant.</p>
+
+            <p>The large orange box below represents the apartment
+            building. It has 16 units, each with a window that lets
+            you see the residents.</p>
 
             <p>The slider on the left lets you control the number of
             occupied units. <strong>Move
             it right</strong> to increase the number of people in the
-            building. Occupants in each unit are assigned randomly. </p> 
+            building. Occupants in each unit are assigned randomly. Occupant ages are not shown.</p> 
 
             <p>The slider on the right controls epsilon, the privacy
               loss budget. <strong>Move it right</strong> to increase
               the privacy loss.</p>
 
-            <p>Press the <strong>REPORT</strong> button to perform the differential privacy computation.</p>
+            <p>The Confidential Data is not published, and is provided only for the purpose of this simulation.</p>
 
-            <hr class="uscb-hr-flex uscb-bg-primary" />
+            <p>Press the <strong>PUBLISH</strong> button to perform the differential privacy computation.</p>
 
-            <table width=100%>
-              <tr>
-                <th>True Data: </th>
-                <th class="metrics">Avg. Age</th>
-                <td id="trueAvgAge" class="metrics">0</td>
-                <th class="metrics"># Female</th>
-                <td id="trueCountF" class="metrics">0</td>
-                <th class="metrics"># Male</th>
-                <td id="trueCountM" class="metrics">0</td>
-                <th class="metrics" style="background-color: lightblue;">EPSILON:</th>
-                <td class="metrics" id="epsilonTable"> 1
-                </td>
+            <hr class='uscb-hr-flex uscb-bg-primary' />
+
+            <table width='100%'>
+              <tr> <!-- Title -->
+                <td style='background-color: lightblue;font-weight:bold;'> Confidential Database: </td>
               </tr>
+            </table>
 
+            <div id='illustration' class='uscb-layout-column uscb-layout-align-flex-end' style='height: 370px; background-color: lightblue;'>
+              <div id='houses' class='uscb-layout-row uscb-layout-align-space-around' style='height: 250px; background-color: lightblue;'> </div>
+              <div id='grass' class='uscb-layout-row uscb-layout-align-space-around' style='height: 100px; background-color: lightgreen;'> </div>
+            </div>
+
+            <table width='100%'>
+              <tr> <!-- Confidential Data -->
+                <td class='metrics confidential' width='200px';>Confidential Statistics: </td>
+                <th class='metrics confidential' >Total Population:</th> <td id='confidentialTotalPopulation' class='metrics confidential' width='50px'>0</td>
+                <th class='metrics confidential' ># Adults:</th>         <td id='confidentialAdults' class='metrics confidential' width='50px'>0</td>
+                <th class='metrics confidential' width='150px'></th>        <td                         class='metrics confidential' width='50px'> </td>
+                <th class='metrics confidential' width='400px'></th>  
+              </tr>
+            </table>
+
+            <div id='userControls' class='uscb-layout-row uscb-layout-align-center-center' 
+                 style='height: 80px; font-family: Lora, sans-serif; background-color:lightgrey;'>
+              <div style='width:200px;text-align:left;font-weight:bold;'>User controls:</div>
+              <img id='Lhouse' src='images/person.png' width='25px' alt='person'>
+              <div style='width:10px;'></div>
+              <div class='myslider'>
+                <input id='popSlider' type='range' min='0' max='16' value='0' class='slider'>
+              </div>
+              <div style='width:20px;'></div>
+              <img id='Rhouse' src='images/person.png' width='25px' alt='person'>
+              <img id='Rhouse' src='images/person.png' width='25px' alt='person'>
+              <img id='Rhouse' src='images/person.png' width='25px' alt='person'>
+              <div style='width:20px;'></div>
+
+              <img id='epsilon' src='images/epsilon.png' width='25px' alt='epsilon'>
+              <div style='width:20px;'></div>
+              <div class='myslider' width='200px'>
+                <input id='epsilonSlider' type='range' min='1' max='100' value='50' class='slider' width='100%'>
+              </div>
+              <div style='width:20px;'></div>
+              <div id='rollButton' class='uscb-cta-button' width='30px'>Publish</div>
+              <div style='width:220px;text-align:left;font-weight:bold;'></div>
+            </div>
+
+            <table width='100%'>
               <tr>
-                <th>Reported Data: </th>
-                <th class="metrics">Avg. Age</th>
-                <td id="reportedAvgAge" class="metrics" class='reported' style="background-color: yellow;">0</td>
-                <th class="metrics"># Female</th>
-                <td id="reportedCountF" class="metrics" class='reported' style="background-color: yellow;">0</td>
-                <th class="metrics"># Male</th>
-                <td id="reportedCountM" class="metrics" class='reported' style="background-color: yellow;">0</td>
-                <th class="metrics" style="background-color: lightgreen;">ACCURACY:</th>
-                <td class="metrics" id="accuracy">100% <td/>
+                <td class='metrics published' width='200px'>Published Statistics: </td>
+                <th class='metrics published'>Total Population:</th>  <td id='publishedTotalPopulation' class='metrics published computed' width='50px'>0</td>
+                <th class='metrics published'># Adults:</th>          <td id='publishedAdults' class='metrics published computed' width='50px'>0</td>
+                <th class='metrics published' width='150px'>epsilon:</th>     <td id='epsilonTable'    class='metrics published' width='50px'> 1</td>
+                <th class='metrics published' width='400px'></th>
               </tr>
 
             </table>
 
-            <div id="illustration" class="uscb-layout-column uscb-layout-align-flex-end" style="height: 420px; background-color: lightblue;">
-              <div id="houses" class="uscb-layout-row uscb-layout-align-space-around" style="height: 250px; background-color: lightblue;">
-              </div>
-              <div id="grass" class="uscb-layout-row uscb-layout-align-space-around" style="height: 100px; background-color: lightgreen;">
-              </div>
-            </div>
-
-            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-center-center" 
-                 style="height: 80px; font-family: Lora, sans-serif; background-color:lightgrey;">
-              <div style="width:25px;"></div>
-              <img id="Lhouse" src="images/person.png" width='25px' alt="person">
-              <div style="width:10px;"></div>
-              <div class="myslider">
-                <input id="popSlider" type="range" min="1" max="10" value="50" class="slider">
-              </div>
-              <div style="width:20px;"></div>
-              <img id="Rhouse" src="images/person.png" width='25px' alt="person">
-              <img id="Rhouse" src="images/person.png" width='25px' alt="person">
-              <img id="Rhouse" src="images/person.png" width='25px' alt="person">
-              <div style="width:20px;"></div>
-
-              <img id="epsilon" src="images/epsilon.png" width=25px alt="epsilon">
-              <div style="width:20px;"></div>
-              <div class="myslider" width='200px'>
-                <input id="epsilonSlider" type="range" min="1" max="100" value="50" class="slider" width=100%>
-              </div>
-              <div style="width:20px;"></div>
-              <div id="rollButton" class="uscb-cta-button" width=30px>Report</div>
-            </div>
             <br>
             <br>
             <h3>Here are a few key observations:</h3>
@@ -165,15 +175,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             is because the purpose of the noise is to protect each
             individual's contribution. </p>
 
-            <p>This means that data reported at the census block
-            level will be less accurate (“noisier”) than data reported
+            <p>This means that data published at the census block
+            level will be less accurate (“noisier”) than data published
             at the county, state, and national level.</p>
 
             <h2>Low Epsilon = Lower Accuracy</h2>
             <p>A lower epsilon value results in lower accuracy
             ratings—and more privacy protection. This is because the
             more we noise we add to obscure individual data, the
-            farther the reported values diverge from the true
+            farther the published values diverge from the confidential
             values. </p>
 
             <p>Remember, though, the trend we learned above: accuracy
@@ -182,11 +192,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             overall data accuracy, even with low levels of epsilon.</p>
 
             <br>
-            <h3>To learn more, check out the <a href="section2.html">Noise and Accuracy </a>section in our <a href="intro.html">tutorial</a>.</h3>
+            <h3>To learn more, check out the <a href='section2.html'>Noise and Accuracy </a>section in our <a href='intro.html'>tutorial</a>.</h3>
 
             <br>
-            <a class="uscb-primary-link" style="float:right" href="index.html">Privacy Education Home</a>
-            <hr class="uscb-light-teal-hr" />
+            <a class='uscb-primary-link' style='float:right' href='index.html'>Privacy Education Home</a>
+            <hr class='uscb-light-teal-hr' />
           </div>
 
         </div>

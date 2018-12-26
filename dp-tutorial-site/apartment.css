@@ -1,4 +1,7 @@
 @charset "UTF-8";
+
+    
+
 .emoji {
   font-size: 28pt;
 }
@@ -21,9 +24,20 @@
 
 .metrics {
   min-height: 30px;
-  min-width: 50px;
   padding: 8px;
   text-align: center;
+}
+
+.confidential {
+  background-color: #f0f0f0;
+  text-align: left;
+  font-weight: bold;
+}
+
+.published {
+  background-color: white;
+  text-align: left;
+  font-weight: bold;
 }
 
 .labels {
