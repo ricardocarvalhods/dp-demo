@@ -1,6 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!--
+
+apartment.html - Display an apartment building with 16 units and 
+controls to change the occupants. Apply differential privacy to the --
+statistics when the "Protect" button is pressed.
+
+Authors: Sarah Powazek, Summer 2018, 
+         Simson Garfinkel, Summer 2018-Dec. 2018
+
+This code is the result of a joint research between the Massachusetts
+Institute of Technology and the US Census Bureau. 
+
+Copyright 2018 Sarah Powazek
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be 
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-->
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +45,7 @@
   <link href="apartment.css" rel="stylesheet">
   <script src='jquery.min.js'></script>
   <script src='privatize.js'></script>
+  <script src="apartment.js"></script>
 </head>
 
 <body>
@@ -25,16 +61,11 @@
       </div>
     </div>
     <div class="uscb-flex-row-80 uscb-layout-align-start-center uscb-hide-md">
-      <a href="home.html">
-        <h1 class="uscb-h2 uscb-color-white">Disclosure Avoidance</h1>
-      </a>
+      <h1 class="uscb-h2 uscb-color-white"><a href="index.html">Disclosure Avoidance</a></h1>
     </div>
   </header>
 
-
   <div class="uscv-layout-row uscb-min-height-100vh uscb-layout-align-center-center uscb-layout-align-vert-center">
-
-
     <div class="uscb-flex-row-70 uscb-flex-row-md-100 uscb-padding-3em">
       <section>
         <div style="margin-top: 1em; margin-bottom:1em;">
@@ -43,12 +74,21 @@
             <p class="uscb-title-1 uscb-margin-TB-02">Privacy Simulator</p>
           </div>
           <div class="   " style="box-shadow: black 0px 8px 6px -6px; border: 1px solid rgb(238, 238, 238); padding: 1em;">
-            <p>The slider on the left represents the population. Move it right to increase the number of residents in the apartment. The residents are random, and may be singles, couples, or families.</p>
+            <p>This is a simulation of how differential privacy can be used to report the average age and sex distribution of a fictional apartment building.</p>
 
-            <p>The slider on the right is epsilon, the <strong>privacy loss budget</strong>. The lower the privacy loss, the greater the privacy protection. Thus, move this to the right to decrease privacy protection. Moving the slider to the right also
-              decreases the amount of noise added to the data.</p>
+            <p>The orange square below represents the apartment
+            building. It has 16 units.</p>
 
-            <h3><strong>Move the sliders and see how different populations and privacy protection affect data accuracy.</strong></h3>
+            <p>The slider on the left lets you control the number of
+            occupied units. <strong>Move
+            it right</strong> to increase the number of people in the
+            building. Occupants in each unit are assigned randomly. </p> 
+
+            <p>The slider on the right controls epsilon, the privacy
+              loss budget. <strong>Move it right</strong> to increase
+              the privacy loss.</p>
+
+            <p>Press the <strong>REPORT</strong> button to perform the differential privacy computation.</p>
 
             <hr class="uscb-hr-flex uscb-bg-primary" />
 
@@ -69,46 +109,45 @@
               <tr>
                 <th>Reported Data: </th>
                 <th class="metrics">Avg. Age</th>
-                <td id="reportedAvgAge" class="metrics" style="background-color: yellow;">0</td>
+                <td id="reportedAvgAge" class="metrics" class='reported' style="background-color: yellow;">0</td>
                 <th class="metrics"># Female</th>
-                <td id="reportedCountF" class="metrics" style="background-color: yellow;">0</td>
+                <td id="reportedCountF" class="metrics" class='reported' style="background-color: yellow;">0</td>
                 <th class="metrics"># Male</th>
-                <td id="reportedCountM" class="metrics" style="background-color: yellow;">0</td>
+                <td id="reportedCountM" class="metrics" class='reported' style="background-color: yellow;">0</td>
                 <th class="metrics" style="background-color: lightgreen;">ACCURACY:</th>
-                <td class="metrics" id="accuracy">100%
-                  <td/>
+                <td class="metrics" id="accuracy">100% <td/>
               </tr>
-
 
             </table>
 
-            <div id="illustration" class="uscb-layout-column uscb-layout-align-flex-end" style="height: 375px; background-color: lightblue;">
-              <div id="houses" class="uscb-layout-row uscb-layout-align-space-around" style="height: 200px; background-color: lightblue;">
+            <div id="illustration" class="uscb-layout-column uscb-layout-align-flex-end" style="height: 420px; background-color: lightblue;">
+              <div id="houses" class="uscb-layout-row uscb-layout-align-space-around" style="height: 250px; background-color: lightblue;">
               </div>
               <div id="grass" class="uscb-layout-row uscb-layout-align-space-around" style="height: 100px; background-color: lightgreen;">
               </div>
             </div>
 
-            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-center-center" style="height: 80px; font-family: Lora, sans-serif; background-color:lightgrey;">
+            <div id="epsilonProtect" class="uscb-layout-row uscb-layout-align-center-center" 
+                 style="height: 80px; font-family: Lora, sans-serif; background-color:lightgrey;">
               <div style="width:25px;"></div>
-              <img id="Lhouse" src="images/person.png" width=40px alt="person">
-              <div style="width:20px;"></div>
+              <img id="Lhouse" src="images/person.png" width='25px' alt="person">
+              <div style="width:10px;"></div>
               <div class="myslider">
-                <input id="slider2" type="range" min="1" max="10" value="50" class="slider">
+                <input id="popSlider" type="range" min="1" max="10" value="50" class="slider">
               </div>
               <div style="width:20px;"></div>
-              <img id="Rhouse" src="images/person.png" width=40px alt="person">
-              <img id="Rhouse" src="images/person.png" width=40px alt="person">
-              <img id="Rhouse" src="images/person.png" width=40px alt="person">
-              <div style="width:70px;"></div>
+              <img id="Rhouse" src="images/person.png" width='25px' alt="person">
+              <img id="Rhouse" src="images/person.png" width='25px' alt="person">
+              <img id="Rhouse" src="images/person.png" width='25px' alt="person">
+              <div style="width:20px;"></div>
 
               <img id="epsilon" src="images/epsilon.png" width=25px alt="epsilon">
               <div style="width:20px;"></div>
-              <div class="myslider" width=200px>
+              <div class="myslider" width='200px'>
                 <input id="epsilonSlider" type="range" min="1" max="100" value="50" class="slider" width=100%>
               </div>
               <div style="width:20px;"></div>
-              <div id="rollButton" class="uscb-cta-button">PROTECT</div>
+              <div id="rollButton" class="uscb-cta-button" width=30px>Report</div>
             </div>
             <br>
             <br>
@@ -116,22 +155,37 @@
             <br>
 
             <h2>More People = Higher Accuracy</h2>
-            <h3>You'll notice that when there are more people in the apartment, the accuracy is higher than when there are few people. When we add noise, some values get raised, and some get lowered. With only a few people, it is easy to see the changes, but when there are more people, and more values to raise and lower, the noise balances, and the accuracy increases. </h3>
+            <p>You'll notice that when there are more people in the
+            apartment building, the accuracy is higher than when there
+            are a few people. That's because the amount of noise added
+            does not depend on the number of people. When we add
+            noise, some values get raised, and some get lowered. With
+            only a few people, the noise has a bigger impact, but when
+            there are more people, the noise is less significant. This
+            is because the purpose of the noise is to protect each
+            individual's contribution. </p>
 
-            <h3>This means that looking at data at the census block level will be "noisier" than when we zoom out, and will get more accurate at the county, state, and national level.</h3>
-
-            <br>
+            <p>This means that data reported at the census block
+            level will be less accurate (“noisier”) than data reported
+            at the county, state, and national level.</p>
 
             <h2>Low Epsilon = Lower Accuracy</h2>
-            <h3>A lower epsilon value (and thus, better privacy protection) results in lower accuracy ratings. This is because the more we noise we add to obscure individual data, the farther the reported values get from the true values. </h3>
+            <p>A lower epsilon value results in lower accuracy
+            ratings—and more privacy protection. This is because the
+            more we noise we add to obscure individual data, the
+            farther the reported values diverge from the true
+            values. </p>
 
-            <h3>Remember, though, the trend we learned above: accuracy increases with population. The more people in the apartment, the less impact that the noise has on the overall data accuracy. By balancing noise and accuracy, and look</h3>
+            <p>Remember, though, the trend we learned above: accuracy
+            increases with population. The more people in the
+            apartment, the less impact that the noise has on the
+            overall data accuracy, even with low levels of epsilon.</p>
 
             <br>
-            <h3>To learn more, check out the <a href="section2.html">Noise and Accuracy </a>section in our <a href="index.html">tutorial</a>.</h3>
+            <h3>To learn more, check out the <a href="section2.html">Noise and Accuracy </a>section in our <a href="intro.html">tutorial</a>.</h3>
 
             <br>
-            <a class="uscb-primary-link" style="float:right" href="home.html">Privacy Education Home</a>
+            <a class="uscb-primary-link" style="float:right" href="index.html">Privacy Education Home</a>
             <hr class="uscb-light-teal-hr" />
           </div>
 
@@ -139,188 +193,6 @@
       </section>
     </div>
   </div>
-  <script>
-    apt_residents = [];
-
-    icons = [{
-        'html': [
-          '👩🏻',
-          '👩🏼',
-          '👩🏽',
-          '👩🏾',
-          '👩🏿'
-        ],
-        'men': 0,
-        'women': 1,
-        'age': 25
-      }, //woman
-      {
-        'html': [
-          '👨🏻',
-          '👨🏼',
-          '👨🏽',
-          '👨🏾',
-          '👨🏿'
-        ],
-        'men': 1,
-        'women': 0,
-        'age': 55
-      }, //man
-      {
-        'html': [
-          '&#x1F46B;'
-        ],
-        'men': 1,
-        'women': 1,
-        'age': 33
-      }, //man and woman
-      {
-        'html': [
-          '&#x1F46A;'
-        ],
-        'men': 2,
-        'women': 1,
-        'age': 30
-      }, //family
-
-    ]
-
-
-
-    // Repeat a string, substituting %i for the counter
-    function repeat(s, start, end) {
-      ret = []
-      for (var i = start; i < end; i++) {
-        ret.push(s.replace("%i", i))
-      }
-      return ret.join("");
-    }
-
-    function draw_houses(count) {
-      $('#houses').html('<div id="house1" class="house">' + '<div id="apartment" style="padding-top:10pt; font-size:20pt"></div>' + '</div>');
-    }
-
-    function draw_windows(count) {
-      $('#apartment').html(repeat(
-        '<div class="windowHolder" id="wh%i"></div>', 0, 4));
-      for (index = 0, i = 0; i < 4; i++) {
-        $('#wh' + i).html(repeat('<div class="window" id="w%i"/><div class="windowSpacer" id="wsp%i"/>', index, index + 4))
-        index += 4;
-      }
-    }
-
-    function set_people_count(count) {
-      apt_residents = []
-      people = Math.round(count / 10 * 16); //fraction of the slider * window number
-      for (i = 0; i < 16; i++) {
-        html = '';
-        if (i < people) {
-          person = icons[Math.round(Math.random() * 2)];
-          apt_residents.push(person);
-          emojis = person['html'];
-          html = emojis[Math.round(Math.random() * emojis.length)];
-        }
-        if (!(html == undefined)) {
-          html = "<span class='emoji'>" + html + "</span>";
-        }
-        $('#w' + i).html(html);
-      }
-      update_values()
-    }
-
-    //Updates the metrics at the top given the number of people set by the slider
-    //Is called every time the people slider is touched
-    function update_values() {
-      //update counts using people dictionary
-      metrics = {
-        'men': 0,
-        'women': 0,
-        'age': 0
-      };
-      for (i = 0; i < apt_residents.length; i++) {
-        elem = apt_residents[i];
-        metrics['men'] += elem['men'];
-        metrics['age'] += elem['age'];
-        metrics['women'] += elem['women'];
-      }
-      metrics['age'] /= apt_residents.length;
-      metrics['age'] = Math.round(metrics['age'] * 10) / 10;
-      //update html elements
-      $('#trueAvgAge').html('' + metrics['age']);
-      $('#trueCountF').html('' + metrics['women']);
-      $('#trueCountM').html('' + metrics['men']);
-    }
-
-    // Set the number of people the apartment
-    function slider2_moves(event) {
-      var slider2 = $('#slider2').val();
-      count = slider2;
-      set_people_count(count);
-    }
-
-    //Update metric for epsilon value
-    function epsilon_moves(event) {
-      var epsilon = $('#epsilonSlider').val() / 50;
-      $('#epsilonTable').html(epsilon);
-    }
-
-    // given the current model, update the accuracy cell in the view.
-    //Accuracy is caluclated by averaging the fraction difference
-    //the noisy value is away from the true value
-    function update_accuracy(model) {
-      trueVals = model.counts;
-      repVals = model.noisy_counts;
-      accuracy = 0
-      for (i = 0; i < trueVals.length; i++) {
-        accuracy += 1 - Math.abs(repVals[i] - trueVals[i]) / trueVals[i];
-      }
-      console.log('accuracy ' + accuracy);
-      accuracy /= trueVals.length;
-      accuracy *= 100;
-      console.log('accuracy ' + accuracy);
-      $('#accuracy').html(Math.round(accuracy * 10) / 10 + "%");
-    }
-
-    // update is called by the engine after a differential privacy operation is done.
-    // We update the screen and recalculate the accuracy
-    var update = function(model) {
-      var i;
-      for (i = 0; i < model.counts.length; i++) {
-        $('#reported' + model.labels[i]).html(model.noisy_counts[i]);
-      }
-      update_accuracy(model);
-    }
-
-    function roll_dp(event) {
-      epsilon_slider_value = $('#epsilonSlider').val() / 50;
-      // Create the differential privacy object
-      model = {
-        epsilon: epsilon_slider_value,
-        callback: update,
-        counts: [],
-        labels: ['CountM', 'CountF', 'AvgAge'],
-        invariant_counts: 1
-      };
-      // Now get the counts from the HTML form
-      var i;
-      for (i = 0; i < model.labels.length; i++) {
-        model.counts[i] = parseFloat($('#true' + model.labels[i]).html());
-      }
-      privatize_histogram(model);
-    }
-
-    // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
-    // We bind the 'input' event because it fires whenever the slider is moved. The 'changed' event only fires
-    // when the slider is released
-    $(document).ready(function() {
-      draw_houses(1);
-      draw_windows(4);
-      $('#slider2').val(0);
-      $('#slider2').on('input', slider2_moves);
-      $('#epsilonSlider').on('input', epsilon_moves);
-      $('#rollButton').on('click', roll_dp);
-    });
-  </script>
 </body>
 
 </html>
