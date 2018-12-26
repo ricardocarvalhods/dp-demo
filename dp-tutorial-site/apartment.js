@@ -45,13 +45,14 @@ function repeat(s, start, end) {
     return ret.join("");
 }
 
+// Draw each apartment building
 function draw_houses(count) {
     $('#houses').html('<div id="house1" class="house">' + '<div id="apartment" style="padding-top:10pt; font-size:20pt"></div>' + '</div>');
 }
 
+// Create the windows in the apartment building
 function draw_windows(count) {
-    $('#apartment').html(repeat(
-        '<div class="windowHolder" id="wh%i"></div>', 0, 4));
+    $('#apartment').html(repeat( '<div class="windowHolder" id="wh%i"></div>', 0, 4));
     for (index = 0, i = 0; i < 4; i++) {
         $('#wh' + i).html(repeat('<div class="window" id="w%i"/><div class="windowSpacer" id="wsp%i"/>', index, index + 4))
         index += 4;
