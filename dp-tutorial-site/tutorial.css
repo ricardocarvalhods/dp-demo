@@ -2,6 +2,10 @@ h3 {
   line-height: 1.5;
 }
 
+p {
+    line-height: 1.25;
+}
+
 .tutorial-ul {
   list-style-position: inside;
 }
@@ -49,6 +53,13 @@ td.blackened:before {
   content: " ██████ ";
 }
 
-td.confidential, th.confidential {
+.confidential {
   background-color: #f0f0f0;
+  font-weight: bold;
 }
+
+.published {
+  background-color: white;
+  font-weight: bold;
+}
+

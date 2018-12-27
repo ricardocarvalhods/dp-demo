@@ -1,7 +1,22 @@
 @charset "UTF-8";
 
+#illustration {
+    height: 370px; 
+    background-color: lightblue;
+}
+
+#houses {
+    height: 250px; 
+    background-color: lightblue;
+}
+
+#grass {
+    height: 100px; 
+    background-color: lightgreen;
+}
+
 .emoji {
-  font-size: 28pt;
+    font-size: 28pt;
 }
 
 .roof {
@@ -23,7 +38,8 @@
 .metrics {
   min-height: 30px;
   padding: 8px;
-  text-align: center;
+  text-align: left;
+  white-space: nowrap;
 }
 
 .labels {
@@ -59,17 +75,5 @@
   border-bottom: 130px solid black;
   border-left: 60px solid transparent;
   border-right: 60px solid transparent;
-}
-
-.confidential {
-  background-color: #f0f0f0;
-  text-align: left;
-  font-weight: bold;
-}
-
-.published {
-  background-color: white;
-  text-align: left;
-  font-weight: bold;
 }
 

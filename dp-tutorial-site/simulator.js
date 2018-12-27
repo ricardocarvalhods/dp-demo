@@ -216,6 +216,7 @@ function popSlider_moves(event) {
     count = popSlider;
     set_occupied_units_count(count);
     blank_computed_results();
+    roll_dp();
 }
 
 //Update metric for epsilon value
@@ -224,6 +225,7 @@ function epsilon_moves(event) {
     if (epsilon < MIN_EPSILON) epsilon=MIN_EPSILON;
     $('#epsilonTable').html(epsilon);
     blank_computed_results();
+    roll_dp();
 }
 
 // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
