@@ -40,11 +40,13 @@
               <a href="section2.html" role="menuitem" class="uscb-tabs-link">Noise and Accuracy</a>
             </li>
             <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-              <a href="section3.html" role="menuitem" class="uscb-tabs-link">Protecting Data Releases</a>
+              <a href="section3.html" role="menuitem" class="uscb-tabs-link">Preventing Database Reconstruction</a>
             </li>
+            <!--
             <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
               <a href="section4.html" role="menuitem" class="uscb-tabs-link">Protecting Group Quarters</a>
             </li>
+            -->
             <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
               <a href="end.html" role="menuitem" class="uscb-tabs-link">Data Privacy in 2020</a>
             </li>
@@ -58,30 +60,29 @@
                                                                                 padding: 1em;">
               <p class="uscb-title-1 uscb-margin-TB-02">Noise and Accuracy</p>
             </div>
-            <h3>In the last example, we saw how adding noise to data protected the privacy of a family. With noise, we have obscured the family’s data, but now our results are slightly less accurate. Recall that the noise we add is random, many of the residences have small amounts of noise added, and a few have large amounts of noise added.</h3>
+            <p>In the last example, we saw how noise injection protected the privacy of a family. With noise, we have obscured the family’s data, but now the results are slightly less accurate. </p>
 
             <br><br>
             <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
                         uscb-dark-grey-content-container uscb-layout-align-space-between
                         uscb-wrap">
-              <h3>To visualize how privacy and accuracy are related, and how noise affects data, play with our <a href="apartment.html">interactive simulator</a>.</h3> </div>
+              <p>To visualize how privacy and accuracy are related, and how noise affects data, play with our <a href="apartment.html">interactive simulator</a>.</p> </div>
 
             <br><br>
 
-            <h3>Because of the noise, some blocks will overcount statistics with positive noise, and others will undercount them with negative noise. These undercounts and overcounts are easier to spot at small geographic levels like census blocks, since the published results can vary slightly.</h3>
+            <p>Because of the noise, some statistics will be reported with values larger than they would been if they had been computed using the confidential data, while other statistics will be reported with smaller values.  These differences are potentially quite large for small geographic areas, like a single block, in order to assure data confidentiality. </p>
             <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
               <img src="images/cblock.png" alt="House" width="550px">
             </div>
-            <h3>But remember, the Census Bureau collects data on the entire country, counting over <strong>300 million people</strong> in over 11 million census blocks.</h3>
+            <p>But remember, the Census Bureau collects data on the entire country, counting over <strong>300 million people</strong> in over 11 million census blocks.</p>
 
             <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
               <img src="images/city.png" alt="House" width="550px">
             </div>
 
 
-            <h3>At larger geographic levels like states, often with millions of residents, the undercounts and overcounts balance the noise, and the published results are not as affected as at the block level. This results in a set of Census 2020 data that is accurate for the needs of data users. </h3>
-            <br>
-
+            <p>At larger geographic levels like census tracts, counties and states, often with millions of residents, the differences between the statistics computed with the confidential data and the public data are insignificant. As a result, the data publications of the 2020 decennial census data will be accurate for the needs of data users. </p>
+            <br/>
             <a class="uscb-primary-link" style="float:left" href="section2.html">Previous Section</a>
             <a class="uscb-primary-link" style="float:right" href="section3.html">Next Section</a>
             <hr class="uscb-light-teal-hr" />

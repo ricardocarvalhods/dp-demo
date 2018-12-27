@@ -15,12 +15,13 @@ h3 {
   color: #112e51;
 }
 
-.selected {
+.selectedX {
   color: white;
   background-color: #112e51;
 }
 
 table.tutorial-data {
+   font-size: 1.25rem;
    text-align: center;
    border-left: 1px solid black;
    border-right: 1px solid black;
@@ -28,7 +29,7 @@ table.tutorial-data {
 
 table.tutorial-data td, 
 table.tutorial-data th { 
-   min-width: 145px;
+   min-width: 150px;
    vertical-align: middle;
 }
 

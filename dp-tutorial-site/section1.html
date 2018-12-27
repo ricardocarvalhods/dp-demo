@@ -42,11 +42,13 @@
               <a href="section2.html" role="menuitem" class="uscb-tabs-link">Noise and Accuracy</a>
             </li>
             <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
-              <a href="section3.html" role="menuitem" class="uscb-tabs-link">Protecting Data Releases</a>
+              <a href="section3.html" role="menuitem" class="uscb-tabs-link">Preventing Database Reconstruction</a>
             </li>
+            <!--
             <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
               <a href="section4.html" role="menuitem" class="uscb-tabs-link">Protecting Group Quarters</a>
             </li>
+            -->
             <li role="none" class="uscb-tab uscb-layout-row uscb-layout-align-center-center">
               <a href="end.html" role="menuitem" class="uscb-tabs-link">Data Privacy in 2020</a>
             </li>
@@ -62,17 +64,17 @@
             </div>
             <div class="   " style="box-shadow: black 0px 8px 6px -6px; border:
                                     1px solid rgb(238, 238, 238); padding: 1em">
-              <h3>This is a Census Block:</h3>
+              <p>This is a Census Block:</p>
               <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
                 <img src="images/house.png" alt="House" width="450px">
               </div>
-              <h3> We publish census data grouped by these areas, called blocks. Blocks can be empty, have a single house, or can have hundreds of residents, and are typically divided by geographic features like roads or creeks.
-              </h3>
+              <p> We publish census data grouped by these areas, called blocks. Blocks can be empty, have a single house, or can have hundreds of residents, and are typically divided by geographic features like roads or creeks.
+              </p>
 
-              <h3> This block is home to a family of four, and this is what their data look like:</h3>
+              <p> This block is home to a family of four, and this is what their data look like:</p>
 
               <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-                <table class="uscb-h3 tutorial-data">
+                <table class="tutorial-data">
                   <tr class='tutorial-toprow'><th class='tutorial-name confidential'>Name</th><th class='confidential'>Sex</th><th class='confidential'>Age</th></tr>
                   <tr><td class='tutorial-name confidential'>Mother</td><td class='confidential'>F</td><td class='confidential'>43</td></tr>
                   <tr><td class='tutorial-name confidential'>Father</td><td class='confidential'>M</td><td class='confidential'>42</td></tr>
@@ -87,10 +89,10 @@
               </div>
               -->
 
-              <h3> The first thing we do is remove the names and other identifying information from the data:</h3>
+              <p> The first thing we do is remove the names and other identifying information from the data:</p>
 
               <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-                <table class="uscb-h3 tutorial-data">
+                <table class="tutorial-data">
                   <tr class='tutorial-toprow'><th class='tutorial-name confidential'>Name</th><th class='confidential'>Sex</th><th class='confidential'>Age</th></tr>
                   <tr><td class='tutorial-name blackened confidential'></td><td class='confidential'>F</td><td class='confidential'>43</td></tr>
                   <tr><td class='tutorial-name blackened confidential'></td><td class='confidential'>M</td><td class='confidential'>42</td></tr>
@@ -105,30 +107,30 @@
               </div>
               -->
 
-              <h3>This may seem like enough to protect this family’s
+              <p>This may seem like enough to protect this family’s
                 data, but what if someone knows this family’s address?
                 What if someone knows the ages of the family's parents and
                 is trying to learn the ages of the children? Just from the
                 information above, one could easily re-identify the
                 family's data, in violation of the Census Bureau's pledge
-                of confidentiality.</h3>
-              <h3>To truly protect the confidentiality of family's data,
+                of confidentiality.</p>
+              <p>To truly protect the confidentiality of family's data,
                 we must do more. In order to provide useful data for
                 statistical purposes while providing confidentiality to
                 those who provide their data, we employ mathematical
                 process called <strong>differential privacy</strong> that
                 results in small, random changes to the data that we
-                publish our reports. </h3>
+                publish our reports. </p>
 
               <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
                           uscb-dark-grey-content-container uscb-layout-align-space-between
                           uscb-wrap">
-                <h3>This is called adding <strong>noise</strong> to the data, or <strong>noise injection</strong>.</h3>
+                <p>This is called adding <strong>noise</strong> to the data, or <strong>noise injection</strong>.</p>
               </div>
-              <h3>For example, after the privacy mechanism runs, the data associated with this block might look like this:</h3>
+              <p>For example, after the privacy mechanism runs, the data associated with this block might look like this:</p>
 
               <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-                <table class="uscb-h3 tutorial-data">
+                <table class="tutorial-data">
                   <tr><th class='tutorial-name confidential'></th><th colspan='2' class='confidential'>Confidential Data</th><th colspan='2'>Published Data</th></tr>
                   <tr class='tutorial-toprow'><th class='tutorial-name confidential'>Name</th><th class='confidential'>Sex</th><th class='confidential'>Age</th><th>Sex</th><th>Age</th></tr>
                   <tr><td class='tutorial-name blackened confidential'></td><td class='confidential'>F</td><td class='confidential'>43</td><td>M</td><td>45</td></tr>
@@ -144,13 +146,13 @@
                 <img src="images/chart6.png" alt="House" width="550px">
               </div>
               -->
-              <h3>Let us compare the aggregate data we might publish for the original and noisy data.</h3>
+              <p>Let us compare the aggregate data we might publish for the original and noisy data.</p>
 
 
               <div class="uscb-layout-row uscb-layout-align-center-center uscb-padding-TB-30">
-                <table class="uscb-h3 tutorial-data">
+                <table class="tutorial-data">
                   <tr class=''><th class='tutorial-name'></th><th class='confidential'>Confidential</th><th>Published</th></tr>
-                  <tr class='tutorial-toprow'><th class='tutorial-name'>Query</th><th class='confidential'>Value</th><th>Value</th></tr>
+                  <tr class='tutorial-toprow'><th class='tutorial-name'>Statistic</th><th class='confidential'>Value</th><th>Value</th></tr>
                   <tr><td class='tutorial-name'>Female Count</td><td class='confidential'>2</td><td>2</td></tr>
                   <tr><td class='tutorial-name'>Male Count</td><td class='confidential'>2</td><td>3</td></tr>
                   <tr><td class='tutorial-name'>Average Age</td><td class='confidential'>28</td><td>27</td></tr>
@@ -167,24 +169,24 @@
               <div class="uscb-layout-row uscb-padding-TB-15 uscb-padding-LR-30
                           uscb-dark-grey-content-container uscb-layout-align-space-between
                           uscb-wrap">
-                <h3>Noise injection data creates <strong>uncertainty</strong> about the exact confidential data.</h3>
+                <p>Noise injection data creates <strong>uncertainty</strong> about the exact confidential data.</p>
               </div>
-              <h3>Say a person was looking at the data for this census
+              <p>Say a person was looking at the data for this census
                 block, and knew that only one family lived there. Knowing
                 that noise has changed some of the data, that person would
                 not know from our data whether the family has 0, 1, 2, 3,
                 or even 4 female members. This uncertainty about which
                 numbers are exact and which have been adjusted protects
-                families from having their data identified. </h3>
+                families from having their data identified. </p>
 
-              <h3>Comparing the confidential and published statistics,
+              <p>Comparing the confidential and published statistics,
                 the average age and Female Count have remained the same,
                 but the Male Count has changed. The privacy mechanism used
                 in the 2020 Census works to preserve the accuracy of
                 specific statistics while protecting the confidentiality
-                of the underlying data, as demonstrated here.</h3>
+                of the underlying data, as demonstrated here.</p>
 
-              <h3>Although the population of this block changes as a
+              <p>Although the population of this block changes as a
                 result of the privacy mechanism, the privacy mechanism
                 assures that these changes are not significant, especially
                 when larger geographical areas are considered.
@@ -195,7 +197,7 @@
                 imaginary people, it simply adjusts existing data values
                 to protect the data of individuals.-->
 
-              </h3>
+              </p>
               <br/>
               <a class="uscb-primary-link" style="float:left" href="intro.html">Previous Section</a>
               <a class="uscb-primary-link" style="float:right" href="section2.html">Next Section</a>
