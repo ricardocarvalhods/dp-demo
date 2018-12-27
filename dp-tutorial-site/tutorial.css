@@ -14,3 +14,40 @@ h3 {
   list-style-type: disc !important;
   color: #112e51;
 }
+
+.selected {
+  color: white;
+  background-color: #112e51;
+}
+
+table.tutorial-data {
+   text-align: center;
+   border-left: 1px solid black;
+   border-right: 1px solid black;
+}
+
+table.tutorial-data td, 
+table.tutorial-data th { 
+   min-width: 145px;
+   vertical-align: middle;
+}
+
+table.tutorial-data tr { 
+   height: 40px;
+}
+
+.tutorial-name {
+   border-right: 1px solid black;
+}
+
+.tutorial-toprow {
+   border-bottom: 1px solid black;
+}
+
+td.blackened:before {
+  content: " ██████ ";
+}
+
+td.confidential, th.confidential {
+  background-color: #f0f0f0;
+}
