@@ -107,7 +107,7 @@ function privatize_histogram(model) {
     }
     // PRIVACY BARRIER END
 
-    console.log("privitized model:",model)
+    //console.log("privitized model:",model)
 
     // post-process: round all negative numbers up to zero.
     // If we do not have invariant_counts, just bring all the negative numbers up to zero.

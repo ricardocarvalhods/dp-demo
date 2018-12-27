@@ -77,3 +77,10 @@
   border-right: 60px solid transparent;
 }
 
+.ui-slider .ui-slider-handle {
+   background: blue;
+}
+
+.updated-handle {
+   background: blue;
+}

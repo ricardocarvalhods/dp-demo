@@ -41,12 +41,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <script src='jquery.min.js'></script>
+  <script src='jquery-ui.min.js'></script>
+  <script src='privatize.js'></script>
+  <script src='simulator.js'></script>
   <link href='tutorial.css' rel='stylesheet'>
   <link href='census.css' rel='stylesheet'>
   <link href='simulator.css' rel='stylesheet'>
-  <script src='jquery.min.js'></script>
-  <script src='privatize.js'></script>
-  <script src='simulator.js'></script>
+  <link href='jquery-ui.css' rel='stylesheet'>
+
+ <style>
+.ui-slider .ui-slider-handle {
+   background: blue;
+}
+
+.updated-handle {
+   background: blue;
+}
+
+</style>
+
+
 </head>
 
 <body>
@@ -166,27 +181,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
               </tr>
             </table>
 
-            <div id='userControls' class='uscb-layout-row uscb-layout-align-center-center'
-                 style='height: 80px; font-family: Lora, sans-serif; background-color:lightgrey;'>
+            <div id='userControls' class='uscb-layout-row' style='background-color:lightgrey;vertical-align:middle;'>
               <div style='width:10px;'></div>
-              <div style='text-align:left;font-weight:bold;'>User controls:</div>
+              <div style='text-align:left;font-weight:bold;vertical-align:middle;'>User controls:</div>
               <div style='width:20px;'></div>
               <img id='Lhouse' src='images/person.png' width='25px' alt='person'>
               <div style='width:10px;'></div>
-              <div class='myslider'> <input id='popSlider' type='range' min='0' max='16' value='0' class='slider'> </div>
+              <div id='popSlider' style='width:200px'> </div>
               <div style='width:20px;'></div>
-              <img id='Rhouse' src='images/person.png' width='25px' alt='person'> <img id='Rhouse' src='images/person.png' width='25px' alt='person'>
+              <img id='Rhouse' src='images/person.png' width='25px' alt='person'> 
+              <img id='Rhouse' src='images/person.png' width='25px' alt='person'>
               <img id='Rhouse' src='images/person.png' width='25px' alt='person'>
               <div style='width:20px;'></div>
 
               <img id='epsilon' src='images/epsilon.png' width='25px' alt='epsilon'>
               <div style='width:20px;'></div>
-              <div class='myslider' width='200px'>
-                <input id='epsilonSlider' type='range' min='1' max='100' value='50' class='slider' width='100%'>
-              </div>
+              <div id='epsilonSlider' style='width:200px;'></div>
               <div style='width:20px;'></div>
               <table width='100px' style='background-color:lightgrey;' >
-                <tr><td id='epsilonTable' class='metrics published'> 1</td></tr>
+                <tr><td id='epsilonTable' class='metrics'> 1</td></tr>
               </table>
               <div style='width:20px;'></div>
               <!--
@@ -197,13 +210,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
             <table width='100%'>
               <tr>
-                <td class='metrics published' width='200px'>Published Statistics: </td>
-                <th class='metrics published'>Total Population:</th>  <td id='publishedTotalPopulation' class='metrics published computed' width='50px'>0</td>
-                <th class='metrics published'># Adults:</th>          <td id='publishedAdults' class='metrics published computed' width='50px'>0</td>
+                <td class='metrics published'>Published Statistics: </td>
+                <th class='metrics published'>Total Population:</th>  
+                <td id='publishedTotalPopulation' class='metrics published computed' width='50px'>0</td>
+                <th class='metrics published'># Adults:</th> 
+                <td id='publishedAdults' class='metrics published computed' width='50px'>0</td>
                 <th class='metrics published' width='400px'></th>
               </tr>
-
             </table>
+
+            <hr class='uscb-light-teal-hr' />
 
             <br>
             <br>

@@ -27,10 +27,8 @@
 // 
 // we apologize for the gender binary assumption
 
-var MIN_EPSILON=0.05;
-var EPSILON_SLIDER_MAX=5;
-var EPSILON_SLIDER_MAX_HTML=100;      // maximum value specified in the HTML
-var apt_residents = [];               // global variable for who is living in the apartment building. Each is a random take from icons below.
+var epsilon = 1.0;              // the value of epsilon
+var apt_residents = [];         // global variable for who is living in the apartment building. Each is a random take from icons below.
 var ADULT_AGE=18;
 var icons = [
     {//woman
@@ -154,6 +152,10 @@ function set_occupied_units_count(count) {
 }
 
 
+function set_epsilon(value){
+    $('#epsilonTable').html(epsilon);
+    epsilon = value;
+}
 
 // given the current model, update the accuracy cell in the view.
 //Accuracy is caluclated by averaging the fraction difference
@@ -187,17 +189,15 @@ function update_accuracy(model) {
 var update = function(model) {
     adults   = model.noisy_counts[0];
     children = model.noisy_counts[1];
-    console.log("adults=",adults,"children=",children);
     $('#publishedTotalPopulation').text('' + (adults+children));
     $('#publishedAdults').text('' + adults);
 }
 
-function roll_dp(event) {
-    epsilon_slider_value = $('#epsilonSlider').val() * EPSILON_SLIDER_MAX / EPSILON_SLIDER_MAX_HTML;
+function roll_dp() {
     // Create the differential privacy object
     metrics = compute_confidential_values();
     model = {
-        epsilon: epsilon_slider_value,
+        epsilon: epsilon,
         callback: update,
         counts: [ metrics['adults'], metrics['children'] ],
         invariant_counts: 0
@@ -205,28 +205,6 @@ function roll_dp(event) {
     privatize_histogram(model);
 }
 
-function blank_computed_results() {
-    $('.computed').html('');
-}
-
-
-// Set the number of people the apartment
-function popSlider_moves(event) {
-    var popSlider = $('#popSlider').val();
-    count = popSlider;
-    set_occupied_units_count(count);
-    blank_computed_results();
-    roll_dp();
-}
-
-//Update metric for epsilon value
-function epsilon_moves(event) {
-    var epsilon = $('#epsilonSlider').val() / 50;
-    if (epsilon < MIN_EPSILON) epsilon=MIN_EPSILON;
-    $('#epsilonTable').html(epsilon);
-    blank_computed_results();
-    roll_dp();
-}
 
 // All wrapped inside the document.ready() function so that it runs when the document is completely loaded
 // We bind the 'input' event because it fires whenever the slider is moved. The 'changed' event only fires
@@ -234,16 +212,28 @@ function epsilon_moves(event) {
 $(document).ready(function() {
     draw_houses(1);
     draw_windows(4);
-    blank_computed_results();
 
-    $('#popSlider').on('input', popSlider_moves);
-    $('#epsilonSlider').on('input', epsilon_moves);
-    $('#rollButton').on('click', roll_dp);
+    // Create the sliders
+    $('#popSlider').slider({min:0, 
+                            max:16, 
+                            step:1, 
+                            value:4, 
+                            slide:function(event,ui){
+                                set_occupied_units_count(ui.value);
+                                roll_dp();
+                            }});
+
+    $('#epsilonSlider').slider({min:.05, 
+                                max:5.0, 
+                                step:.1, 
+                                value:1.0, 
+                                slide:function(event,ui){
+                                    set_epsilon(ui.value);
+                                    roll_dp();
+                                }});
 
     // Establish some reasonable defaults
-    $('#popSlider').val(4);
-    $('#epsilonSlider').val(2);
-    popSlider_moves();
-    epsilon_moves();
+    set_occupied_units_count(4);
+    set_epsilon(1.0);
     roll_dp();
 });
