@@ -1,0 +1,2 @@
+check:
+	node optimizer.js
