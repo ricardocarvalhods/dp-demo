@@ -54,6 +54,14 @@ function optimize(goal, vals){
     return nvals
 }
 
+// True measures
+true_blocks = [1,2, 2,4, 5,10, 1000,1010, 1500,1060, 1800,1100];
+true_map    = ['#b1m', '#b1f', '#b2m', '#b2f', '#b3m', '#b3f',
+               '#b4m', '#b4f', '#b5m', '#b5f', '#b6m', '#b6f'];
+
+
+
+
 goal = [1,2,3,4,5,6];
 v1 = [3,2,1,0,3,6];
 v2 = 
