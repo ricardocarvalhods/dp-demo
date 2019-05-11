@@ -54,8 +54,8 @@ function concat() {
     return a
 }
 
-// compare two arrays; python does this for us!
-function compare(a,b) {
+// equal two arrays; python does this for us!
+function equal(a,b) {
     if ( a.length != b.length) return false; 
     for (var i=0; i< a.length; i++) {
         if (a[i] != b[i]) return false;
@@ -87,25 +87,75 @@ function optimize1(goal, vals) {
     return best_vals;
 }
 
-/* Run the optimizer until the array is unchanged or we run out of steps */
-MAX_STEPS=10000;
+/* optimizez: Run the count optimizer until the array is unchanged or we run out of steps 
+ * @param goal - array of goal counts 
+ * @param vals - array of initial values. If it is shorter than goal, it is extended with zeros. 
+ */
+
+MAX_STEPS=100000;
 function optimize(goal, vals){
     p(goal,'<-',vals);
-    for (var i=0; i<MAX_STEPS; i++) {
+    vals = [...vals];           // make a local copy
+
+    // Make sure both are the same length
+    while (vals.length < goal.length) {
+        vals.push(0);
+    }
+
+    // with a maximum of MAX_STEPS, iteratively optimize
+    for (var i=0; i<MAX_STEPS ; i++) {
         nvals = optimize1(goal, vals);
-        if (compare(vals,nvals)) {
+        if (equal(vals,nvals)) {
             break;
         }
         vals = nvals;
     }
-    if (i ==MAX_STEPS){
-        p("** MAX_STEPS REACHED **")
-    }
-    // Ran too long; return last optimization
     p('   -> ', nvals);
     return nvals
 }
 
+/* pluck: Given an array, return an array of either the odds or the evens elements */
+function pluck(src,offset) {
+    var a = []
+    for (var i=0; i< src.length; i+=2){
+        a.push( src[i + offset]);
+    }
+    //p("--PLUCK--");
+    //p("src:",src);
+    //p("offset:",offset);
+    //p("ret:",a);
+    return a;
+}
+
+/* like the Python zip */
+function zip(a,b) {
+    var ret = [];
+    for (var i = 0; i < a.length; i++) {
+        ret.push(a[i]);
+        ret.push(b[i]);
+    }
+    //p("---ZIP---")
+    //p("a:",a);
+    //p("b:",b);
+    //p("ret:",ret);
+    return ret;
+}
+
+/* zip_optimize: Like optimize above, but process the odd and even elements separately.
+ * Odd elements represent male counts, even female counts. This assures that sex won't
+ * be changed after the top-level optimization.
+ */
+
+function zip_optimize(goal, vals){
+    var male_goal   = pluck(goal, 0);
+    var female_goal = pluck(goal, 1);
+    var male_vals   = pluck(vals, 0);
+    var female_vals = pluck(vals, 1);
+
+    var nmale   = optimize(male_goal, male_vals);
+    var nfemale = optimize(female_goal, female_vals);
+    return zip(nmale, nfemale);
+}
 
 function sum_up(vals) {
     var a = 0;
@@ -131,7 +181,7 @@ p("county2:", true_county2);
 p("state:", true_state);
 
 // privitized measurements
-var epsilon = 0.5;
+var epsilon = 0.25;
 ///////////////////////////////////////////////
 //////////////// NOISE BARRIER ////////////////
 ///////////////////////////////////////////////
@@ -143,27 +193,29 @@ pm_state   = privitize_array(true_state, epsilon);
 //////////////// NOISE BARRIER ////////////////
 ///////////////////////////////////////////////
 
-// We do not need to run top-level -> top-level because we only have a single set of measurements.
-// but we do it anyway
+// Run top-level -> top-level to balance the histogram.
+// This isn't needed with just one set of measurements, but
+// we do it anyway because the real top-down algorithm does.
 p_state = optimize(pm_state, pm_state);
 
-p("Starting state: ", true_state);
+p("\nStarting state: ", true_state);
 p("Ending state: ", p_state);
 
 // Distribute from the state to the two counties:
-p_county12 = optimize( concat(pm_county1,pm_county2), concat(p_state, [0,0] ) );
+p_county12 = zip_optimize( concat(pm_county1,pm_county2), p_state);
+p("p_county12:",p_county12);
 p_county1  = p_county12.slice(0,2);
 p_county2  = p_county12.slice(2,4);
 
 // distribute from each county to the blocks
-p_block123 = optimize( pm_blocks.slice(0,6),  concat(p_county1, [0,0,0,0] ) );
-p_block456 = optimize( pm_blocks.slice(6,12), concat(p_county2, [0,0,0,0] ) );
+p_block123 = zip_optimize( pm_blocks.slice(0,6),  p_county1 );
+p_block456 = zip_optimize( pm_blocks.slice(6,12), p_county2 );
 
 p_blocks   = concat(p_block123, p_block456);
 true_map    = ['#b1m', '#b1f', '#b2m', '#b2f', '#b3m', '#b3f',
                '#b4m', '#b4f', '#b5m', '#b5f', '#b6m', '#b6f'];
 
-p("Starting blocks: ",true_blocks);
+p("\nStarting blocks: ",true_blocks);
 p("Ending blocks:   ",p_blocks);
 
 total_error = 0;
@@ -171,7 +223,7 @@ for(var i=0;i< true_blocks.length; i++){
     p(true_blocks[i],"-->",p_blocks[i]);
     total_error += Math.abs( true_blocks[i] - p_blocks[i] );
 }
-p("Total error:",total_error);
+p("\nTotal error:",total_error);
 
 //goal = [1,2,3,4,5,6];
 //v1 = [3,2,1,0,3,6];
