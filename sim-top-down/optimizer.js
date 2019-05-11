@@ -45,6 +45,24 @@ function score(goal, vals) {
     return Math.sqrt(sum_of_squares);
 }
 
+// concatenate multiple arrays together
+function concat() {
+    var a = [];
+    for (var i=0; i< arguments.length; i++){
+        a = a.concat(arguments[i]);
+    }
+    return a
+}
+
+// compare two arrays; python does this for us!
+function compare(a,b) {
+    if ( a.length != b.length) return false; 
+    for (var i=0; i< a.length; i++) {
+        if (a[i] != b[i]) return false;
+    }
+    return true;
+}
+
 /* Given a goal and a current set of vals, evaluate all possible moves on vals and return the best new set */
 function optimize1(goal, vals) {
     // Start with the current position
@@ -70,15 +88,18 @@ function optimize1(goal, vals) {
 }
 
 /* Run the optimizer until the array is unchanged or we run out of steps */
-MAX_STEPS=100000;
+MAX_STEPS=10000;
 function optimize(goal, vals){
     p(goal,'<-',vals);
     for (var i=0; i<MAX_STEPS; i++) {
         nvals = optimize1(goal, vals);
-        if (vals==nvals) {
+        if (compare(vals,nvals)) {
             break;
         }
         vals = nvals;
+    }
+    if (i ==MAX_STEPS){
+        p("** MAX_STEPS REACHED **")
     }
     // Ran too long; return last optimization
     p('   -> ', nvals);
@@ -94,15 +115,6 @@ function sum_up(vals) {
         b += vals[i+1];
     }
     return [a,b]
-}
-
-// concatenate multiple arrays together
-function concat() {
-    var a = [];
-    for (var i=0; i< arguments.length; i++){
-        a = a.concat(arguments[i]);
-    }
-    return a
 }
 
 // True measures
@@ -147,8 +159,19 @@ p_county2  = p_county12.slice(2,4);
 p_block123 = optimize( pm_blocks.slice(0,6),  concat(p_county1, [0,0,0,0] ) );
 p_block456 = optimize( pm_blocks.slice(6,12), concat(p_county2, [0,0,0,0] ) );
 
+p_blocks   = concat(p_block123, p_block456);
+true_map    = ['#b1m', '#b1f', '#b2m', '#b2f', '#b3m', '#b3f',
+               '#b4m', '#b4f', '#b5m', '#b5f', '#b6m', '#b6f'];
+
 p("Starting blocks: ",true_blocks);
-p("Ending blocks: ",p_block123,p_block456);
+p("Ending blocks:   ",p_blocks);
+
+total_error = 0;
+for(var i=0;i< true_blocks.length; i++){
+    p(true_blocks[i],"-->",p_blocks[i]);
+    total_error += Math.abs( true_blocks[i] - p_blocks[i] );
+}
+p("Total error:",total_error);
 
 //goal = [1,2,3,4,5,6];
 //v1 = [3,2,1,0,3,6];
