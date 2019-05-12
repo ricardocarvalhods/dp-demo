@@ -40,6 +40,22 @@ input {
   font-size: 12pt;
 }
 
+.farmblock {
+  background-color: rgb(0,255,0);
+}
+
+.farmcounty {
+  background-color: rgb(128,255,128);
+}
+
+.urbanblock {
+  background-color: rgb(128,128,255);
+}
+
+.urbancounty {
+  background-color: rgb(192,192,255);
+}
+
 .data {
    font-family: monospace;
 }
@@ -83,8 +99,8 @@ class MatrixMaker:
         dd = TyTag('span', text='tbd', attrib={'class':'data', 'id':self.id_prefix+level})
         if m is not None:
             attrib = {'type':'text', 'size':'3'}
-            df = TyTag('input',attrib={**attrib,**{'value':str(m)}})
-            dm = TyTag('input',attrib={**attrib,**{'value':str(f)}})
+            df = TyTag('input',attrib={**attrib,**{'id':self.id_prefix+level+'f','value':str(m)}})
+            dm = TyTag('input',attrib={**attrib,**{'id':self.id_prefix+level+'m','value':str(f)}})
         else:
             attrib = {'class':'data'}
             df = TyTag('span', text='tbd', attrib={**attrib, **{'id':self.id_prefix+level+'f'}})
@@ -99,22 +115,28 @@ class MatrixMaker:
         doc.append(t)
 
         tr = t.tbody.add_tag('tr')
-        tr.add_tag('td', *self.pop_data_field('Any State', 'state'), attrib={'colspan':6})
+        tr.add_tag('td', *self.pop_data_field('Any State', 'state'), attrib={'colspan':'6'})
         tr = t.tbody.add_tag('tr')
-        tr.add_tag('td', *self.pop_data_field('Farmland ', 'fcounty'),   attrib={'colspan':3})
-        tr.add_tag('td', *self.pop_data_field('Urbanville', 'ucounty'), attrib={'colspan':3})
+        tr.add_tag('td', *self.pop_data_field('Farmland ', 'fcounty'),  attrib={'colspan':'3', 'class':'farmcounty'})
+        tr.add_tag('td', *self.pop_data_field('Urbanville', 'ucounty'), attrib={'colspan':'3', 'class':'urbancounty'})
         tr = t.tbody.add_tag('tr')
-        tr.add_tag('td', *self.pop_data_field('FBlock<br/>', 'b1', f=1,   m=2))
-        tr.add_tag('td', *self.pop_data_field('FBlock<br/>', 'b2', f=10,  m=15))
-        tr.add_tag('td', *self.pop_data_field('FBlock<br/>', 'b3', f=25,  m=10))
-        tr.add_tag('td', *self.pop_data_field('UBlock<br/>', 'b4', f=350, m=330))
-        tr.add_tag('td', *self.pop_data_field('UBlock<br/>', 'b5', f=750, m=800))
-        tr.add_tag('td', *self.pop_data_field('UBlock<br/>', 'b6', f=925, m=975))
+        tr.add_tag('td', *self.pop_data_field('FBlock<br/>', 'b1', f=1,   m=2), attrib={'class':'farmblock'})
+        tr.add_tag('td', *self.pop_data_field('FBlock<br/>', 'b2', f=10,  m=15), attrib={'class':'farmblock'})
+        tr.add_tag('td', *self.pop_data_field('FBlock<br/>', 'b3', f=25,  m=10), attrib={'class':'farmblock'})
+        tr.add_tag('td', *self.pop_data_field('UBlock<br/>', 'b4', f=350, m=330), attrib={'class':'urbanblock'})
+        tr.add_tag('td', *self.pop_data_field('UBlock<br/>', 'b5', f=750, m=800), attrib={'class':'urbanblock'})
+        tr.add_tag('td', *self.pop_data_field('UBlock<br/>', 'b6', f=925, m=975), attrib={'class':'urbanblock'})
         return t
 
 if __name__=="__main__":
     doc = tydoc.tydoc()
     doc.head.add_tag("style",TABLE_STYLE)
+    # https://developers.google.com/speed/libraries/#jquery
+    doc.head.add_tag("link",   attrib={'rel':'stylesheet',
+                                       'src':'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css'})
+    doc.head.add_tag("script", attrib={'src':'https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js'})
+    doc.head.add_tag("script", attrib={'src':'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'})
+    doc.head.add_tag("script", attrib={'src':'demo.js'})
     div = doc.body.add_tag("div", attrib={'class':'row'})
     col1 = div.add_tag('div', attrib={'class':'column left'})
     col2 = div.add_tag('div', attrib={'class':'column middle noise'})
