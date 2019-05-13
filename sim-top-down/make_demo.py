@@ -92,13 +92,14 @@ height: 250px;
 
 """
 class MatrixMaker:
-    def __init__(self,id_prefix):
+    def __init__(self,id_prefix,editable=True):
         self.id_prefix = id_prefix
+        self.editable  = editable;
 
     def pop_data_field(self, name, level, f=None, m=None ):
         dd = TyTag('span', text='tbd', attrib={'class':'data', 'id':self.id_prefix+level})
-        if m is not None:
-            attrib = {'type':'text', 'size':'3'}
+        if (m is not None) and (self.editable==True):
+            attrib = {'type':'text', 'min':'0', 'max':'999', 'size':'3'}
             df = TyTag('input',attrib={**attrib,**{'id':self.id_prefix+level+'f','value':str(m)}})
             dm = TyTag('input',attrib={**attrib,**{'id':self.id_prefix+level+'m','value':str(f)}})
         else:
@@ -110,7 +111,6 @@ class MatrixMaker:
                  '<span class="data">m:</span>', dm]
 
     def add_matrix(self,doc):
-
         t = tydoc.tytable()
         doc.append(t)
 
@@ -136,16 +136,22 @@ if __name__=="__main__":
                                        'src':'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css'})
     doc.head.add_tag("script", attrib={'src':'https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js'})
     doc.head.add_tag("script", attrib={'src':'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'})
+    doc.head.add_tag("script", attrib={'src':'jquery.inputfit.js'})
     doc.head.add_tag("script", attrib={'src':'demo.js'})
     div = doc.body.add_tag("div", attrib={'class':'row'})
     col1 = div.add_tag('div', attrib={'class':'column left'})
     col2 = div.add_tag('div', attrib={'class':'column middle noise'})
     col3 = div.add_tag('div', attrib={'class':'column right'})
                                       
-    MatrixMaker('r').add_matrix(col1)
+    MatrixMaker('r', editable=True).add_matrix(col1)
     col2.add_tag('p',
                  '<div id="bbox"><div id="barrier">Noise Barrier</div></div>',
-                 '<button>privitize!</button><br/>')
-    MatrixMaker('p').add_matrix(col3)
+                 '<button>privitize!</button><br/>',
+                 '&epsilon; <select name="epsilon" id="epsilon">',
+                 '<option>0.5</option>',
+                 '<option selected="selected">1.0</option>',
+                 '<option>2.0</option>',
+                 '</select>')
+    MatrixMaker('p', editable=False).add_matrix(col3)
     doc.save("demo.html")
     
