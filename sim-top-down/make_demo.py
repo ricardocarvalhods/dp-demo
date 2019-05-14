@@ -17,6 +17,11 @@ REQUIRED = ['https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smooth
             'optimizer.js',
             'demo.js']
 
+SCENARIOS = [ ('1,2,3,4,5,6,101,102,103,104,105,106','balanced rural and urban blocks'),
+              ('1,2,3,400,5,6,101,102,103,104,105,106','One rural block with a LOT of males.'),
+              ('1,2,3,4,5,6,101,102,103,104,600,106','One urban block with a LOT of females.'),
+              ]
+
 class MatrixMaker:
     def __init__(self,id_prefix,editable=True):
         self.id_prefix = id_prefix
@@ -117,10 +122,12 @@ if __name__=="__main__":
     
     t = tydoc.tytable()
     t.add_head(['select','scenario'])
-    t.add_data([TyTag('input',attrib={'type':'button',
-                                      'class':'sbutton',
-                                      'counts':'1,2,3,4,5,6,101,102,103,104,105,106'}),
-                'balanced rural and urban blocks'])
+
+    for (counts,desc) in SCENARIOS:
+        t.add_data([TyTag('input',attrib={'type':'button',
+                                          'class':'sbutton',
+                                          'counts':counts}),
+                    desc])
     doc.append(t)
 
     doc.save("demo.html")

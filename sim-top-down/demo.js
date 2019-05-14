@@ -33,6 +33,9 @@ priv_block_map   = ['#pb1-f', '#pb1-m',
                   '#pb6-f', '#pb6-m'];
 
 
+initial_counts = ['1','2','3','4','5','6',
+                  '101','102','103','104','105','106'];
+
 
 function sum_state_from_blocks(p) {
     // sum the f & m cells to compute the block populations, the tract population, and the state population
@@ -63,7 +66,6 @@ function recalc() {
 
     // get the real values
     var epsilon = Number($("#epsilon option:selected").text());
-    console.log("epsilon:",epsilon);
     var true_vals = true_block_map.map(function(_) { return $(_).nval(); });
     var priv_vals = topdown(epsilon,true_vals);
 
@@ -73,6 +75,14 @@ function recalc() {
     });
     sum_state_from_blocks("p");
 }
+
+function set_true_counts(counts) {
+    zip(true_block_map,counts).map(function (_) {
+        $( _[0] ).val( _[1] );
+    });
+    recalc();
+}
+    
 
 $(document).ready(function() {
     $("input").on('input', function() {
@@ -89,16 +99,11 @@ $(document).ready(function() {
         recalc();
     });
     $(".sbutton").click( function(event) {
-        console.log('event:',event.target);
         var counts =  $(event.target).attr('counts').split(',');
-        zip(true_block_map,counts).map(function (_) {
-            console.log(_[0],'<-',_[1])
-            $( _[0] ).val( _[1] );
-        });
-        recalc();
+        set_true_counts( counts );
     });
 
-    recalc();
+    set_true_counts( initial_counts );
 });
 
 
