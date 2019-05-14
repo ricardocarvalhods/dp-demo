@@ -13,106 +13,25 @@ LOCAL_CDN = False
 REQUIRED = ['https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css',
             'https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js',
             'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js',
+            'demo.css',
+            'optimizer.js',
             'demo.js']
 
-TABLE_STYLE="""
-
-#bbox {
- height: 200px;
-}
-
-#barrier {
-  width: 50px;
-  transform: rotate(-90deg);
-  font-weight: bold;
-  font-family: sans-serif;
-  font-size: 20pt;
-  position: relative;
-  top: 60px;
-  left: 10px;
-}
-
-tr {border-style: solid;}
-td {border-style: solid;}
-table {
-  font-size: 11pt;
-  font-family: sans-serif;
-  text-align: center;
-  border-collapse: collapse;
-}
-
-input {
-  text-align: right;
-  font-weight: bold;
-  font-size: 12pt;
-}
-
-.ruralblock {
-  background-color: rgb(0,255,0);
-}
-
-.ruralcounty {
-  background-color: rgb(128,255,128);
-}
-
-.urbanblock {
-  background-color: rgb(128,128,255);
-}
-
-.urbancounty {
-  background-color: rgb(192,192,255);
-}
-
-.data {
-   font-family: monospace;
-}
-
-.column {
-  float: left;
-  padding: 5px; 
-}
-
-.noise {
-  background-color: yellow;
-}
-
-
-/*
-.left, .right {
-  width: 40%; 
-}
-*/
-
-.middle {
-//  width: 10%; 
-padding: 4px;
-height: 250px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-
-"""
 class MatrixMaker:
     def __init__(self,id_prefix,editable=True):
         self.id_prefix = id_prefix
         self.editable  = editable;
 
     def pop_data_fields(self, name, level, f=None, m=None ):
-        d1 = TyTag('div', attrib={'class':'dataline'})
+        d1 = TyTag('div', attrib={'class':'dataline1'})
         d1t = TyTag('span', text=f'{name} pop: ', attrib={'class':'datalabel'})
         d1d = TyTag('span', text='tbd', attrib={'class':'data', 'id':self.id_prefix+level+"-pop"})
         d1.extend([d1t,d1d])
 
-        d2 = TyTag('div', attrib={'class':'dataline'})
+        d2 = TyTag('div', attrib={'class':'dataline2'})
         d2t = TyTag('span', text='f: ', attrib={'class':'datalabel'})
         
-        d3 = TyTag('div', attrib={'class':'dataline'})
+        d3 = TyTag('div', attrib={'class':'dataline3'})
         d3t = TyTag('span', text='m: ', attrib={'class':'datalabel'})
         
         if self.editable==True and 'Block' in name:
@@ -149,7 +68,6 @@ class MatrixMaker:
 
 if __name__=="__main__":
     doc = tydoc.tydoc()
-    doc.head.add_tag_text("style",TABLE_STYLE)
     # https://developers.google.com/speed/libraries/#jquery
 
     for url in REQUIRED:
@@ -161,7 +79,7 @@ if __name__=="__main__":
                 url = 'cdn/' + os.path.basename(url)
 
         if url.endswith('.css'):
-            doc.head.add_tag("link",   attrib={'rel':'stylesheet','src':url})
+            doc.head.add_tag("link",   attrib={'rel':'stylesheet','href':url, 'media':'all'})
         elif url.endswith('.js'):
             doc.head.add_tag("script", attrib={'src':url})
         else:
@@ -176,11 +94,16 @@ if __name__=="__main__":
     MatrixMaker('r', editable=True).add_matrix(col1)
     col2.text=('<p>'
                '<div id="bbox"><div id="barrier">Noise Barrier</div></div>'
-               '<button>privitize!</button><br/>'
+               '<input id="privatize" type="button" value="privatize!"/><br/>'
                '&epsilon; <select name="epsilon" id="epsilon">'
+               '<option>0.1</option>'
+               '<option>0.25</option>'
                '<option>0.5</option>'
+               '<option>0.75</option>'
                '<option selected="selected">1.0</option>'
                '<option>2.0</option>'
+               '<option>5.0</option>'
+               '<option>10.0</option>'
                '</select>'
                '</p>' )
     MatrixMaker('p', editable=False).add_matrix(col3)

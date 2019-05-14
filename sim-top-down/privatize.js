@@ -1,5 +1,5 @@
 /* ================================================================
- * privitize.js
+ * privatize.js
  * Work by: Simson Garfinkel (simson.l.garfinkel@census.gov)
  *          William Yates
  *          Dan Kifer
@@ -90,7 +90,7 @@ function range(len) {
 }
 
 
-/* The differential privacy engine for privitizing histograms.*/
+/* The differential privacy engine for privatizing histograms.*/
 function privatize_histogram(model) {
     totalCounts = model.counts.reduce(function(a, b) {
         return a + b;
@@ -100,14 +100,14 @@ function privatize_histogram(model) {
     model.noises = range(model.counts.length).map(function(a) {
         return geometric_noise(model.epsilon, 1);
     });
-    // compute the privitized values
+    // compute the privatized values
     model.noisy_counts = [];
     for (var i = 0; i < model.counts.length; i++) {
         model.noisy_counts[i] = model.counts[i] + model.noises[i];
     }
     // PRIVACY BARRIER END
 
-    //console.log("privitized model:",model)
+    //console.log("privatized model:",model)
 
     // post-process: round all negative numbers up to zero.
     // If we do not have invariant_counts, just bring all the negative numbers up to zero.

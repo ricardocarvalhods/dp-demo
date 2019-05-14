@@ -17,30 +17,61 @@ $.fn.nval = function() {
 };
 
 
-function recalc() {
+// (f,m) pairs of the true blocks
+true_block_map   = ['#rb1-f', '#rb1-m', 
+                  '#rb2-f', '#rb2-m', 
+                  '#rb3-f', '#rb3-m', 
+                  '#rb4-f', '#rb4-m', 
+                  '#rb5-f', '#rb5-m', 
+                  '#rb6-f', '#rb6-m'];
+
+priv_block_map   = ['#pb1-f', '#pb1-m', 
+                  '#pb2-f', '#pb2-m', 
+                  '#pb3-f', '#pb3-m', 
+                  '#pb4-f', '#pb4-m', 
+                  '#pb5-f', '#pb5-m', 
+                  '#pb6-f', '#pb6-m'];
+
+
+
+function sum_state_from_blocks(p) {
+    // sum the f & m cells to compute the block populations, the tract population, and the state population
     // Calc the block totals
-    $("#rb1-pop").text( $("#rb1-f").nval() + $("#rb1-m").nval());
-    $("#rb2-pop").text( $("#rb2-f").nval() + $("#rb2-m").nval());
-    $("#rb3-pop").text( $("#rb3-f").nval() + $("#rb3-m").nval());
-    $("#rb4-pop").text( $("#rb4-f").nval() + $("#rb4-m").nval());
-    $("#rb5-pop").text( $("#rb5-f").nval() + $("#rb5-m").nval());
-    $("#rb6-pop").text( $("#rb6-f").nval() + $("#rb6-m").nval());
+    for(var b=1;b<=6;b++){
+        $("#"+p+"b"+b+"-pop").text( $("#"+p+"b"+b+"-f").nval() + $("#"+p+"b"+b+"-m").nval());
+    }
 
     // Calc Ruralland totals
-    $("#rrcounty-pop").text( $("#rb1-pop").nval()  + $("#rb2-pop").nval()  + $("#rb3-pop").nval());
-    $("#rrcounty-f").text(   $("#rb1-f").nval() + $("#rb2-f").nval() + $("#rb3-f").nval());
-    $("#rrcounty-m").text(   $("#rb1-m").nval() + $("#rb2-m").nval() + $("#rb3-m").nval());
+    $("#"+p+"rcounty-pop").text( $("#"+p+"b1-pop").nval()  + $("#"+p+"b2-pop").nval()  + $("#"+p+"b3-pop").nval());
+    $("#"+p+"rcounty-f").text(   $("#"+p+"b1-f").nval() + $("#"+p+"b2-f").nval() + $("#"+p+"b3-f").nval());
+    $("#"+p+"rcounty-m").text(   $("#"+p+"b1-m").nval() + $("#"+p+"b2-m").nval() + $("#"+p+"b3-m").nval());
 
     // Calc Urbanville totals
-    $("#rucounty-pop").text( $("#rb4-pop").nval()  + $("#rb5-pop").nval()  + $("#rb6-pop").nval());
-    $("#rucounty-f").text(   $("#rb4-f").nval() + $("#rb5-f").nval() + $("#rb6-f").nval());
-    $("#rucounty-m").text(   $("#rb4-m").nval() + $("#rb5-m").nval() + $("#rb6-m").nval());
+    $("#"+p+"ucounty-pop").text( $("#"+p+"b4-pop").nval()  + $("#"+p+"b5-pop").nval()  + $("#"+p+"b6-pop").nval());
+    $("#"+p+"ucounty-f").text(   $("#"+p+"b4-f").nval() + $("#"+p+"b5-f").nval() + $("#"+p+"b6-f").nval());
+    $("#"+p+"ucounty-m").text(   $("#"+p+"b4-m").nval() + $("#"+p+"b5-m").nval() + $("#"+p+"b6-m").nval());
 
     // Calc State totals
-    $("#rstate-pop").text( $("#rrcounty-pop").nval() + $("#rucounty-pop").nval() );
-    $("#rstate-f").text(  $("#rrcounty-f").nval()   + $("#rucounty-f").nval() );
-    $("#rstate-m").text(  $("#rrcounty-m").nval()   + $("#rucounty-m").nval() );
+    $("#"+p+"state-pop").text( $("#"+p+"rcounty-pop").nval() + $("#"+p+"ucounty-pop").nval() );
+    $("#"+p+"state-f").text(  $("#"+p+"rcounty-f").nval()   + $("#"+p+"ucounty-f").nval() );
+    $("#"+p+"state-m").text(  $("#"+p+"rcounty-m").nval()   + $("#"+p+"ucounty-m").nval() );
 
+}
+
+function recalc() {
+    sum_state_from_blocks("r");
+
+    // get the real values
+    var epsilon = Number($("#epsilon option:selected").text());
+    console.log("epsilon:",epsilon);
+    var true_vals = true_block_map.map(function(_) { return $(_).nval(); });
+    var priv_vals = topdown(epsilon,true_vals);
+
+    // for now, just write them over
+    zip(priv_block_map, priv_vals).map(function(_) {
+        $(_[0]).text( _[1] );
+    });
+    sum_state_from_blocks("p");
 }
 
 $(document).ready(function() {
@@ -49,6 +80,12 @@ $(document).ready(function() {
         if (this.value.length > 4){
             this.value='9999';
         }
+        recalc();
+    });
+    $("#privatize").click( function() {
+        recalc();
+    });
+    $("#epsilon").change( function() {
         recalc();
     });
     recalc();

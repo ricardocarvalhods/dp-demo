@@ -1,3 +1,5 @@
+var debug=false; 
+
 p = console.log;
 console.log("hello")
 
@@ -22,8 +24,8 @@ function laplace_noise(budget, sensitivity ) {
     return laplace(0.0, (sensitivity / budget));
 }
 
-/* Privitize an array of counts (histogram) exploiting parallel composition */
-function privitize_array(vars, epsilon) {
+/* Privatize an array of counts (histogram) exploiting parallel composition */
+function privatize_array(vars, epsilon) {
     return vars.map( function(a) {
         return a + laplace_noise(epsilon, 1);
     });
@@ -94,7 +96,9 @@ function optimize1(goal, vals) {
 
 MAX_STEPS=100000;
 function optimize(goal, vals){
-    p(goal,'<-',vals);
+    if (debug){
+        p(goal,'<-',vals);
+    }
     vals = [...vals];           // make a local copy
 
     // Make sure both are the same length
@@ -110,7 +114,9 @@ function optimize(goal, vals){
         }
         vals = nvals;
     }
-    p('   -> ', nvals);
+    if (debug) {
+        p('   -> ', nvals);
+    }
     return nvals
 }
 
@@ -127,17 +133,25 @@ function pluck(src,offset) {
     return a;
 }
 
+
 /* like the Python zip */
 function zip(a,b) {
+    var ret = [];
+    for (var i = 0; i < a.length; i++) {
+        ret.push([a[i],b[i]]);
+    }
+    return ret;
+}
+
+
+
+/* like the Python zip followed by a flatten */
+function flat_zip(a,b) {
     var ret = [];
     for (var i = 0; i < a.length; i++) {
         ret.push(a[i]);
         ret.push(b[i]);
     }
-    //p("---ZIP---")
-    //p("a:",a);
-    //p("b:",b);
-    //p("ret:",ret);
     return ret;
 }
 
@@ -154,7 +168,7 @@ function zip_optimize(goal, vals){
 
     var nmale   = optimize(male_goal, male_vals);
     var nfemale = optimize(female_goal, female_vals);
-    return zip(nmale, nfemale);
+    return flat_zip(nmale, nfemale);
 }
 
 function sum_up(vals) {
@@ -167,69 +181,86 @@ function sum_up(vals) {
     return [a,b]
 }
 
-// True measures
-true_blocks = [1,2, 2,4, 5,10, 1000,1010, 1500,1060, 1800,1100];
-true_map    = ['#b1m', '#b1f', '#b2m', '#b2f', '#b3m', '#b3f',
-               '#b4m', '#b4f', '#b5m', '#b5f', '#b6m', '#b6f'];
-true_county1 = sum_up(true_blocks.slice(0,6));
-true_county2 = sum_up(true_blocks.slice(6,12));
-true_state   = sum_up( concat(true_county1, true_county2) );
+function topdown(epsilon,true_blocks) {
+    true_county1 = sum_up(true_blocks.slice(0,6));
+    true_county2 = sum_up(true_blocks.slice(6,12));
+    true_state   = sum_up( concat(true_county1, true_county2) );
 
-p("true_blocks:",true_blocks);
-p("county1:", true_county1);
-p("county2:", true_county2);
-p("state:", true_state);
+    if(debug){
+        p("true_blocks:",true_blocks);
+        p("county1:", true_county1);
+        p("county2:", true_county2);
+        p("state:", true_state);
+    }
 
-// privitized measurements
-var epsilon = 0.25;
-///////////////////////////////////////////////
-//////////////// NOISE BARRIER ////////////////
-///////////////////////////////////////////////
-pm_blocks  = privitize_array(true_blocks, epsilon);
-pm_county1 = privitize_array(true_county1, epsilon);
-pm_county2 = privitize_array(true_county2, epsilon);
-pm_state   = privitize_array(true_state, epsilon);
-///////////////////////////////////////////////
-//////////////// NOISE BARRIER ////////////////
-///////////////////////////////////////////////
+    ///////////////////////////////////////////////
+    //////////////// NOISE BARRIER ////////////////
+    ///////////////////////////////////////////////
+    pm_blocks  = privatize_array(true_blocks, epsilon * 0.333);
+    pm_county1 = privatize_array(true_county1, epsilon * 0.333); // parallel composition1
+    pm_county2 = privatize_array(true_county2, epsilon * 0.333); // parallel composition2
+    pm_state   = privatize_array(true_state, epsilon * 0.333);
+    ///////////////////////////////////////////////
+    //////////////// NOISE BARRIER ////////////////
+    ///////////////////////////////////////////////
 
-// Run top-level -> top-level to balance the histogram.
-// This isn't needed with just one set of measurements, but
-// we do it anyway because the real top-down algorithm does.
-p_state = optimize(pm_state, pm_state);
+    // Run top-level -> top-level to balance the histogram.
+    // This isn't needed with just one set of measurements, but
+    // we do it anyway because the real top-down algorithm does.
+    p_state = optimize(pm_state, pm_state);
 
-p("\nStarting state: ", true_state);
-p("Ending state: ", p_state);
+    // Non-negativity
+    for(var i=0;i<2;i++){
+        if (p_state[i] < 0 ){
+            p_state[i] = 0;
+        }
+    }
 
-// Distribute from the state to the two counties:
-p_county12 = zip_optimize( concat(pm_county1,pm_county2), p_state);
-p("p_county12:",p_county12);
-p_county1  = p_county12.slice(0,2);
-p_county2  = p_county12.slice(2,4);
+    if(debug){
+        p("\nStarting state: ", true_state);
+        p("Ending state: ", p_state);
+    }
 
-// distribute from each county to the blocks
-p_block123 = zip_optimize( pm_blocks.slice(0,6),  p_county1 );
-p_block456 = zip_optimize( pm_blocks.slice(6,12), p_county2 );
+    // Distribute from the state to the two counties:
+    p_county12 = zip_optimize( concat(pm_county1,pm_county2), p_state);
+    p_county1  = p_county12.slice(0,2);
+    p_county2  = p_county12.slice(2,4);
 
-p_blocks   = concat(p_block123, p_block456);
-true_map    = ['#b1m', '#b1f', '#b2m', '#b2f', '#b3m', '#b3f',
-               '#b4m', '#b4f', '#b5m', '#b5f', '#b6m', '#b6f'];
+    // distribute from each county to the blocks
+    p_block123 = zip_optimize( pm_blocks.slice(0,6),  p_county1 );
+    p_block456 = zip_optimize( pm_blocks.slice(6,12), p_county2 );
+    p_blocks   = concat(p_block123, p_block456);
 
-p("\nStarting blocks: ",true_blocks);
-p("Ending blocks:   ",p_blocks);
+    if (debug) {
+        p("p_county12:",p_county12);
+        p("\nStarting blocks: ",true_blocks);
+        p("Ending blocks:   ",p_blocks);
+    }
 
-total_error = 0;
-for(var i=0;i< true_blocks.length; i++){
-    p(true_blocks[i],"-->",p_blocks[i]);
-    total_error += Math.abs( true_blocks[i] - p_blocks[i] );
+    total_error = 0;
+    for(var i=0;i< true_blocks.length; i++){
+        if(debug){
+            p(true_blocks[i],"-->",p_blocks[i]);
+        }
+        total_error += Math.abs( true_blocks[i] - p_blocks[i] );
+    }
+    if (debug) {
+        p("\nTotal error:",total_error);
+    }
+    return p_blocks;
+
+    //goal = [1,2,3,4,5,6];
+    //v1 = [3,2,1,0,3,6];
+
+    //vn = optimize(goal, [99,0,0,0,0,0]);
+    //vn = optimize(goal, [0,0,10,0,0,0]);
+    //vn = optimize(goal, [0,0,0,0,0,10]);
+
+    //optimize1(goal, v1);
 }
-p("\nTotal error:",total_error);
 
-//goal = [1,2,3,4,5,6];
-//v1 = [3,2,1,0,3,6];
-
-//vn = optimize(goal, [99,0,0,0,0,0]);
-//vn = optimize(goal, [0,0,10,0,0,0]);
-//vn = optimize(goal, [0,0,0,0,0,10]);
-
-//optimize1(goal, v1);
+function main() {
+    // True measures
+    true_blocks = [1,2, 2,4, 5,10, 1000,1010, 1500,1060, 1800,1100];
+    private_blocks = topdown(true_blocks)
+}
