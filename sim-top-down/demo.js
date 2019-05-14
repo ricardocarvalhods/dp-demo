@@ -88,6 +88,16 @@ $(document).ready(function() {
     $("#epsilon").change( function() {
         recalc();
     });
+    $(".sbutton").click( function(event) {
+        console.log('event:',event.target);
+        var counts =  $(event.target).attr('counts').split(',');
+        zip(true_block_map,counts).map(function (_) {
+            console.log(_[0],'<-',_[1])
+            $( _[0] ).val( _[1] );
+        });
+        recalc();
+    });
+
     recalc();
 });
 

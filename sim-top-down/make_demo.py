@@ -51,17 +51,17 @@ class MatrixMaker:
     def add_matrix(self,doc):
         t = tydoc.tytable()
         tr = t.tbody.add_tag('tr')
-        tr.add_tag_elems('td', self.pop_data_fields('Any State', 'state'),    attrib={'colspan':'6'})
+        tr.add_tag_elems('td', self.pop_data_fields('Tiny State', 'state'),    attrib={'colspan':'6'})
         tr = t.tbody.add_tag('tr')
         tr.add_tag_elems('td', self.pop_data_fields('Ruralland ', 'rcounty'),  attrib={'colspan':'3', 'class':'ruralcounty'})
         tr.add_tag_elems('td', self.pop_data_fields('Urbanville', 'ucounty'), attrib={'colspan':'3', 'class':'urbancounty'})
         tr = t.tbody.add_tag('tr')
-        tr.add_tag_elems('td', self.pop_data_fields('RBlock<br/>', 'b1'), attrib={'class':'ruralblock'})
-        tr.add_tag_elems('td', self.pop_data_fields('RBlock<br/>', 'b2'), attrib={'class':'ruralblock'})
-        tr.add_tag_elems('td', self.pop_data_fields('RBlock<br/>', 'b3'), attrib={'class':'ruralblock'})
-        tr.add_tag_elems('td', self.pop_data_fields('UBlock<br/>', 'b4'), attrib={'class':'urbanblock'})
-        tr.add_tag_elems('td', self.pop_data_fields('UBlock<br/>', 'b5'), attrib={'class':'urbanblock'})
-        tr.add_tag_elems('td', self.pop_data_fields('UBlock<br/>', 'b6'), attrib={'class':'urbanblock'})
+        tr.add_tag_elems('td', self.pop_data_fields('RBlock<br/>', 'b1'), attrib={'class':'ruralblock block'})
+        tr.add_tag_elems('td', self.pop_data_fields('RBlock<br/>', 'b2'), attrib={'class':'ruralblock block'})
+        tr.add_tag_elems('td', self.pop_data_fields('RBlock<br/>', 'b3'), attrib={'class':'ruralblock block'})
+        tr.add_tag_elems('td', self.pop_data_fields('UBlock<br/>', 'b4'), attrib={'class':'urbanblock block'})
+        tr.add_tag_elems('td', self.pop_data_fields('UBlock<br/>', 'b5'), attrib={'class':'urbanblock block'})
+        tr.add_tag_elems('td', self.pop_data_fields('UBlock<br/>', 'b6'), attrib={'class':'urbanblock block'})
 
         doc.append(t)
         return t
@@ -91,6 +91,7 @@ if __name__=="__main__":
     col2 = div.add_tag('div', attrib={'class':'column middle noise'})
     col3 = div.add_tag('div', attrib={'class':'column right'})
                                       
+    col1.add_tag_text('p','<i>Confidential database:</i>')
     MatrixMaker('r', editable=True).add_matrix(col1)
     col2.text=('<p>'
                '<div id="bbox"><div id="barrier">Noise Barrier</div></div>'
@@ -106,6 +107,21 @@ if __name__=="__main__":
                '<option>10.0</option>'
                '</select>'
                '</p>' )
+    col3.add_tag_text('p','<i>Published official tabulations:</i>')
     MatrixMaker('p', editable=False).add_matrix(col3)
+    doc.body.add_tag_text('p','Each rectangle shows the population statistics for a different geographical area. The top is the total population (pop), followed by the number of females (f) and the number of males (m).',attrib={'class':'instructions'}),
+    
+    doc.body.add_tag_text('p','ε specifies the privacy loss budget. Click <b>privatize!</b> to re-run the privacy mechanism with a different set of random noises.',attrib={'class':'instructions'}),
+    
+    doc.body.add_tag_text('p','Try changng the number of females or males that was counted on a block and see how it changes the official tabulations. Or choose one of the sample scenarios listed below.',attrib={'class':'instructions'}),
+    
+    t = tydoc.tytable()
+    t.add_head(['select','scenario'])
+    t.add_data([TyTag('input',attrib={'type':'button',
+                                      'class':'sbutton',
+                                      'counts':'1,2,3,4,5,6,101,102,103,104,105,106'}),
+                'balanced rural and urban blocks'])
+    doc.append(t)
+
     doc.save("demo.html")
     
