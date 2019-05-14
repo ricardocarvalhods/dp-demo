@@ -8,6 +8,13 @@ import ctools
 import ctools.tydoc as tydoc
 from tydoc import TyTag
 
+LOCALHOST_CDN = False
+LOCAL_CDN = False
+REQUIRED = ['https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css',
+            'https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js',
+            'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js',
+            'demo.js']
+
 TABLE_STYLE="""
 
 #bbox {
@@ -40,11 +47,11 @@ input {
   font-size: 12pt;
 }
 
-.farmblock {
+.ruralblock {
   background-color: rgb(0,255,0);
 }
 
-.farmcounty {
+.ruralcounty {
   background-color: rgb(128,255,128);
 }
 
@@ -96,62 +103,86 @@ class MatrixMaker:
         self.id_prefix = id_prefix
         self.editable  = editable;
 
-    def pop_data_field(self, name, level, f=None, m=None ):
-        dd = TyTag('span', text='tbd', attrib={'class':'data', 'id':self.id_prefix+level})
-        if (m is not None) and (self.editable==True):
-            attrib = {'type':'text', 'min':'0', 'max':'999', 'size':'3'}
-            df = TyTag('input',attrib={**attrib,**{'id':self.id_prefix+level+'f','value':str(m)}})
-            dm = TyTag('input',attrib={**attrib,**{'id':self.id_prefix+level+'m','value':str(f)}})
+    def pop_data_fields(self, name, level, f=None, m=None ):
+        d1 = TyTag('div', attrib={'class':'dataline'})
+        d1t = TyTag('span', text=f'{name} pop: ', attrib={'class':'datalabel'})
+        d1d = TyTag('span', text='tbd', attrib={'class':'data', 'id':self.id_prefix+level+"-pop"})
+        d1.extend([d1t,d1d])
+
+        d2 = TyTag('div', attrib={'class':'dataline'})
+        d2t = TyTag('span', text='f: ', attrib={'class':'datalabel'})
+        
+        d3 = TyTag('div', attrib={'class':'dataline'})
+        d3t = TyTag('span', text='m: ', attrib={'class':'datalabel'})
+        
+        if self.editable==True and 'Block' in name:
+            attrib = {'type':'text', 'min':'0', 'max':'999', 'size':'3', 'class':'data'}
+            d2d = TyTag('input',            attrib={**attrib, **{'id':self.id_prefix+level+'-f', 'value':'0'}})
+            d3d = TyTag('input',            attrib={**attrib, **{'id':self.id_prefix+level+'-m', 'value':'0'}})
         else:
             attrib = {'class':'data'}
-            df = TyTag('span', text='tbd', attrib={**attrib, **{'id':self.id_prefix+level+'f'}})
-            dm = TyTag('span', text='tbd', attrib={**attrib, **{'id':self.id_prefix+level+'m'}})
-        return [ name + ' pop: ', dd, '<br/>', 
-                 '<span class="data">f:</span>', df, '<br/>',
-                 '<span class="data">m:</span>', dm]
+            d2d = TyTag('span', text='tbd', attrib={**attrib, **{'id':self.id_prefix+level+'-f'}})
+            d3d = TyTag('span', text='tbd', attrib={**attrib, **{'id':self.id_prefix+level+'-m'}})
+
+        d2.extend([d2t,d2d])
+        d3.extend([d3t,d3d])
+
+        return [ d1, d2, d3 ]
 
     def add_matrix(self,doc):
         t = tydoc.tytable()
-        doc.append(t)
+        tr = t.tbody.add_tag('tr')
+        tr.add_tag_elems('td', self.pop_data_fields('Any State', 'state'),    attrib={'colspan':'6'})
+        tr = t.tbody.add_tag('tr')
+        tr.add_tag_elems('td', self.pop_data_fields('Ruralland ', 'rcounty'),  attrib={'colspan':'3', 'class':'ruralcounty'})
+        tr.add_tag_elems('td', self.pop_data_fields('Urbanville', 'ucounty'), attrib={'colspan':'3', 'class':'urbancounty'})
+        tr = t.tbody.add_tag('tr')
+        tr.add_tag_elems('td', self.pop_data_fields('RBlock<br/>', 'b1'), attrib={'class':'ruralblock'})
+        tr.add_tag_elems('td', self.pop_data_fields('RBlock<br/>', 'b2'), attrib={'class':'ruralblock'})
+        tr.add_tag_elems('td', self.pop_data_fields('RBlock<br/>', 'b3'), attrib={'class':'ruralblock'})
+        tr.add_tag_elems('td', self.pop_data_fields('UBlock<br/>', 'b4'), attrib={'class':'urbanblock'})
+        tr.add_tag_elems('td', self.pop_data_fields('UBlock<br/>', 'b5'), attrib={'class':'urbanblock'})
+        tr.add_tag_elems('td', self.pop_data_fields('UBlock<br/>', 'b6'), attrib={'class':'urbanblock'})
 
-        tr = t.tbody.add_tag('tr')
-        tr.add_tag('td', *self.pop_data_field('Any State', 'state'), attrib={'colspan':'6'})
-        tr = t.tbody.add_tag('tr')
-        tr.add_tag('td', *self.pop_data_field('Farmland ', 'fcounty'),  attrib={'colspan':'3', 'class':'farmcounty'})
-        tr.add_tag('td', *self.pop_data_field('Urbanville', 'ucounty'), attrib={'colspan':'3', 'class':'urbancounty'})
-        tr = t.tbody.add_tag('tr')
-        tr.add_tag('td', *self.pop_data_field('FBlock<br/>', 'b1', f=1,   m=2), attrib={'class':'farmblock'})
-        tr.add_tag('td', *self.pop_data_field('FBlock<br/>', 'b2', f=10,  m=15), attrib={'class':'farmblock'})
-        tr.add_tag('td', *self.pop_data_field('FBlock<br/>', 'b3', f=25,  m=10), attrib={'class':'farmblock'})
-        tr.add_tag('td', *self.pop_data_field('UBlock<br/>', 'b4', f=350, m=330), attrib={'class':'urbanblock'})
-        tr.add_tag('td', *self.pop_data_field('UBlock<br/>', 'b5', f=750, m=800), attrib={'class':'urbanblock'})
-        tr.add_tag('td', *self.pop_data_field('UBlock<br/>', 'b6', f=925, m=975), attrib={'class':'urbanblock'})
+        doc.append(t)
         return t
 
 if __name__=="__main__":
     doc = tydoc.tydoc()
-    doc.head.add_tag("style",TABLE_STYLE)
+    doc.head.add_tag_text("style",TABLE_STYLE)
     # https://developers.google.com/speed/libraries/#jquery
-    doc.head.add_tag("link",   attrib={'rel':'stylesheet',
-                                       'src':'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css'})
-    doc.head.add_tag("script", attrib={'src':'https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js'})
-    doc.head.add_tag("script", attrib={'src':'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'})
-    doc.head.add_tag("script", attrib={'src':'jquery.inputfit.js'})
-    doc.head.add_tag("script", attrib={'src':'demo.js'})
+
+    for url in REQUIRED:
+        # Check if we should use our phantom CDN
+        if url.startswith('https:'):
+            if LOCALHOST_CDN:
+                url = 'http://localhost/cdn/' + os.path.basename(url)
+            elif LOCAL_CDN:
+                url = 'cdn/' + os.path.basename(url)
+
+        if url.endswith('.css'):
+            doc.head.add_tag("link",   attrib={'rel':'stylesheet','src':url})
+        elif url.endswith('.js'):
+            doc.head.add_tag("script", attrib={'src':url})
+        else:
+            raise RuntimeError("Unknown file type: "+url)
+
+
     div = doc.body.add_tag("div", attrib={'class':'row'})
     col1 = div.add_tag('div', attrib={'class':'column left'})
     col2 = div.add_tag('div', attrib={'class':'column middle noise'})
     col3 = div.add_tag('div', attrib={'class':'column right'})
                                       
     MatrixMaker('r', editable=True).add_matrix(col1)
-    col2.add_tag('p',
-                 '<div id="bbox"><div id="barrier">Noise Barrier</div></div>',
-                 '<button>privitize!</button><br/>',
-                 '&epsilon; <select name="epsilon" id="epsilon">',
-                 '<option>0.5</option>',
-                 '<option selected="selected">1.0</option>',
-                 '<option>2.0</option>',
-                 '</select>')
+    col2.text=('<p>'
+               '<div id="bbox"><div id="barrier">Noise Barrier</div></div>'
+               '<button>privitize!</button><br/>'
+               '&epsilon; <select name="epsilon" id="epsilon">'
+               '<option>0.5</option>'
+               '<option selected="selected">1.0</option>'
+               '<option>2.0</option>'
+               '</select>'
+               '</p>' )
     MatrixMaker('p', editable=False).add_matrix(col3)
     doc.save("demo.html")
     

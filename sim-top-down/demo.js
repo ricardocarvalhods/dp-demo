@@ -19,32 +19,31 @@ $.fn.nval = function() {
 
 function recalc() {
     // Calc the block totals
-    $("#rb1").text( $("#rb1f").nval() + $("#rb1m").nval());
-    $("#rb2").text( $("#rb2f").nval() + $("#rb2m").nval());
-    $("#rb3").text( $("#rb3f").nval() + $("#rb3m").nval());
-    $("#rb4").text( $("#rb4f").nval() + $("#rb4m").nval());
-    $("#rb5").text( $("#rb5f").nval() + $("#rb5m").nval());
-    $("#rb6").text( $("#rb6f").nval() + $("#rb6m").nval());
+    $("#rb1-pop").text( $("#rb1-f").nval() + $("#rb1-m").nval());
+    $("#rb2-pop").text( $("#rb2-f").nval() + $("#rb2-m").nval());
+    $("#rb3-pop").text( $("#rb3-f").nval() + $("#rb3-m").nval());
+    $("#rb4-pop").text( $("#rb4-f").nval() + $("#rb4-m").nval());
+    $("#rb5-pop").text( $("#rb5-f").nval() + $("#rb5-m").nval());
+    $("#rb6-pop").text( $("#rb6-f").nval() + $("#rb6-m").nval());
 
-    // Calc Farmland totals
-    $("#rfcounty").text(  $("#rb1").nval()  + $("#rb2").nval()  + $("#rb3").nval());
-    $("#rfcountyf").text( $("#rb1f").nval() + $("#rb2f").nval() + $("#rb3f").nval());
-    $("#rfcountym").text( $("#rb1m").nval() + $("#rb2m").nval() + $("#rb3m").nval());
+    // Calc Ruralland totals
+    $("#rrcounty-pop").text( $("#rb1-pop").nval()  + $("#rb2-pop").nval()  + $("#rb3-pop").nval());
+    $("#rrcounty-f").text(   $("#rb1-f").nval() + $("#rb2-f").nval() + $("#rb3-f").nval());
+    $("#rrcounty-m").text(   $("#rb1-m").nval() + $("#rb2-m").nval() + $("#rb3-m").nval());
 
     // Calc Urbanville totals
-    $("#rucounty").text(  $("#rb4").nval()  + $("#rb5").nval()  + $("#rb6").nval());
-    $("#rucountyf").text( $("#rb4f").nval() + $("#rb5f").nval() + $("#rb6f").nval());
-    $("#rucountym").text( $("#rb4m").nval() + $("#rb5m").nval() + $("#rb6m").nval());
+    $("#rucounty-pop").text( $("#rb4-pop").nval()  + $("#rb5-pop").nval()  + $("#rb6-pop").nval());
+    $("#rucounty-f").text(   $("#rb4-f").nval() + $("#rb5-f").nval() + $("#rb6-f").nval());
+    $("#rucounty-m").text(   $("#rb4-m").nval() + $("#rb5-m").nval() + $("#rb6-m").nval());
 
     // Calc State totals
-    $("#rstate").text(   $("#rfcounty").nval() + $("#rucounty").nval() );
-    $("#rstatef").text(  $("#rfcountyf").nval() + $("#rucountyf").nval() );
-    $("#rstatem").text(  $("#rfcountym").nval() + $("#rucountym").nval() );
+    $("#rstate-pop").text( $("#rrcounty-pop").nval() + $("#rucounty-pop").nval() );
+    $("#rstate-f").text(  $("#rrcounty-f").nval()   + $("#rucounty-f").nval() );
+    $("#rstate-m").text(  $("#rrcounty-m").nval()   + $("#rucounty-m").nval() );
 
 }
 
 $(document).ready(function() {
-
     $("input").on('input', function() {
         this.value = this.value.replace(/\D/g,'');
         if (this.value.length > 4){
@@ -52,7 +51,6 @@ $(document).ready(function() {
         }
         recalc();
     });
-
     recalc();
 });
 
