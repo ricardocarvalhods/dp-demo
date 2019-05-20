@@ -1,7 +1,7 @@
 var debug=false; 
 
 p = console.log;
-console.log("hello")
+console.log("hello");
 
 /****************************************************************/
 // Privacy Functions
@@ -40,7 +40,7 @@ function square(x) {
 
 /* Score how close vals is to the goal */
 function score(goal, vals) {
-    sum_of_squares = 0.0;
+    var sum_of_squares = 0.0;
     for ( var i=0 ; i < goal.length ; i++ ){
         sum_of_squares += square(goal[i] - vals[i]);
     }
@@ -58,9 +58,9 @@ function concat() {
 
 // equal two arrays; python does this for us!
 function equal(a,b) {
-    if ( a.length != b.length) return false; 
+    if ( a.length !== b.length) return false;
     for (var i=0; i< a.length; i++) {
-        if (a[i] != b[i]) return false;
+        if (a[i] !== b[i]) return false;
     }
     return true;
 }
@@ -72,15 +72,15 @@ function optimize1(goal, vals) {
     var best_score = score(goal, best_vals); 
 
     // Evaluate every possible move and find the one that produces the lowest score
-	// This is essentially a discrete "gradient descent" move in our discrete space of counties
+	// This is essentially a discrete "gradient descent" move in our discrete space of people-in-blocks
     for ( var from_ = 0; from_ < vals.length ; from_++ ) {
         for ( var to_ = 0; to_ < vals.length; to_++ ) {
-            if ( from_ == to_ ) continue;   // doesn't move anywhere
+            if ( from_ === to_ ) continue;   // doesn't move anywhere
             if ( vals[from_] < 1) continue; // none to move
-            nvals = vals.slice()  // [...vals];              // copy the array, [...vals] is not compatible with IE
+            let nvals = vals.slice(); // [...vals];              // copy the array, [...vals] is not compatible with IE
             nvals[to_] += 1;                // make the move
             nvals[from_] -= 1;
-            nvals_score = score(goal, nvals); // score it
+            const nvals_score = score(goal, nvals); // score it
             if (best_score > nvals_score) {   // found a better score
                 best_score = nvals_score;
                 best_vals  = nvals;
@@ -100,7 +100,7 @@ function optimize(goal, vals){
     if (debug){
         p(goal,'<-',vals);
     }
-    vals = vals.slice()  //[...vals];           // make a local copy, [...vals] is not compatible with IE
+    vals = vals.slice(); //[...vals];           // make a local copy, [...vals] is not compatible with IE
 
     // Make sure both are the same length
     while (vals.length < goal.length) {
@@ -123,7 +123,7 @@ function optimize(goal, vals){
 
 /* pluck: Given an array, return an array of either the odds or the evens elements */
 function pluck(src,offset) {
-    var a = []
+    var a = [];
     for (var i=0; i< src.length; i+=2){
         a.push( src[i + offset]);
     }
@@ -183,9 +183,9 @@ function sum_up(vals) {
 }
 
 function topdown(epsilon,true_blocks) {
-    true_county1 = sum_up(true_blocks.slice(0,6));
-    true_county2 = sum_up(true_blocks.slice(6,12));
-    true_state   = sum_up( concat(true_county1, true_county2) );
+    const true_county1 = sum_up(true_blocks.slice(0,6));
+    const true_county2 = sum_up(true_blocks.slice(6,12));
+    const true_state   = sum_up( concat(true_county1, true_county2) );
 
     if(debug){
         p("true_blocks:",true_blocks);
@@ -197,10 +197,10 @@ function topdown(epsilon,true_blocks) {
     ///////////////////////////////////////////////
     //////////////// NOISE BARRIER ////////////////
     ///////////////////////////////////////////////
-    pm_blocks  = privatize_array(true_blocks, epsilon * 0.333);
-    pm_county1 = privatize_array(true_county1, epsilon * 0.333); // parallel composition1
-    pm_county2 = privatize_array(true_county2, epsilon * 0.333); // parallel composition2
-    pm_state   = privatize_array(true_state, epsilon * 0.333);
+    let pm_blocks  = privatize_array(true_blocks, epsilon * 0.333);
+    let pm_county1 = privatize_array(true_county1, epsilon * 0.333); // parallel composition1
+    let pm_county2 = privatize_array(true_county2, epsilon * 0.333); // parallel composition2
+    let pm_state   = privatize_array(true_state, epsilon * 0.333);
     ///////////////////////////////////////////////
     //////////////// NOISE BARRIER ////////////////
     ///////////////////////////////////////////////
@@ -211,7 +211,7 @@ function topdown(epsilon,true_blocks) {
     p_state = optimize(pm_state, pm_state);
 
     // Non-negativity
-    for(var i=0;i<2;i++){
+    for(let i=0;i<2;i++){
         if (p_state[i] < 0 ){
             p_state[i] = 0;
         }
@@ -239,7 +239,7 @@ function topdown(epsilon,true_blocks) {
     }
 
     total_error = 0;
-    for(var i=0;i< true_blocks.length; i++){
+    for(let i=0;i< true_blocks.length; i++){
         if(debug){
             p(true_blocks[i],"-->",p_blocks[i]);
         }
