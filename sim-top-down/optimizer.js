@@ -72,11 +72,12 @@ function optimize1(goal, vals) {
     var best_score = score(goal, best_vals); 
 
     // Evaluate every possible move and find the one that produces the lowest score
+	// This is essentially a discrete "gradient descent" move in our discrete space of counties
     for ( var from_ = 0; from_ < vals.length ; from_++ ) {
         for ( var to_ = 0; to_ < vals.length; to_++ ) {
             if ( from_ == to_ ) continue;   // doesn't move anywhere
             if ( vals[from_] < 1) continue; // none to move
-            nvals = [...vals];              // copy the array
+            nvals = vals.slice()  // [...vals];              // copy the array, [...vals] is not compatible with IE
             nvals[to_] += 1;                // make the move
             nvals[from_] -= 1;
             nvals_score = score(goal, nvals); // score it
@@ -99,7 +100,7 @@ function optimize(goal, vals){
     if (debug){
         p(goal,'<-',vals);
     }
-    vals = [...vals];           // make a local copy
+    vals = vals.slice()  //[...vals];           // make a local copy, [...vals] is not compatible with IE
 
     // Make sure both are the same length
     while (vals.length < goal.length) {

@@ -30,6 +30,10 @@ input {
   font-size: 12pt;
 }
 
+input.data {
+	width: 30pt;
+}
+
 .block {
     width: 60pt;
 }
