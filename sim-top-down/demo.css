@@ -77,9 +77,16 @@ input.data {
   background-color: yellow;
 }
 
-.sbutton {
+.sbutton, .pushedsbutton {
     width: 40px;
+}
+
+.sbutton {
     background-color: gold;
+}
+
+.pushedsbutton {
+    background-color: green;
 }
 
 /*

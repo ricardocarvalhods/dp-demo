@@ -82,10 +82,14 @@ function set_true_counts(counts) {
     });
     recalc();
 }
-    
+
+function unpush_buttons() {
+    $(".pushedsbutton").toArray().forEach(function(button) {button.setAttribute("class", "sbutton")});
+}
 
 $(document).ready(function() {
     $("input").on('input', function() {
+        unpush_buttons();
         this.value = this.value.replace(/\D/g,'');
         if (this.value.length > 4){
             this.value='9999';
@@ -99,6 +103,8 @@ $(document).ready(function() {
         recalc();
     });
     $(".sbutton").click( function(event) {
+        unpush_buttons();
+        this.setAttribute("class", "pushedsbutton");
         var counts =  $(event.target).attr('counts').split(',');
         set_true_counts( counts );
     });
