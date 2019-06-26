@@ -37,32 +37,32 @@ initial_counts = ['1','2','3','4','5','6',
                   '101','102','103','104','105','106'];
 
 
-function sum_state_from_blocks(p) {
-    // sum the f & m cells to compute the block populations, the tract population, and the state population
+function sum_county_from_blocks(p) {
+    // sum the f & m cells to compute the block populations, the tract population, and the county population
     // Calc the block totals
     for(var b=1;b<=6;b++){
         $("#"+p+"b"+b+"-pop").text( $("#"+p+"b"+b+"-f").nval() + $("#"+p+"b"+b+"-m").nval());
     }
 
-    // Calc Ruralland totals
+    // Calc Ruraltract totals
     $("#"+p+"rcounty-pop").text( $("#"+p+"b1-pop").nval()  + $("#"+p+"b2-pop").nval()  + $("#"+p+"b3-pop").nval());
     $("#"+p+"rcounty-f").text(   $("#"+p+"b1-f").nval() + $("#"+p+"b2-f").nval() + $("#"+p+"b3-f").nval());
     $("#"+p+"rcounty-m").text(   $("#"+p+"b1-m").nval() + $("#"+p+"b2-m").nval() + $("#"+p+"b3-m").nval());
 
-    // Calc Urbanville totals
+    // Calc Urbantract totals
     $("#"+p+"ucounty-pop").text( $("#"+p+"b4-pop").nval()  + $("#"+p+"b5-pop").nval()  + $("#"+p+"b6-pop").nval());
     $("#"+p+"ucounty-f").text(   $("#"+p+"b4-f").nval() + $("#"+p+"b5-f").nval() + $("#"+p+"b6-f").nval());
     $("#"+p+"ucounty-m").text(   $("#"+p+"b4-m").nval() + $("#"+p+"b5-m").nval() + $("#"+p+"b6-m").nval());
 
-    // Calc State totals
-    $("#"+p+"state-pop").text( $("#"+p+"rcounty-pop").nval() + $("#"+p+"ucounty-pop").nval() );
-    $("#"+p+"state-f").text(  $("#"+p+"rcounty-f").nval()   + $("#"+p+"ucounty-f").nval() );
-    $("#"+p+"state-m").text(  $("#"+p+"rcounty-m").nval()   + $("#"+p+"ucounty-m").nval() );
+    // Calc County totals
+    $("#"+p+"county-pop").text( $("#"+p+"rcounty-pop").nval() + $("#"+p+"ucounty-pop").nval() );
+    $("#"+p+"county-f").text(  $("#"+p+"rcounty-f").nval()   + $("#"+p+"ucounty-f").nval() );
+    $("#"+p+"county-m").text(  $("#"+p+"rcounty-m").nval()   + $("#"+p+"ucounty-m").nval() );
 
 }
 
 function recalc() {
-    sum_state_from_blocks("r");
+    sum_county_from_blocks("r");
 
     // get the real values
     var epsilon = Number($("#epsilon option:selected").text());
@@ -73,7 +73,7 @@ function recalc() {
     zip(priv_block_map, priv_vals).map(function(_) {
         $(_[0]).text( _[1] );
     });
-    sum_state_from_blocks("p");
+    sum_county_from_blocks("p");
 }
 
 function set_true_counts(counts) {

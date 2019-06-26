@@ -56,7 +56,7 @@ class MatrixMaker:
     def add_matrix(self,doc):
         t = tydoc.tytable()
         tr = t.tbody.add_tag('tr')
-        tr.add_tag_elems('td', self.pop_data_fields('Tiny State', 'state'),    attrib={'colspan':'6'})
+        tr.add_tag_elems('td', self.pop_data_fields('Tiny County', 'county'),    attrib={'colspan':'6'})
         tr = t.tbody.add_tag('tr')
         tr.add_tag_elems('td', self.pop_data_fields('Ruralland ', 'rcounty'),  attrib={'colspan':'3', 'class':'ruralcounty'})
         tr.add_tag_elems('td', self.pop_data_fields('Urbanville', 'ucounty'), attrib={'colspan':'3', 'class':'urbancounty'})
