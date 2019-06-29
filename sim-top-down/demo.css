@@ -15,6 +15,10 @@
   left: 10px;
 }
 
+#privatize {
+    font-size: 14pt;
+}
+
 tr {border-style: solid;}
 td.block {border-style: solid;}
 table {
@@ -79,26 +83,21 @@ input.data {
 
 .sbutton, .pushedsbutton {
     width: 40px;
+    background-color: lightblue;
 }
 
-.sbutton {
-    background-color: gold;
+.sbutton:hover {
+    background-color: blue;
 }
 
-.pushedsbutton {
-    background-color: green;
+.scenarios {
+    text-align: left;
 }
-
-/*
-.left, .right {
-  width: 40%; 
-}
-*/
 
 .middle {
-//  width: 10%; 
-padding: 4px;
-height: 300px;
+    //  width: 10%; 
+    padding: 4px;
+    height: 300px;
 }
 
 /* Clear floats after the columns */

@@ -17,9 +17,10 @@ REQUIRED = ['https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smooth
             'optimizer.js',
             'demo.js']
 
-SCENARIOS = [ ('1,2,3,4,5,6,101,102,103,104,105,106','balanced rural and urban blocks'),
+SCENARIOS = [ ('1,2,3,4,5,6,101,102,103,104,105,106','Balanced rural and urban blocks'),
               ('1,2,3,400,5,6,101,102,103,104,105,106','One rural block with a LOT of males.'),
               ('1,2,3,4,5,6,101,102,103,104,600,106','One urban block with a LOT of females.'),
+              ('1,2,3,4,5,6,101,102,103,104,1,106','One urban block with just one female'),
               ]
 
 class MatrixMaker:
@@ -120,7 +121,7 @@ if __name__=="__main__":
     
     doc.body.add_tag_text('p','Try changng the number of females or males that was counted on a block and see how it changes the official tabulations. Or choose one of the sample scenarios listed below.',attrib={'class':'instructions'}),
     
-    t = tydoc.tytable()
+    t = tydoc.tytable(attrib={'class':'scenarios'})
     t.add_head(['select','scenario'])
 
     for (counts,desc) in SCENARIOS:
