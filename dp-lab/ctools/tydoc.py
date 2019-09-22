@@ -1009,6 +1009,9 @@ not set, it auto-generated"""
                 raise ValueError("Unknown cell type: {}".format(cell.attrib[ATTR_TYPE]))
         except TypeError as e:
             raise TypeError(f"TypeError in value: {value} cell: {cell}")
+        except AttributeError as e:
+            print("cell:",cell)
+            raise e
 
     #################################################################
     ### Table Manipulation Routines
@@ -1264,7 +1267,7 @@ def demo_toc():
 #
 # Useful for jupyter
 #
-def jupyter_display_table(val,float_format="{.5f}"):
+def jupyter_display_table(val,float_format="{:.5f}"):
     import io
     from IPython.core.display import HTML
     a = tytable()
