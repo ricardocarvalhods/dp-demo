@@ -72,7 +72,7 @@ function optimize1(goal, vals) {
     let best_score = score(goal, best_vals);
 
     // Evaluate every possible move and find the one that produces the lowest score
-	// This is essentially a discrete "gradient descent" move in our discrete space of people-in-blocks/counties/state
+	// This is essentially a discrete "gradient descent" move in our discrete space of people-in-blocks/counties/county
     for ( let from_ = 0; from_ < vals.length ; from_++ ) {
         for ( let to_ = 0; to_ < vals.length; to_++ ) {
             if ( from_ === to_ ) continue;   // doesn't move anywhere
@@ -103,8 +103,8 @@ function optimize(goal, vals){
     vals = vals.slice(); //[...vals];           // make a local copy, [...vals] is not compatible with IE
 
     // Make sure both are the same length
-    // When optimizing, for example, state-to-county, we start with vals array being of length 1 (we have 1 state), having all the people
-    // in the state. We have 2 counties, so add one more cell into the array with push. The starting distribution of people is then everyone
+    // When optimizing, for example, county-to-county, we start with vals array being of length 1 (we have 1 county), having all the people
+    // in the county. We have 2 counties, so add one more cell into the array with push. The starting distribution of people is then everyone
     // in one county and no one in the other. The optimize1 function will move people to that other county until the error stops decreasing
     while (vals.length < goal.length) {
         vals.push(0);
@@ -191,13 +191,13 @@ function sum_up(vals) {
 function topdown(epsilon,true_blocks) {
     const true_county1 = sum_up(true_blocks.slice(0,6));
     const true_county2 = sum_up(true_blocks.slice(6,12));
-    const true_state   = sum_up( concat(true_county1, true_county2) );
+    const true_county   = sum_up( concat(true_county1, true_county2) );
 
     if(debug){
         p("true_blocks:",true_blocks);
         p("county1:", true_county1);
         p("county2:", true_county2);
-        p("state:", true_state);
+        p("county:", true_county);
     }
 
     ///////////////////////////////////////////////
@@ -206,7 +206,7 @@ function topdown(epsilon,true_blocks) {
     let pm_blocks  = privatize_array(true_blocks, epsilon * 0.333);
     let pm_county1 = privatize_array(true_county1, epsilon * 0.333); // parallel composition1
     let pm_county2 = privatize_array(true_county2, epsilon * 0.333); // parallel composition2
-    let pm_state   = privatize_array(true_state, epsilon * 0.333);
+    let pm_county   = privatize_array(true_county, epsilon * 0.333);
     ///////////////////////////////////////////////
     //////////////// NOISE BARRIER ////////////////
     ///////////////////////////////////////////////
@@ -214,22 +214,22 @@ function topdown(epsilon,true_blocks) {
     // Run top-level -> top-level to balance the histogram.
     // This isn't needed with just one set of measurements, but
     // we do it anyway because the real top-down algorithm does.
-    let p_state = optimize(pm_state, pm_state);
+    let p_county = optimize(pm_county, pm_county);
 
     // Non-negativity
     for(let i=0;i<2;i++){
-        if (p_state[i] < 0 ){
-            p_state[i] = 0;
+        if (p_county[i] < 0 ){
+            p_county[i] = 0;
         }
     }
 
     if(debug){
-        p("\nStarting state: ", true_state);
-        p("Ending state: ", p_state);
+        p("\nStarting county: ", true_county);
+        p("Ending county: ", p_county);
     }
 
-    // Distribute from the state to the two counties:
-    let p_county12 = zip_optimize( concat(pm_county1,pm_county2), p_state);
+    // Distribute from the county to the two counties:
+    let p_county12 = zip_optimize( concat(pm_county1,pm_county2), p_county);
     let p_county1  = p_county12.slice(0,2);
     let p_county2  = p_county12.slice(2,4);
 
