@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<HEAD>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" media="all"></link>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="demo.css" media="all"></link>
+<script src="optimizer.js"></script>
+<script src="demo.js"></script>
+</HEAD>
+<BODY>
+<div class="row"><div class="column left"><p><i>Confidential database:</i></p>
+<TABLE TEXT_FORMAT="{}" NUMBER_FORMAT="{:,}" INTEGER_FORMAT="{:,}">
+<CAPTION/>
+<THEAD/>
+<TBODY>
+<tr><td colspan="6"><div class="dataline1"><span class="datalabel">Tiny State pop: </span>
+<span class="data" id="rstate-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="rstate-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="rstate-m">tbd</span>
+</div>
+</td></tr>
+<tr><td colspan="3" class="ruralcounty"><div class="dataline1"><span class="datalabel">Ruralland  pop: </span>
+<span class="data" id="rrcounty-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="rrcounty-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="rrcounty-m">tbd</span>
+</div>
+</td><td colspan="3" class="urbancounty"><div class="dataline1"><span class="datalabel">Urbanville pop: </span>
+<span class="data" id="rucounty-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="rucounty-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="rucounty-m">tbd</span>
+</div>
+</td></tr>
+<tr><td class="ruralblock block"><div class="dataline1"><span class="datalabel">RBlock<br/> pop: </span>
+<span class="data" id="rb1-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb1-f" value="0"/></div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb1-m" value="0"/></div>
+</td><td class="ruralblock block"><div class="dataline1"><span class="datalabel">RBlock<br/> pop: </span>
+<span class="data" id="rb2-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb2-f" value="0"/></div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb2-m" value="0"/></div>
+</td><td class="ruralblock block"><div class="dataline1"><span class="datalabel">RBlock<br/> pop: </span>
+<span class="data" id="rb3-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb3-f" value="0"/></div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb3-m" value="0"/></div>
+</td><td class="urbanblock block"><div class="dataline1"><span class="datalabel">UBlock<br/> pop: </span>
+<span class="data" id="rb4-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb4-f" value="0"/></div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb4-m" value="0"/></div>
+</td><td class="urbanblock block"><div class="dataline1"><span class="datalabel">UBlock<br/> pop: </span>
+<span class="data" id="rb5-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb5-f" value="0"/></div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb5-m" value="0"/></div>
+</td><td class="urbanblock block"><div class="dataline1"><span class="datalabel">UBlock<br/> pop: </span>
+<span class="data" id="rb6-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb6-f" value="0"/></div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<input type="text" min="0" max="999" size="3" class="data" id="rb6-m" value="0"/></div>
+</td></tr>
+</TBODY>
+<TFOOT/>
+</TABLE>
+</div>
+<div class="column middle noise"><p><div id="bbox"><div id="barrier">Noise Barrier</div></div><input id="privatize" type="button" value="privatize!"/><br/>&epsilon; <select name="epsilon" id="epsilon"><option>0.1</option><option>0.25</option><option>0.5</option><option>0.75</option><option selected="selected">1.0</option><option>2.0</option><option>5.0</option><option>10.0</option></select></p></div>
+<div class="column right"><p><i>Published official tabulations:</i></p>
+<TABLE TEXT_FORMAT="{}" NUMBER_FORMAT="{:,}" INTEGER_FORMAT="{:,}">
+<CAPTION/>
+<THEAD/>
+<TBODY>
+<tr><td colspan="6"><div class="dataline1"><span class="datalabel">Tiny State pop: </span>
+<span class="data" id="pstate-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="pstate-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="pstate-m">tbd</span>
+</div>
+</td></tr>
+<tr><td colspan="3" class="ruralcounty"><div class="dataline1"><span class="datalabel">Ruralland  pop: </span>
+<span class="data" id="prcounty-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="prcounty-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="prcounty-m">tbd</span>
+</div>
+</td><td colspan="3" class="urbancounty"><div class="dataline1"><span class="datalabel">Urbanville pop: </span>
+<span class="data" id="pucounty-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="pucounty-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="pucounty-m">tbd</span>
+</div>
+</td></tr>
+<tr><td class="ruralblock block"><div class="dataline1"><span class="datalabel">RBlock<br/> pop: </span>
+<span class="data" id="pb1-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="pb1-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="pb1-m">tbd</span>
+</div>
+</td><td class="ruralblock block"><div class="dataline1"><span class="datalabel">RBlock<br/> pop: </span>
+<span class="data" id="pb2-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="pb2-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="pb2-m">tbd</span>
+</div>
+</td><td class="ruralblock block"><div class="dataline1"><span class="datalabel">RBlock<br/> pop: </span>
+<span class="data" id="pb3-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="pb3-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="pb3-m">tbd</span>
+</div>
+</td><td class="urbanblock block"><div class="dataline1"><span class="datalabel">UBlock<br/> pop: </span>
+<span class="data" id="pb4-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="pb4-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="pb4-m">tbd</span>
+</div>
+</td><td class="urbanblock block"><div class="dataline1"><span class="datalabel">UBlock<br/> pop: </span>
+<span class="data" id="pb5-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="pb5-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="pb5-m">tbd</span>
+</div>
+</td><td class="urbanblock block"><div class="dataline1"><span class="datalabel">UBlock<br/> pop: </span>
+<span class="data" id="pb6-pop">tbd</span>
+</div>
+<div class="dataline2"><span class="datalabel">f: </span>
+<span class="data" id="pb6-f">tbd</span>
+</div>
+<div class="dataline3"><span class="datalabel">m: </span>
+<span class="data" id="pb6-m">tbd</span>
+</div>
+</td></tr>
+</TBODY>
+<TFOOT/>
+</TABLE>
+</div>
+</div>
+<p class="instructions">Each rectangle shows the population statistics for a different geographical area. The top is the total population (pop), followed by the number of females (f) and the number of males (m).</p>
+<p class="instructions">ε specifies the privacy loss budget. Click <b>privatize!</b> to re-run the privacy mechanism with a different set of random noises.</p>
+<p class="instructions">Try changng the number of females or males that was counted on a block and see how it changes the official tabulations. Or choose one of the sample scenarios listed below.</p>
+</BODY>
+<TABLE class="scenarios" TEXT_FORMAT="{}" NUMBER_FORMAT="{:,}" INTEGER_FORMAT="{:,}">
+<CAPTION/>
+<THEAD>
+<TR><TH v="select" t="str">select</TH><TH v="scenario" t="str">scenario</TH></TR>
+</THEAD>
+<TBODY>
+<TR><TD><input type="button" class="sbutton" counts="1,2,3,4,5,6,101,102,103,104,105,106"/></TD><TD v="Balanced rural and urban blocks" t="str">Balanced rural and urban blocks</TD></TR>
+<TR><TD><input type="button" class="sbutton" counts="1,2,3,400,5,6,101,102,103,104,105,106"/></TD><TD v="One rural block with a LOT of males." t="str">One rural block with a LOT of males.</TD></TR>
+<TR><TD><input type="button" class="sbutton" counts="1,2,3,4,5,6,101,102,103,104,600,106"/></TD><TD v="One urban block with a LOT of females." t="str">One urban block with a LOT of females.</TD></TR>
+<TR><TD><input type="button" class="sbutton" counts="1,2,3,4,5,6,101,102,103,104,1,106"/></TD><TD v="One urban block with just one female" t="str">One urban block with just one female</TD></TR>
+</TBODY>
+<TFOOT/>
+</TABLE>
+</html>
