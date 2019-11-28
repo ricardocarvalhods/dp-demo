@@ -17,12 +17,12 @@
 
 ;; Problem setup 
 #define USE_2A
-;#define USE_2B
-;#define USE_2C
-;#define USE_2D
-;#define USE_3A
-;#define USE_3B
-;#define USE_4A        
+#define USE_2B
+#define USE_2C
+#define USE_2D
+#define USE_3A
+#define USE_3B
+#define USE_4A        
 #define USE_SOLUTION   // for debugging
 
 ;; Sexes (0:female  1:male)
@@ -220,6 +220,7 @@ MAKE_INT(FEMALE_AGE4,MIN_AGE,MAX_AGE)
 
 #ifdef USE_2B
 ;; there are three males
+(assert
 (= (+ (if (= S1 MALE) 1 0)  
       (if (= S2 MALE) 1 0)
       (if (= S3 MALE) 1 0)
@@ -229,18 +230,19 @@ MAKE_INT(FEMALE_AGE4,MIN_AGE,MAX_AGE)
       (if (= S7 MALE) 1 0)
       )
    3) 
-
+)
 ;; constraints for median. There are only 3 men, so we know that Male #2 is 30
 MAKE_INT(MALE_ID1,1,5)                     ; must leave room for 6 and 7 to be male
 MAKE_INT(MALE_ID2,2,6)                     ; must leave room for 1 and 7 to be male
 MAKE_INT(MALE_ID3,3,7)                     ; must leave room for 1 and 2 to be male
 
-(< MALE_ID1 MALE_ID2)
-(< MALE_ID2 MALE_ID3)
+(assert (< MALE_ID1 MALE_ID2))
+(assert (< MALE_ID2 MALE_ID3))
 
 ;; Pigeon hole principle. If the IDs are in order, we only need to assure
 ;; that each ID maps to a female. We add the final equal and a -1 to force 
 ;; an error if there are not enough females.
+(assert
 (= MALE_ID1
    (if (= S1 MALE) 1
      (if (= S2 MALE) 2
@@ -248,8 +250,9 @@ MAKE_INT(MALE_ID3,3,7)                     ; must leave room for 1 and 2 to be m
          (if (= S4 MALE) 4
            (if (= S5 MALE) 5
              -1))))))
+)
 
-
+(assert
 (= MALE_ID2
    (if (and (= S2 MALE) (< MALE_ID1 2)) 2
      (if (and (= S3 MALE) (< MALE_ID1 3)) 3
@@ -257,7 +260,9 @@ MAKE_INT(MALE_ID3,3,7)                     ; must leave room for 1 and 2 to be m
          (if (and (= S5 MALE) (< MALE_ID1 5)) 5
            (if (and (= S6 MALE) (< MALE_ID1 6)) 6
              -1))))))
+)
 
+(assert
 (= MALE_ID3
    (if (and (= S3 MALE) (< MALE_ID2 3)) 3
      (if (and (= S4 MALE) (< MALE_ID2 4)) 4
@@ -265,6 +270,7 @@ MAKE_INT(MALE_ID3,3,7)                     ; must leave room for 1 and 2 to be m
          (if (and (= S6 MALE) (< MALE_ID2 6)) 6
            (if (and (= S7 MALE) (< MALE_ID2 7)) 7
              -1))))))
+)
 
 ;; Create temporary variables for the ages of these males
 MAKE_INT(MALE_AGE1,MIN_AGE,MAX_AGE)
@@ -272,20 +278,20 @@ MAKE_INT(MALE_AGE2,MIN_AGE,MAX_AGE)
 MAKE_INT(MALE_AGE3,MIN_AGE,MAX_AGE)
 
 ;; make sure they are ordered
-(< MALE_AGE1 MALE_AGE2)
-(< MALE_AGE2 MALE_AGE3)
+(assert (< MALE_AGE1 MALE_AGE2))
+(assert (< MALE_AGE2 MALE_AGE3))
 
 ;; Fix the male ages to the person ages
-(element MALE_ID1 (A1 A2 A3 A4 A5 A6 A7) MALE_AGE1)
-(element MALE_ID2 (A1 A2 A3 A4 A5 A6 A7) MALE_AGE2)
-(element MALE_ID3 (A1 A2 A3 A4 A5 A6 A7) MALE_AGE3)
+(assert (= (select AGES MALE_ID1) MALE_AGE1))
+(assert (= (select AGES MALE_ID2) MALE_AGE2))
+(assert (= (select AGES MALE_ID3) MALE_AGE3))
 
 ;; The median is 30
-(= MALE_AGE2 30)
+(assert (= MALE_AGE2 30))
 
 ; average male age: 44
-(= (+ MALE_AGE1 MALE_AGE2 MALE_AGE3)    ; average male age = 44
-   (* 3 44))
+(assert (= (+ MALE_AGE1 MALE_AGE2 MALE_AGE3)    ; average male age = 44
+   (* 3 44)))
 
 #endif
 
@@ -294,7 +300,7 @@ MAKE_INT(MALE_AGE3,MIN_AGE,MAX_AGE)
 #ifdef USE_2C
 
 ;; 4 blacks
-(= (+ (if (= R1 BLACK) 1 0)  
+(assert (= (+ (if (= R1 BLACK) 1 0)  
       (if (= R2 BLACK) 1 0)
       (if (= R3 BLACK) 1 0)
       (if (= R4 BLACK) 1 0)
@@ -302,7 +308,7 @@ MAKE_INT(MALE_AGE3,MIN_AGE,MAX_AGE)
       (if (= R6 BLACK) 1 0)
       (if (= R7 BLACK) 1 0)
       )
-   4) 
+   4) )
 
 ;;; Median age of blacks is 51
 MAKE_INT(BLACK_ID1,1,4)                     ; must leave room for 5, 6 and 7 to be female
@@ -310,42 +316,42 @@ MAKE_INT(BLACK_ID2,2,5)                     ; must leave room for 1, 6 and 7 to 
 MAKE_INT(BLACK_ID3,3,6)                     ; must leave room for 1, 2 and 7 to be female
 MAKE_INT(BLACK_ID4,4,7)                     ; must leave room for 1, 2 and 3 to be female
 
-(< BLACK_ID1 BLACK_ID2)
-(< BLACK_ID2 BLACK_ID3)
-(< BLACK_ID3 BLACK_ID4)
+(assert (< BLACK_ID1 BLACK_ID2))
+(assert (< BLACK_ID2 BLACK_ID3))
+(assert (< BLACK_ID3 BLACK_ID4))
 
 ;; Pigeon hole principle. If the IDs are in order, we only need to assure
 ;; that each ID maps to a female. We add the final equal and a -1 to force 
 ;; an error if there are not enough females.
 
-(= BLACK_ID1
+(assert (= BLACK_ID1
    (if (= R1 BLACK) 1
      (if (= R2 BLACK) 2
        (if (= R3 BLACK) 3
          (if (= R4 BLACK) 4
-           -1)))))
+           -1))))))
 
-(= BLACK_ID2
+(assert (= BLACK_ID2
    (if (and (= R2 BLACK) (< BLACK_ID1 2)) 2
      (if (and (= R3 BLACK) (< BLACK_ID1 3)) 3
        (if (and (= R4 BLACK) (< BLACK_ID1 4)) 4
          (if (and (= R5 BLACK) (< BLACK_ID1 5)) 5
-           -1)))))
+           -1))))))
 
-(= BLACK_ID3
+(assert (= BLACK_ID3
    (if (and (= R3 BLACK) (< BLACK_ID2 3)) 3
      (if (and (= R4 BLACK) (< BLACK_ID2 4)) 4
        (if (and (= R5 BLACK) (< BLACK_ID2 5)) 5
          (if (and (= R6 BLACK) (< BLACK_ID2 6)) 6
            (if (and (= R7 BLACK) (< BLACK_ID2 7)) 7
-             -1))))))
+             -1)))))))
 
-(= BLACK_ID4
+(assert (= BLACK_ID4
    (if (and (= R4 BLACK) (< BLACK_ID3 4)) 4
      (if (and (= R5 BLACK) (< BLACK_ID3 5)) 5
        (if (and (= R6 BLACK) (< BLACK_ID3 6)) 6
          (if (and (= R7 BLACK) (< BLACK_ID3 7)) 7
-           -1)))))
+           -1))))))
 
 ;; Create temporary variables for the black ages 
 MAKE_INT(BLACK_AGE1,MIN_AGE,MAX_AGE)
@@ -353,23 +359,23 @@ MAKE_INT(BLACK_AGE2,MIN_AGE,MAX_AGE)
 MAKE_INT(BLACK_AGE3,MIN_AGE,MAX_AGE)
 MAKE_INT(BLACK_AGE4,MIN_AGE,MAX_AGE)
 
-(< BLACK_AGE1 BLACK_AGE2)
-(< BLACK_AGE2 BLACK_AGE3)
-(< BLACK_AGE3 BLACK_AGE4)
+(assert (< BLACK_AGE1 BLACK_AGE2))
+(assert (< BLACK_AGE2 BLACK_AGE3))
+(assert (< BLACK_AGE3 BLACK_AGE4))
 
 ;; Fix the black ages to the person ages
-(element BLACK_ID1 (A1 A2 A3 A4 A5 A6 A7) BLACK_AGE1)
-(element BLACK_ID2 (A1 A2 A3 A4 A5 A6 A7) BLACK_AGE2)
-(element BLACK_ID3 (A1 A2 A3 A4 A5 A6 A7) BLACK_AGE3)
-(element BLACK_ID4 (A1 A2 A3 A4 A5 A6 A7) BLACK_AGE4)
+(assert (= (select AGES BLACK_ID1) BLACK_AGE1))
+(assert (= (select AGES BLACK_ID2) BLACK_AGE2))
+(assert (= (select AGES BLACK_ID3) BLACK_AGE3))
+(assert (= (select AGES BLACK_ID4) BLACK_AGE4))
 
 ;; The median black age is 51. 
 ;; The average of BLACK_AGE2 and BLACK_AGE3 is 51, so their sum is 51*2
-(= (+ BLACK_AGE2 BLACK_AGE3) (* 51 2))
+(assert (= (+ BLACK_AGE2 BLACK_AGE3) (* 51 2)))
 
 
 ; average black age = 48.5 (x 4 = 194)
-(= (+ (if (= R1 BLACK) A1 0)   
+(assert (= (+ (if (= R1 BLACK) A1 0)   
       (if (= R2 BLACK) A2 0)
       (if (= R3 BLACK) A3 0)
       (if (= R4 BLACK) A4 0)
@@ -377,7 +383,7 @@ MAKE_INT(BLACK_AGE4,MIN_AGE,MAX_AGE)
       (if (= R6 BLACK) A6 0)
       (if (= R7 BLACK) A7 0)
       )
-   194)
+   194))
 #endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -386,14 +392,14 @@ MAKE_INT(BLACK_AGE4,MIN_AGE,MAX_AGE)
 #ifdef USE_2D
 
 ;; n=3 whites
-(= (+ (if (= R1 WHITE) 1 0)
+(assert (= (+ (if (= R1 WHITE) 1 0)
       (if (= R2 WHITE) 1 0)      
       (if (= R3 WHITE) 1 0)      
       (if (= R4 WHITE) 1 0)      
       (if (= R5 WHITE) 1 0)      
       (if (= R6 WHITE) 1 0)      
       (if (= R7 WHITE) 1 0)
-      ) 3)
+      ) 3) )
 
 
 ;; constraints for median. There are only 3 men, so we know that Male #2 is 30
@@ -401,36 +407,36 @@ MAKE_INT(WHITE_ID1,1,5)                     ; must leave room for 6 and 7 to be 
 MAKE_INT(WHITE_ID2,2,6)                     ; must leave room for 1 and 7 to be male
 MAKE_INT(WHITE_ID3,3,7)                     ; must leave room for 1 and 2 to be male
 
-(< WHITE_ID1 WHITE_ID2)
-(< WHITE_ID2 WHITE_ID3)
+(assert (< WHITE_ID1 WHITE_ID2))
+(assert (< WHITE_ID2 WHITE_ID3))
 
 ;; Pigeon hole principle. If the IDs are in order, we only need to assure
 ;; that each ID maps to a female. We add the final equal and a -1 to force 
 ;; an error if there are not enough females.
-(= WHITE_ID1
+(assert (= WHITE_ID1
    (if (= R1 WHITE) 1
      (if (= R2 WHITE) 2
        (if (= R3 WHITE) 3
          (if (= R4 WHITE) 4
            (if (= R5 WHITE) 5
-             -1))))))
+             -1)))))))
 
 
-(= WHITE_ID2
+(assert (= WHITE_ID2
    (if (and (= R2 WHITE) (< WHITE_ID1 2)) 2
      (if (and (= R3 WHITE) (< WHITE_ID1 3)) 3
        (if (and (= R4 WHITE) (< WHITE_ID1 4)) 4
          (if (and (= R5 WHITE) (< WHITE_ID1 5)) 5
            (if (and (= R6 WHITE) (< WHITE_ID1 6)) 6
-             -1))))))
+             -1)))))))
 
-(= WHITE_ID3
+(assert (= WHITE_ID3
    (if (and (= R3 WHITE) (< WHITE_ID2 3)) 3
      (if (and (= R4 WHITE) (< WHITE_ID2 4)) 4
        (if (and (= R5 WHITE) (< WHITE_ID2 5)) 5
          (if (and (= R6 WHITE) (< WHITE_ID2 6)) 6
            (if (and (= R7 WHITE) (< WHITE_ID2 7)) 7
-             -1))))))
+             -1)))))))
 
 ;; Create temporary variables for the ages of these males
 MAKE_INT(WHITE_AGE1,MIN_AGE,MAX_AGE)
@@ -438,20 +444,20 @@ MAKE_INT(WHITE_AGE2,MIN_AGE,MAX_AGE)
 MAKE_INT(WHITE_AGE3,MIN_AGE,MAX_AGE)
 
 ;; make sure they are ordered
-(< WHITE_AGE1 WHITE_AGE2)
-(< WHITE_AGE2 WHITE_AGE3)
+(assert (< WHITE_AGE1 WHITE_AGE2))
+(assert (< WHITE_AGE2 WHITE_AGE3))
 
 ;; Fix the male ages to the person ages
-(element WHITE_ID1 (A1 A2 A3 A4 A5 A6 A7) WHITE_AGE1)
-(element WHITE_ID2 (A1 A2 A3 A4 A5 A6 A7) WHITE_AGE2)
-(element WHITE_ID3 (A1 A2 A3 A4 A5 A6 A7) WHITE_AGE3)
+(assert (= (select AGES WHITE_ID1) WHITE_AGE1))
+(assert (= (select AGES WHITE_ID2) WHITE_AGE2))
+(assert (= (select AGES WHITE_ID3) WHITE_AGE3))
 
 ;; The median white is 24
-(= WHITE_AGE2 24)
+(assert (= WHITE_AGE2 24))
 
 ; average white age: 24
-(= (+ WHITE_AGE1 WHITE_AGE2 WHITE_AGE3)    ; average white age = 24
-   (* 3 24))
+(assert (= (+ WHITE_AGE1 WHITE_AGE2 WHITE_AGE3)    ; average white age = 24
+   (* 3 24)))
 #endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -460,7 +466,7 @@ MAKE_INT(WHITE_AGE3,MIN_AGE,MAX_AGE)
 ;; ... so we know there are 0, 1 or 2 people in this class:
 #ifdef USE_3A
 MAKE_INT(SINGLE_ADULT_COUNT,0,2)
-(= (+ (if (and (= M1 SINGLE) (> A1 17)) 1 0)
+(assert (= (+ (if (and (= M1 SINGLE) (> A1 17)) 1 0)
       (if (and (= M2 SINGLE) (> A2 17)) 1 0)      
       (if (and (= M3 SINGLE) (> A3 17)) 1 0)      
       (if (and (= M4 SINGLE) (> A4 17)) 1 0)      
@@ -469,10 +475,10 @@ MAKE_INT(SINGLE_ADULT_COUNT,0,2)
       (if (and (= M7 SINGLE) (> A7 17)) 1 0)
       )
    SINGLE_ADULT_COUNT
-   )
+   ))
 
-(>= SINGLE_ADULT_COUNT 0)
-(<= SINGLE_ADULT_COUNT 2)
+(assert (>= SINGLE_ADULT_COUNT 0))
+(assert (<= SINGLE_ADULT_COUNT 2))
 #endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -482,7 +488,7 @@ MAKE_INT(SINGLE_ADULT_COUNT,0,2)
 ;; Count queries
 
 #ifdef USE_3B
-(= (+ (if (= M1 MARRIED) 1 0)    ; average age of single adults = 
+(assert (= (+ (if (= M1 MARRIED) 1 0)    ; average age of single adults = 
       (if (= M2 MARRIED) 1 0)
       (if (= M3 MARRIED) 1 0)
       (if (= M4 MARRIED) 1 0)
@@ -490,7 +496,7 @@ MAKE_INT(SINGLE_ADULT_COUNT,0,2)
       (if (= M6 MARRIED) 1 0)
       (if (= M7 MARRIED) 1 0)
       )
-   4)
+   4))
 
 ;; Median age of married adults is = 51
 ;; There are 4, so there are 2 less than 51 and 2 more than 51
@@ -500,42 +506,44 @@ MAKE_INT(MARRIED_ADULT_ID2,2,5)                     ; must leave room for 1, 6 a
 MAKE_INT(MARRIED_ADULT_ID3,3,6)                     ; must leave room for 1, 2 and 7 to be married adult
 MAKE_INT(MARRIED_ADULT_ID4,4,7)                     ; must leave room for 1, 2 and 3 to be married adult
 
-(< MARRIED_ADULT_ID1 MARRIED_ADULT_ID2)
-(< MARRIED_ADULT_ID2 MARRIED_ADULT_ID3)
-(< MARRIED_ADULT_ID3 MARRIED_ADULT_ID4)
+(assert (< MARRIED_ADULT_ID1 MARRIED_ADULT_ID2))
+(assert (< MARRIED_ADULT_ID2 MARRIED_ADULT_ID3))
+(assert (< MARRIED_ADULT_ID3 MARRIED_ADULT_ID4))
 
 ;; Pigeon hole principle. If the IDs are in order, we only need to assure
 ;; that each ID maps to a female. We add the final equal and a -1 to force 
 ;; an error if there are not enough females.
 
+(assert
 (= MARRIED_ADULT_ID1
    (if (= M1 MARRIED) 1
      (if (= M2 MARRIED) 2
        (if (= M3 MARRIED) 3
          (if (= M4 MARRIED) 4
-           -1)))))
+           -1))))))
 
+(assert 
 (= MARRIED_ADULT_ID2
    (if (and (= M2 MARRIED) (< MARRIED_ADULT_ID1 2)) 2
      (if (and (= M3 MARRIED) (< MARRIED_ADULT_ID1 3)) 3
        (if (and (= M4 MARRIED) (< MARRIED_ADULT_ID1 4)) 4
          (if (and (= M5 MARRIED) (< MARRIED_ADULT_ID1 5)) 5
-           -1)))))
+           -1))))))
 
-(= MARRIED_ADULT_ID3
+(assert (= MARRIED_ADULT_ID3
    (if (and (= M3 MARRIED) (< MARRIED_ADULT_ID2 3)) 3
      (if (and (= M4 MARRIED) (< MARRIED_ADULT_ID2 4)) 4
        (if (and (= M5 MARRIED) (< MARRIED_ADULT_ID2 5)) 5
          (if (and (= M6 MARRIED) (< MARRIED_ADULT_ID2 6)) 6
            (if (and (= M7 MARRIED) (< MARRIED_ADULT_ID2 7)) 7
-             -1))))))
+             -1)))))))
 
-(= MARRIED_ADULT_ID4
+(assert (= MARRIED_ADULT_ID4
    (if (and (= M4 MARRIED) (< MARRIED_ADULT_ID3 4)) 4
      (if (and (= M5 MARRIED) (< MARRIED_ADULT_ID3 5)) 5
        (if (and (= M6 MARRIED) (< MARRIED_ADULT_ID3 6)) 6
          (if (and (= M7 MARRIED) (< MARRIED_ADULT_ID3 7)) 7
-           -1)))))
+           -1))))))
 
 ;; Create temporary variables for the ages of these females
 ;; This uses the Sugar 
@@ -544,25 +552,26 @@ MAKE_INT(MARRIED_ADULT_AGE2,MIN_AGE,MAX_AGE)
 MAKE_INT(MARRIED_ADULT_AGE3,MIN_AGE,MAX_AGE)
 MAKE_INT(MARRIED_ADULT_AGE4,MIN_AGE,MAX_AGE)
 
-(< MARRIED_ADULT_AGE1 MARRIED_ADULT_AGE2)
-(< MARRIED_ADULT_AGE2 MARRIED_ADULT_AGE3)
-(< MARRIED_ADULT_AGE3 MARRIED_ADULT_AGE4)
+(assert (< MARRIED_ADULT_AGE1 MARRIED_ADULT_AGE2))
+(assert (< MARRIED_ADULT_AGE2 MARRIED_ADULT_AGE3))
+(assert (< MARRIED_ADULT_AGE3 MARRIED_ADULT_AGE4))
 
 ;; Fix the female ages to the person ages
-(element MARRIED_ADULT_ID1 (A1 A2 A3 A4 A5 A6 A7) MARRIED_ADULT_AGE1)
-(element MARRIED_ADULT_ID2 (A1 A2 A3 A4 A5 A6 A7) MARRIED_ADULT_AGE2)
-(element MARRIED_ADULT_ID3 (A1 A2 A3 A4 A5 A6 A7) MARRIED_ADULT_AGE3)
-(element MARRIED_ADULT_ID4 (A1 A2 A3 A4 A5 A6 A7) MARRIED_ADULT_AGE4)
+
+(assert (= (select AGES MARRIED_ADULT_ID1) MARRIED_ADULT_AGE1))
+(assert (= (select AGES MARRIED_ADULT_ID2) MARRIED_ADULT_AGE2))
+(assert (= (select AGES MARRIED_ADULT_ID3) MARRIED_ADULT_AGE3))
+(assert (= (select AGES MARRIED_ADULT_ID4) MARRIED_ADULT_AGE4))
 
 ;; The median age of the married adults is 51
 ;; so the average of these is 51, so their sum is 51*2
-(= (+ MARRIED_ADULT_AGE2 MARRIED_ADULT_AGE3) (* 51 2))
+(assert (= (+ MARRIED_ADULT_AGE2 MARRIED_ADULT_AGE3) (* 51 2)))
 
 ;; end median calculation
 
 ;; mean married adult age  = 54
-(= (+ MARRIED_ADULT_AGE1 MARRIED_ADULT_AGE2 MARRIED_ADULT_AGE3 MARRIED_ADULT_AGE4)
-   (* 4 54))
+(assert (= (+ MARRIED_ADULT_AGE1 MARRIED_ADULT_AGE2 MARRIED_ADULT_AGE3 MARRIED_ADULT_AGE4)
+   (* 4 54)))
 
 #endif
 
@@ -577,50 +586,50 @@ MAKE_INT(MARRIED_ADULT_AGE4,MIN_AGE,MAX_AGE)
 #ifdef USE_4A
 ;;; Three black females (R=0, S=0)
 ;; there are three black females
-(= (+ (if (and (= R1 BLACK) (= S1 FEMALE)) 1 0)
+(assert (= (+ (if (and (= R1 BLACK) (= S1 FEMALE)) 1 0)
       (if (and (= R2 BLACK) (= S2 FEMALE)) 1 0)   
       (if (and (= R3 BLACK) (= S3 FEMALE)) 1 0)   
       (if (and (= R4 BLACK) (= S4 FEMALE)) 1 0)   
       (if (and (= R5 BLACK) (= S5 FEMALE)) 1 0)   
       (if (and (= R6 BLACK) (= S6 FEMALE)) 1 0)
       (if (and (= R7 BLACK) (= S7 FEMALE)) 1 0)
-      ) 3)
+      ) 3))
 
 ;; constraints for median. There are only 3 men, so we know that Male #2 is 30
 MAKE_INT(BLACK_FEMALE_ID1,1,5)                     ; must leave room for 6 and 7 to be male
 MAKE_INT(BLACK_FEMALE_ID2,2,6)                     ; must leave room for 1 and 7 to be male
 MAKE_INT(BLACK_FEMALE_ID3,3,7)                     ; must leave room for 1 and 2 to be male
 
-(< BLACK_FEMALE_ID1 BLACK_FEMALE_ID2)
-(< BLACK_FEMALE_ID2 BLACK_FEMALE_ID3)
+(assert (< BLACK_FEMALE_ID1 BLACK_FEMALE_ID2))
+(assert (< BLACK_FEMALE_ID2 BLACK_FEMALE_ID3))
 
 ;; Pigeon hole principle. If the IDs are in order, we only need to assure
 ;; that each ID maps to a female. We add the final equal and a -1 to force 
 ;; an error if there are not enough females.
-(= BLACK_FEMALE_ID1
+(assert (= BLACK_FEMALE_ID1
    (if (and (= R1 BLACK) (= S1 FEMALE)) 1
      (if (and (= R2 BLACK) (= S2 FEMALE)) 2
        (if (and (= R3 BLACK) (= S3 FEMALE)) 3
          (if (and (= R4 BLACK) (= S4 FEMALE)) 4
            (if (and (= R5 BLACK) (= S5 FEMALE)) 5
-             -1))))))
+             -1)))))))
 
 
-(= BLACK_FEMALE_ID2
+(assert (= BLACK_FEMALE_ID2
    (if (and (= R2 BLACK) (= S2 FEMALE) (< BLACK_FEMALE_ID1 2)) 2
      (if (and (= R3 BLACK) (= S3 FEMALE) (< BLACK_FEMALE_ID1 3)) 3
        (if (and (= R4 BLACK) (= S4 FEMALE) (< BLACK_FEMALE_ID1 4)) 4
          (if (and (= R5 BLACK) (= S5 FEMALE) (< BLACK_FEMALE_ID1 5)) 5
            (if (and (= R6 BLACK) (= S6 FEMALE) (< BLACK_FEMALE_ID1 6)) 6
-             -1))))))
+             -1)))))))
 
-(= BLACK_FEMALE_ID3
+(assert (= BLACK_FEMALE_ID3
    (if (and (= R3 BLACK) (= S3 FEMALE) (< BLACK_FEMALE_ID2 3)) 3
      (if (and (= R4 BLACK) (= S4 FEMALE) (< BLACK_FEMALE_ID2 4)) 4
        (if (and (= R5 BLACK) (= S5 FEMALE) (< BLACK_FEMALE_ID2 5)) 5
          (if (and (= R6 BLACK) (= S6 FEMALE) (< BLACK_FEMALE_ID2 6)) 6
            (if (and (= R7 BLACK) (= S7 FEMALE) (< BLACK_FEMALE_ID2 7)) 7
-             -1))))))
+             -1)))))))
 
 ;; Create temporary variables for the ages of these males
 MAKE_INT(BLACK_FEMALE_AGE1,MIN_AGE,MAX_AGE)
@@ -628,20 +637,20 @@ MAKE_INT(BLACK_FEMALE_AGE2,MIN_AGE,MAX_AGE)
 MAKE_INT(BLACK_FEMALE_AGE3,MIN_AGE,MAX_AGE)
 
 ;; make sure they are ordered
-(< BLACK_FEMALE_AGE1 BLACK_FEMALE_AGE2)
-(< BLACK_FEMALE_AGE2 BLACK_FEMALE_AGE3)
+(assert (< BLACK_FEMALE_AGE1 BLACK_FEMALE_AGE2))
+(assert (< BLACK_FEMALE_AGE2 BLACK_FEMALE_AGE3))
 
 ;; Fix the male ages to the person ages
-(element BLACK_FEMALE_ID1 (A1 A2 A3 A4 A5 A6 A7) BLACK_FEMALE_AGE1)
-(element BLACK_FEMALE_ID2 (A1 A2 A3 A4 A5 A6 A7) BLACK_FEMALE_AGE2)
-(element BLACK_FEMALE_ID3 (A1 A2 A3 A4 A5 A6 A7) BLACK_FEMALE_AGE3)
+(assert (= (select AGES BLACK_FEMALE_ID1) BLACK_FEMALE_AGE1))
+(assert (= (select AGES BLACK_FEMALE_ID2) BLACK_FEMALE_AGE2))
+(assert (= (select AGES BLACK_FEMALE_ID3) BLACK_FEMALE_AGE3))
 
 ;; The median is 36
-(= BLACK_FEMALE_AGE2 36)
+(assert (= BLACK_FEMALE_AGE2 36))
 
 ; media black female age: 36.7
-(= (+ BLACK_FEMALE_AGE1 BLACK_FEMALE_AGE2 BLACK_FEMALE_AGE3)    ; 
-   110)
+(assert (= (+ BLACK_FEMALE_AGE1 BLACK_FEMALE_AGE2 BLACK_FEMALE_AGE3)    ; 
+   110))
 #endif
 
 ;; Statistic 1A. This is a sugar bug; we should not have to put it here.
