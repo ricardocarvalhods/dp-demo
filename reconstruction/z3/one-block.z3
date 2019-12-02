@@ -23,13 +23,13 @@
 #define USE_3A
 #define USE_3B
 #define USE_4A        
-#define USE_SOLUTION   // for debugging
+;#define USE_SOLUTION   // for debugging
 
 ;; Sexes (0:female  1:male)
-(declare-const FEMALE Int)
-(assert (= FEMALE 0))
-(declare-const MALE Int)
-(assert (= MALE 1))
+#define CONST(NAME,VALUE) (declare-const NAME Int) (assert (= NAME VALUE))
+
+CONST(FEMALE, 0)
+CONST(MALE, 1)
 
 #define MAKE_SEX(S) (declare-const S Int) (assert (or (= S MALE) (= S FEMALE)))
 MAKE_SEX(S1)
@@ -55,8 +55,8 @@ MAKE_AGE(A6)
 MAKE_AGE(A7)
 
 ;; Races (0:black  1:white)
-#define BLACK 0
-#define WHITE 1
+CONST(BLACK, 0)
+CONST(WHITE, 1)
 #define MAKE_RACE(R) (declare-const R Int) (assert (or (= R WHITE) (= R BLACK)))
 
 MAKE_RACE(R1)
@@ -69,8 +69,8 @@ MAKE_RACE(R7)
 
 
 ;; Marital Status (0:single  1:married)
-#define SINGLE 0
-#define MARRIED 1
+CONST(SINGLE, 0)
+CONST(MARRIED, 1)
 #define MAKE_MS(M) (declare-const M Int) (assert (or (= M SINGLE) (= M MARRIED)))
 
 MAKE_MS(M1)
@@ -672,5 +672,11 @@ MAKE_INT(BLACK_FEMALE_AGE3,MIN_AGE,MAX_AGE)
 
 
 (check-sat)
-(get-model)
-
+(get-value (   S1 A1 R1 M1
+               S2 A2 R2 M2
+               S3 A3 R3 M3
+               S4 A4 R4 M4
+               S5 A5 R5 M5
+               S6 A6 R6 M6
+               S7 A7 R7 M7))
+               
